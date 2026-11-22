@@ -1,0 +1,404 @@
+---
+interface Props {
+  id: string;
+  kind: 'horizon-slit' | 'shutter-split' | 'laser-scanline' | 'iris-viewport' | 'canopy-rise';
+  fromBg: string;
+  toBg: string;
+  accent: string;
+  fromInk?: string;
+  fromMuted?: string;
+  toInk?: string;
+  toMuted?: string;
+  fromLabel: string;
+  toLabel: string;
+  stepNum: string;
+  headline: string;
+  subline: string;
+  tags?: string[];
+}
+
+const {
+  id,
+  kind,
+  fromBg,
+  toBg,
+  accent,
+  fromInk = '#F2F2EF',
+  fromMuted = '#9A9B9F',
+  toInk = '#F2F2EF',
+  toMuted = '#9A9B9F',
+  fromLabel,
+  toLabel,
+  stepNum,
+  headline,
+  subline,
+  tags = [],
+} = Astro.props;
+---
+
+<section
+  id={id}
+  data-scene-portal={id}
+  data-portal-kind={kind}
+  aria-label={`Transição ${fromLabel} para ${toLabel}`}
+  class="scene-portal relative isolate overflow-x-clip select-none"
+  style={`--from-bg:${fromBg};--to-bg:${toBg};--portal-accent:${accent};--from-ink:${fromInk};--from-muted:${fromMuted};--portal-ink:${toInk};--portal-muted:${toMuted};--st-p:0.08;`}
+>
+  <!-- Base outgoing layer (guarantees crisp contrast in outgoing palette before wipe passes) -->
+  <div class="scene-portal__layer scene-portal__layer--from">
+    <div class="wrap scene-portal__inner">
+      <div class="scene-portal__rail">
+        <span class="mono scene-portal__label">{fromLabel}</span>
+        <div class="scene-portal__track" aria-hidden="true">
+          <div class="scene-portal__fill"></div>
+        </div>
+        <span class="mono scene-portal__label scene-portal__label--to">{toLabel}</span>
+      </div>
+
+      <div class="scene-portal__grid">
+        <div class="scene-portal__content">
+          <div class="mono scene-portal__step">
+            <span class="scene-portal__dot" aria-hidden="true"></span>
+            <span>TRANSIÇÃO · {stepNum}</span>
+            {kind === 'iris-viewport' && <span class="scene-portal__hud">CAM 35MM · X:0.00 Y:1.42 Z:4.00</span>}
+          </div>
+          <h2 class="display scene-portal__headline">{headline}</h2>
+          <p class="scene-portal__subline">{subline}</p>
+          {tags.length > 0 && (
+            <ul class="scene-portal__tags">
+              {tags.map((tag) => (
+                <li class="mono">{tag}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div class="scene-portal__num display" aria-hidden="true">{stepNum}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Incoming world reveal layer masked by CSS clip-path scrubbed to --st-p -->
+  <div class="scene-portal__layer scene-portal__layer--to" aria-hidden="true">
+    {kind === 'horizon-slit' && <div class="portal-fx portal-fx--slit"></div>}
+    {kind === 'shutter-split' && <div class="portal-fx portal-fx--shutter"></div>}
+    {kind === 'laser-scanline' && <div class="portal-fx portal-fx--laser"></div>}
+    {kind === 'iris-viewport' && <div class="portal-fx portal-fx--iris"></div>}
+    {kind === 'canopy-rise' && <div class="portal-fx portal-fx--canopy"></div>}
+
+    <div class="wrap scene-portal__inner">
+      <div class="scene-portal__rail">
+        <span class="mono scene-portal__label">{fromLabel}</span>
+        <div class="scene-portal__track">
+          <div class="scene-portal__fill scene-portal__fill--live"></div>
+        </div>
+        <span class="mono scene-portal__label scene-portal__label--to">{toLabel}</span>
+      </div>
+
+      <div class="scene-portal__grid">
+        <div class="scene-portal__content">
+          <div class="mono scene-portal__step">
+            <span class="scene-portal__dot scene-portal__dot--live"></span>
+            <span>TRANSIÇÃO · {stepNum}</span>
+            {kind === 'iris-viewport' && <span class="scene-portal__hud">CAM 35MM · X:0.00 Y:1.42 Z:4.00</span>}
+          </div>
+          <p class="display scene-portal__headline">{headline}</p>
+          <p class="scene-portal__subline">{subline}</p>
+          {tags.length > 0 && (
+            <ul class="scene-portal__tags">
+              {tags.map((tag) => (
+                <li class="mono">{tag}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div class="scene-portal__num scene-portal__num--live display">{stepNum}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .scene-portal {
+    --st-p: 0.08;
+    background-color: var(--from-bg);
+    color: var(--from-ink);
+  }
+
+  :global(html[data-motion="off"]) .scene-portal {
+    --st-p: 1;
+  }
+
+  .scene-portal__layer {
+    position: relative;
+    padding-block: clamp(56px, 8vw, 96px);
+  }
+
+  .scene-portal__layer--from {
+    background-color: var(--from-bg);
+    color: var(--from-ink);
+  }
+
+  .scene-portal__layer--to {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background-color: var(--to-bg);
+    color: var(--portal-ink);
+    pointer-events: none;
+    will-change: clip-path;
+  }
+
+  /* 5 choreographed reveal geometries scrubbed via --st-p (0..1) */
+  .scene-portal[data-portal-kind="horizon-slit"] .scene-portal__layer--to {
+    clip-path: inset(calc((1 - var(--st-p)) * 48%) 0);
+  }
+
+  .scene-portal[data-portal-kind="shutter-split"] .scene-portal__layer--to {
+    clip-path: inset(0 calc((1 - var(--st-p)) * 49%));
+  }
+
+  .scene-portal[data-portal-kind="laser-scanline"] .scene-portal__layer--to {
+    clip-path: inset(calc((1 - var(--st-p)) * 100%) 0 0 0);
+  }
+
+  .scene-portal[data-portal-kind="iris-viewport"] .scene-portal__layer--to {
+    clip-path: circle(calc(8% + var(--st-p) * 78%) at 50% 50%);
+  }
+
+  .scene-portal[data-portal-kind="canopy-rise"] .scene-portal__layer--to {
+    clip-path: inset(
+      calc((1 - var(--st-p)) * 84%)
+      calc((1 - var(--st-p)) * 10%)
+      0
+      calc((1 - var(--st-p)) * 10%)
+      round calc((1 - var(--st-p)) * 28px)
+    );
+  }
+
+  /* Edge beams & reticles tied to transition physics */
+  .portal-fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .portal-fx--slit::before,
+  .portal-fx--slit::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--portal-accent);
+    opacity: calc(0.2 + (1 - var(--st-p)) * 0.8);
+  }
+  .portal-fx--slit::before {
+    top: calc((1 - var(--st-p)) * 48%);
+  }
+  .portal-fx--slit::after {
+    bottom: calc((1 - var(--st-p)) * 48%);
+  }
+
+  .portal-fx--shutter::before,
+  .portal-fx--shutter::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--portal-accent);
+    opacity: calc(0.2 + (1 - var(--st-p)) * 0.8);
+  }
+  .portal-fx--shutter::before {
+    left: calc((1 - var(--st-p)) * 49%);
+  }
+  .portal-fx--shutter::after {
+    right: calc((1 - var(--st-p)) * 49%);
+  }
+
+  .portal-fx--laser::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc((1 - var(--st-p)) * 100%);
+    height: 2px;
+    background: var(--portal-accent);
+    box-shadow: 0 0 18px 2px var(--portal-accent);
+  }
+
+  .portal-fx--iris {
+    background: radial-gradient(
+      circle at 50% 50%,
+      color-mix(in oklab, var(--portal-accent) 16%, transparent) 0%,
+      transparent 58%
+    );
+  }
+
+  .portal-fx--canopy::before {
+    content: "";
+    position: absolute;
+    left: calc((1 - var(--st-p)) * 10%);
+    right: calc((1 - var(--st-p)) * 10%);
+    top: calc((1 - var(--st-p)) * 84%);
+    height: 2px;
+    background: var(--portal-accent);
+  }
+
+  .scene-portal__inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: clamp(24px, 4vw, 40px);
+  }
+
+  .scene-portal__rail {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+  }
+
+  .scene-portal__label {
+    letter-spacing: 0.06em;
+    opacity: 0.82;
+  }
+
+  .scene-portal__layer--to .scene-portal__label--to {
+    color: var(--portal-accent);
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  .scene-portal__track {
+    position: relative;
+    flex: 1 1 80px;
+    min-width: 60px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.22;
+  }
+
+  .scene-portal__fill {
+    position: absolute;
+    left: 0;
+    top: -1px;
+    bottom: -1px;
+    width: calc(var(--st-p) * 100%);
+    background: currentColor;
+  }
+
+  .scene-portal__fill--live {
+    background: var(--portal-accent);
+  }
+
+  .scene-portal__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: end;
+  }
+
+  .scene-portal__content {
+    display: grid;
+    gap: 14px;
+    max-width: 780px;
+    transform: translate3d(0, calc((0.5 - var(--st-p)) * 14px), 0);
+  }
+
+  .scene-portal__step {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    opacity: 0.85;
+  }
+
+  .scene-portal__layer--to .scene-portal__step {
+    color: var(--portal-muted);
+    opacity: 1;
+  }
+
+  .scene-portal__dot {
+    width: 7px;
+    height: 7px;
+    background: currentColor;
+  }
+
+  .scene-portal__dot--live {
+    background: var(--portal-accent);
+  }
+
+  .scene-portal__hud {
+    padding: 2px 8px;
+    border: 1px solid currentColor;
+    opacity: 0.72;
+  }
+
+  .scene-portal__headline {
+    margin: 0;
+    font-size: clamp(1.75rem, 3.8vw, 3.25rem);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+  }
+
+  .scene-portal__subline {
+    margin: 0;
+    font-size: clamp(0.95rem, 1.2vw, 1.125rem);
+    line-height: 1.5;
+    max-width: 60ch;
+    opacity: 0.84;
+  }
+
+  .scene-portal__layer--to .scene-portal__subline {
+    color: var(--portal-muted);
+    opacity: 1;
+  }
+
+  .scene-portal__tags {
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .scene-portal__tags li {
+    padding: 4px 10px;
+    font-size: 11px;
+    border: 1px solid color-mix(in oklab, currentColor 22%, transparent);
+    border-radius: 6px;
+  }
+
+  .scene-portal__layer--to .scene-portal__tags li {
+    border-color: color-mix(in oklab, var(--portal-accent) 45%, transparent);
+    background: color-mix(in oklab, var(--portal-accent) 10%, transparent);
+    color: var(--portal-ink);
+  }
+
+  .scene-portal__num {
+    font-size: clamp(2.5rem, 6vw, 5.25rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    opacity: 0.14;
+    white-space: nowrap;
+  }
+
+  .scene-portal__num--live {
+    color: var(--portal-accent);
+    opacity: 0.85;
+  }
+
+  @media (max-width: 767px) {
+    .scene-portal__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .scene-portal__num {
+      display: none;
+    }
+  }
+</style>

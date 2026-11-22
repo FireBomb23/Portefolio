@@ -79,8 +79,8 @@ export function mountAll(root = document) {
     const els = [...root.querySelectorAll('[data-moment]')].filter(el => !el.parentElement?.closest('[data-moment]'));
     const ids = els.map(el => el.dataset.moment);
     const repeat = ids.filter((id, i) => ids.indexOf(id) !== i);
-    if (repeat.length) { html.dataset.momentsRepeat = [...new Set(repeat)].join(' '); console.warn(`moments: an id twice on one page: ${repeat.join(', ')}`); }
-    if (ids.length > 2) { html.dataset.momentsOver = String(ids.length); console.warn(`moments: ${ids.length} moments on one page (one or two)`); }
+    if (repeat.length) { html.dataset.momentsRepeat = [...new Set(repeat)].join(' '); }
+    if (ids.length > 2) { html.dataset.momentsOver = String(ids.length); }
     await Promise.all(els.map(el => mount(el).catch(e => {
       if (!el.dataset.momentFailed) console.warn(`moments: ${el.dataset.moment} failed: ${e.message}`);
       el.dataset.momentFailed = e.message;

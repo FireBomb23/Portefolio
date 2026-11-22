@@ -54,7 +54,7 @@ export async function mount(el) {
 export async function mountAll(root = document) {
   html.classList.add('sc-js');
   const els = [...root.querySelectorAll('[data-big-scene]')].filter(el => !el.parentElement?.closest('[data-big-scene]'));
-  if (els.length > 1) { html.dataset.scenesOver = String(els.length); console.warn(`scenes: ${els.length} big scenes on one page (one a page)`); }
+  if (els.length > 1) { html.dataset.scenesOver = String(els.length); }
   await Promise.all(els.map(el => mount(el).catch(e => {
     console.warn(`scenes: ${el.dataset.bigScene} failed: ${e.message}`);
     el.dataset.bigSceneFailed = e.message;

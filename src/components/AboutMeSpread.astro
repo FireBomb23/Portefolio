@@ -2,6 +2,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import ToolIcon from './ToolIcon.astro';
+import SceneTransition from './SceneTransition.astro';
 import { PROFILE } from '../data/portfolio';
 
 const candidateFiles = ['rodrigo.jpg', 'rodrigo.jpeg', 'rodrigo.png', 'rodrigo.webp'];
@@ -189,55 +190,165 @@ const hubDiagramSpec = JSON.stringify({
     </div>
   </div>
 
-  <!-- ACT 1B: Light Editorial Bento Board (Bio, Percurso, Official Tools, Real Previews & Counters) -->
+  <!-- TRANSIÇÃO 00 → 01: Hero Aurora Dark abre horizonte horizontal para Apresentação Pessoal -->
+  <SceneTransition
+    id="hero-to-about"
+    kind="horizon-slit"
+    fromBg="#070709"
+    toBg="#F3F3F1"
+    accent="#FF6B2C"
+    fromInk="#F2F2EF"
+    fromMuted="#9A9B9F"
+    toInk="#0D131A"
+    toMuted="#4A5568"
+    fromLabel="00 · ABERTURA"
+    toLabel="01 · APRESENTAÇÃO PESSOAL"
+    stepNum="00 → 01"
+    headline="QUEM ESTÁ POR TRÁS DO CÓDIGO."
+    subline="Antes de veres os 5 projetos, deixa-me mostrar-te de onde venho, como trabalho e o que procuro."
+    tags={['Viseu · ESTGV', 'Design + Engenharia', 'Estágio 2026/27']}
+  />
+
+  <!-- ACT 1B: Cena Específica de Apresentação Pessoal (fixed-hero-object) -->
+  <section
+    id="apresentacao-pessoal"
+    class="sc world-light border-b border-black/10"
+    data-big-scene="fixed-hero-object"
+    data-big-scene-opts='{"hold": 1.35, "turns": 1}'
+    style="--h: 2"
+    aria-labelledby="apresentacao-h"
+  >
+    <div class="sc__stage">
+      <div class="fho__object" data-move>
+        <div class="rodrigo-dossier-stage">
+          <div class="rds__head mono">
+            <span>RODRIGO ALBUQUERQUE · @FIREBOMB23</span>
+            <span class="rds__badge">VISEU, PT</span>
+          </div>
+
+          {portraitSrc ? (
+            <div class="rds__portrait">
+              <img
+                src={portraitSrc}
+                alt="Fotografia de Rodrigo Albuquerque"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+          ) : (
+            <div class="rds__rig" aria-hidden="true">
+              <svg viewBox="0 0 240 160" class="rds__svg" fill="none">
+                <circle cx="120" cy="80" r="64" stroke="rgba(255,255,255,0.12)" stroke-dasharray="4 4" />
+                <circle cx="120" cy="80" r="46" stroke="rgba(255,107,44,0.45)" stroke-width="1.2" />
+                <line x1="20" y1="80" x2="220" y2="80" stroke="rgba(255,255,255,0.08)" />
+                <line x1="120" y1="12" x2="120" y2="148" stroke="rgba(255,255,255,0.08)" />
+                <rect x="82" y="48" width="76" height="64" rx="10" fill="#171B26" stroke="rgba(255,255,255,0.22)" />
+                <text x="120" y="88" text-anchor="middle" fill="#F2F2EF" font-family="Archivo, sans-serif" font-weight="800" font-size="28" letter-spacing="-1">
+                  RA
+                </text>
+              </svg>
+              <div class="rds__coords mono">40.6566° N, 7.9125° W · ESTGV</div>
+            </div>
+          )}
+
+          <div class="rds__pills">
+            <div class="rds__pill mono" data-dossier-pill="0">
+              <span>01 · Origem</span>
+              <b>Viseu &amp; Mods Java</b>
+            </div>
+            <div class="rds__pill mono" data-dossier-pill="1">
+              <span>02 · Método</span>
+              <b>Figma + 3D + Backend</b>
+            </div>
+            <div class="rds__pill mono" data-dossier-pill="2">
+              <span>03 · Futuro</span>
+              <b>Estágio 2026/27</b>
+            </div>
+          </div>
+
+          <div class="rds__foot mono">
+            <span>L-TDM · ESTGV (2024—2027)</span>
+            <span>715+ DOWNLOADS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fho__track">
+        <!-- Capítulo 01 (esquerda, objeto à direita) -->
+        <article class="fho__panel fho__panel--hero">
+          <div class="fho__copy">
+            <div class="fho__eyebrow mono">CAPÍTULO PESSOAL 01 / 03 · QUEM SOU</div>
+            <h2 id="apresentacao-h" class="display text-[clamp(2.1rem,4vw,3.5rem)] leading-[0.98] text-[var(--ink)]">
+              Olá! Sou o Rodrigo.
+            </h2>
+            <p class="t-lead">
+              Estou no 3.º ano de Tecnologias e Design de Multimédia na ESTGV, em Viseu. Comecei por desmontar mods de Minecraft para perceber como funcionavam por dentro e hoje gosto tanto de desenhar um ecrã limpo como de programar o servidor que está por trás.
+            </p>
+            <dl class="fho__specs">
+              <div><dt class="mono text-xs">Base</dt><dd>Viseu, Portugal</dd></div>
+              <div><dt class="mono text-xs">Curso</dt><dd>Licenciatura L-TDM · ESTGV</dd></div>
+              <div><dt class="mono text-xs">Período</dt><dd>2024 — 2027 (3.º ano)</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- Capítulo 02 (direita, objeto desliza para a esquerda) -->
+        <article class="fho__panel">
+          <div class="fho__copy">
+            <div class="fho__eyebrow mono">CAPÍTULO PESSOAL 02 / 03 · COMO TRABALHO</div>
+            <h3>Do Figma e do Blender até à base de dados.</h3>
+            <p>
+              Não gosto de ficar só pelo protótipo. Desenho a interface no Figma, modelo e pinto texturas UV no Blender e no Blockbench, e programo o sistema inteiro em Java 21, Flutter, React, Django e PostgreSQL.
+            </p>
+            <dl class="fho__specs">
+              <div><dt class="mono text-xs">Frontend &amp; 3D</dt><dd>React · Astro · Three.js · Blender</dd></div>
+              <div><dt class="mono text-xs">Mobile Offline</dt><dd>Flutter · Dart · SQLite</dd></div>
+              <div><dt class="mono text-xs">Backend &amp; Mods</dt><dd>Django REST · Node · PostgreSQL · Java 21</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- Capítulo 03 (esquerda, objeto volta à direita e chão passa a escuro) -->
+        <article class="fho__panel is-dark">
+          <div class="fho__copy">
+            <div class="fho__eyebrow mono" style="color: #FF6B2C;">CAPÍTULO PESSOAL 03 / 03 · O QUE PROCURO</div>
+            <h3>Procuro estágio curricular para 2026/27.</h3>
+            <p>
+              Fora das aulas criei o Infinity Nova — que já passou os 715 downloads no Modrinth e CurseForge — e desenvolvi projetos reais para clínica dentária, cibersegurança NIS2 e sustentabilidade. Quero integrar uma equipa onde possa construir produtos em web, mobile ou 3D.
+            </p>
+            <dl class="fho__specs">
+              <div><dt class="mono text-xs">Disponibilidade</dt><dd>Estágio Curricular 2026/27</dd></div>
+              <div><dt class="mono text-xs">Modalidade</dt><dd>Viseu · Híbrido · Remoto</dd></div>
+              <div><dt class="mono text-xs">Contacto</dt><dd>{PROFILE.email}</dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT 1C: Ferramentas Oficiais, Pré-visualizações Reais & Contadores -->
   <div class="world-light py-16 sm:py-24 border-b border-black/10">
     <div class="wrap space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-        <!-- Bento Card 1 (5 cols): Quem Sou, Bio, Foto (se fornecida) & Percurso -->
+        <!-- Bento Card 1 (5 cols): Resumo Percurso & Projetos -->
         <article class="card lg:col-span-5 justify-between" style="--c-pad: 32px;">
-          <div class="space-y-6">
-            {portraitSrc && (
-              <div class="aspect-[16/9] overflow-hidden rounded-xl border border-black/10 bg-[#111217]">
-                <img
-                  src={portraitSrc}
-                  alt="Fotografia de Rodrigo Albuquerque"
-                  class="w-full h-full object-cover object-top"
-                />
-              </div>
-            )}
-
-            <div class="space-y-3">
-              <div class="flex items-center justify-between mono text-[11px] text-[#62625D]">
-                <span>ESTGV · VISEU</span>
-                <span>2024—2027</span>
-              </div>
-              <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-[#0D131A]">
-                Olá! Sou o Rodrigo.
-              </h2>
-              <div class="space-y-3 text-[15px] leading-relaxed text-[#2D3748]">
-                <p>
-                  Estou no 3.º ano de Tecnologias e Design de Multimédia na ESTGV, em Viseu. Comecei por desmontar mods de Minecraft para perceber como funcionavam e hoje gosto tanto de desenhar um ecrã limpo como de programar o servidor que está por trás.
-                </p>
-                <p>
-                  Fora das aulas criei o Infinity Nova — um mod em Java 21 com site 3D em Three.js que já passou os 715 downloads. Procuro estágio para 2026/27 onde possa construir produtos em web, mobile ou 3D.
-                </p>
-              </div>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between mono text-[11px] text-[#62625D]">
+              <span>PERCURSO &amp; MARCOS</span>
+              <span>2024—2027</span>
             </div>
-
-            <div class="pt-4 border-t border-black/10 space-y-3">
-              <div class="mono text-[11px] text-[#62625D]">PERCURSO &amp; PROJETOS</div>
-              <ul class="divide-y divide-black/10">
-                {careerSteps.map((step) => (
-                  <li class="py-2.5 flex items-baseline gap-3 text-sm leading-snug">
-                    <span class="mono text-xs font-semibold text-[#0047FF] shrink-0 w-16">{step.year}</span>
-                    <span>
-                      <strong class="font-semibold text-[#0D131A]">{step.title}</strong> —{' '}
-                      <span class="text-[#4A5568]">{step.note}</span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <h3>Quatro entregas principais do laboratório à web</h3>
+            <ul class="divide-y divide-black/10">
+              {careerSteps.map((step) => (
+                <li class="py-2.5 flex items-baseline gap-3 text-sm leading-snug">
+                  <span class="mono text-xs font-semibold text-[#0047FF] shrink-0 w-16">{step.year}</span>
+                  <span>
+                    <strong class="font-semibold text-[#0D131A]">{step.title}</strong> —{' '}
+                    <span class="text-[#4A5568]">{step.note}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div class="pt-5 mt-5 border-t border-black/10 flex flex-wrap items-center justify-between gap-3">
@@ -313,3 +424,115 @@ const hubDiagramSpec = JSON.stringify({
     </div>
   </div>
 </section>
+
+<style>
+  .rodrigo-dossier-stage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    padding: clamp(18px, 2.2vw, 24px);
+    border-radius: 18px;
+    background: #101218;
+    color: #F2F2EF;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 24px 64px -20px rgba(8, 9, 15, 0.48), 0 0 0 1px rgba(255, 107, 44, 0.18);
+  }
+
+  @media (min-width: 768px) {
+    .rodrigo-dossier-stage {
+      aspect-ratio: 1 / 1;
+    }
+  }
+
+  .rds__head,
+  .rds__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 10px;
+    color: #9A9B9F;
+  }
+
+  .rds__badge {
+    padding: 3px 8px;
+    border: 1px solid rgba(255, 107, 44, 0.45);
+    color: #FF6B2C;
+    font-weight: 600;
+  }
+
+  .rds__portrait {
+    flex: 1 1 auto;
+    min-height: 150px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: #08090F;
+  }
+
+  .rds__rig {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 12px;
+    background: radial-gradient(circle at 50% 45%, rgba(0, 71, 255, 0.16), rgba(8, 9, 15, 0.9) 70%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px;
+  }
+
+  .rds__svg {
+    width: min(100%, 210px);
+    height: auto;
+  }
+
+  .rds__coords {
+    font-size: 10px;
+    color: #9A9B9F;
+    letter-spacing: 0.06em;
+  }
+
+  .rds__pills {
+    display: grid;
+    gap: 6px;
+  }
+
+  .rds__pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 10.5px;
+    color: #A8AAB3;
+  }
+
+  .rds__pill b {
+    font-weight: 600;
+    color: #F2F2EF;
+  }
+
+  :global([data-big-scene="fixed-hero-object"][data-fho-step="0"]) [data-dossier-pill="0"],
+  :global([data-big-scene="fixed-hero-object"][data-fho-step="1"]) [data-dossier-pill="1"],
+  :global([data-big-scene="fixed-hero-object"][data-fho-step="2"]) [data-dossier-pill="2"] {
+    border-color: rgba(255, 107, 44, 0.68);
+    background: rgba(255, 107, 44, 0.14);
+    color: #FF6B2C;
+  }
+
+  .fho__eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    color: #0047FF;
+    margin-bottom: 10px;
+    letter-spacing: 0.04em;
+  }
+</style>

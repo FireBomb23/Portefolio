@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import AboutMeSpread from '../components/AboutMeSpread.astro';
 import ProjectSpread from '../components/ProjectSpread.astro';
+import SceneTransition from '../components/SceneTransition.astro';
 import { PROFILE, PROJECTS } from '../data/portfolio';
 
 const marqueePhrase =
@@ -15,6 +16,93 @@ const tabColors: Record<string, string> = {
   '03': '#F59E0B',
   '04': '#FF6B00',
   '05': '#6EE7B7',
+};
+
+const PROJECT_TRANSITIONS: Record<string, {
+  id: string;
+  kind: 'horizon-slit' | 'shutter-split' | 'laser-scanline' | 'iris-viewport' | 'canopy-rise';
+  fromBg: string;
+  toBg: string;
+  accent: string;
+  fromInk?: string;
+  fromMuted?: string;
+  toInk?: string;
+  toMuted?: string;
+  fromLabel: string;
+  toLabel: string;
+  stepNum: string;
+  headline: string;
+  subline: string;
+  tags: string[];
+}> = {
+  '01': {
+    id: 'portal-01-02',
+    kind: 'shutter-split',
+    fromBg: '#08090F',
+    toBg: '#F3F3F1',
+    accent: '#0047FF',
+    fromInk: '#F0F2F5',
+    fromMuted: '#9496A1',
+    toInk: '#0D131A',
+    toMuted: '#4A5568',
+    fromLabel: '01 · INFINITY NOVA (JAVA 21 & WEBGL)',
+    toLabel: '02 · LABCD (FLUTTER & POSTGRESQL)',
+    stepNum: '01 → 02',
+    headline: 'DO UNIVERSO 3D PARA A CLÍNICA REAL.',
+    subline: 'Saímos do mod em Java 21 e do palco Three.js para entrar num laboratório de próteses dentárias com aplicação offline-first e regras clínicas em PL/pgSQL.',
+    tags: ['Flutter Offline', 'SQLite ↔ Django REST', '15 Tabelas PostgreSQL'],
+  },
+  '02': {
+    id: 'portal-02-03',
+    kind: 'laser-scanline',
+    fromBg: '#F3F3F1',
+    toBg: '#070D19',
+    accent: '#F59E0B',
+    fromInk: '#0D131A',
+    fromMuted: '#4A5568',
+    toInk: '#F8FAFC',
+    toMuted: '#94A3B8',
+    fromLabel: '02 · LABCD (MOBILE & CLÍNICA)',
+    toLabel: '03 · CYRIX (PORTAL NIS2 & 2FA)',
+    stepNum: '02 → 03',
+    headline: 'DA BANCADA CLÍNICA À CIBERSEGURANÇA.',
+    subline: 'O varrimento tático muda o palco para a diretiva europeia NIS2: diagnóstico interativo, catálogo de serviços e área de cliente protegida por JWT e 2FA.',
+    tags: ['React + TypeScript', 'Express + Django Dual-API', 'Autenticação 2FA'],
+  },
+  '03': {
+    id: 'portal-03-04',
+    kind: 'iris-viewport',
+    fromBg: '#070D19',
+    toBg: '#111215',
+    accent: '#FF6B00',
+    fromInk: '#F8FAFC',
+    fromMuted: '#94A3B8',
+    toInk: '#F3F3F0',
+    toMuted: '#9A9B96',
+    fromLabel: '03 · CYRIX (CIBERSEGURANÇA NIS2)',
+    toLabel: '04 · COMPUTAÇÃO GRÁFICA (BLENDER & 3D)',
+    stepNum: '03 → 04',
+    headline: 'DO BACKOFFICE DE SEGURANÇA AO ESTÚDIO 3D.',
+    subline: 'A lente abre para o pipeline de Computação Gráfica: modelação com blueprints no Blender, geometria low-poly em Blockbench e texturas UV 64×64 a 60 fps.',
+    tags: ['Blender PBR', 'Blockbench .geo.json', 'Three.js 60fps'],
+  },
+  '04': {
+    id: 'portal-04-05',
+    kind: 'canopy-rise',
+    fromBg: '#111215',
+    toBg: '#0B251A',
+    accent: '#6EE7B7',
+    fromInk: '#F3F3F0',
+    fromMuted: '#9A9B96',
+    toInk: '#F4EFE6',
+    toMuted: '#A7F3D0',
+    fromLabel: '04 · COMPUTAÇÃO GRÁFICA (ESTÚDIO 3D)',
+    toLabel: '05 · ECOGO (CAMPUS ESTGV VISEU)',
+    stepNum: '04 → 05',
+    headline: 'DO ESTÚDIO VIRTUAL PARA O CAMPUS DE VISEU.',
+    subline: 'Subimos até ao programa Eco-Escolas da ESTGV: identidade visual de raiz, protótipo mobile no Figma e calculadora de emissões de CO₂ em tempo real.',
+    tags: ['Identidade & UI Figma', 'Eco-Escolas ESTGV', 'Simulador CO₂ JS'],
+  },
 };
 ---
 
@@ -119,10 +207,15 @@ const tabColors: Record<string, string> = {
       </div>
     </section>
 
-    <!-- 6. Todos os Projetos com Arquitetura e Mundo Próprio -->
+    <!-- 6. Todos os Projetos com Arquitetura, Mundo Próprio e Transições entre Cenas -->
     <div>
       {PROJECTS.map((project) => (
-        <ProjectSpread project={project} />
+        <>
+          <ProjectSpread project={project} />
+          {PROJECT_TRANSITIONS[project.number] && (
+            <SceneTransition {...PROJECT_TRANSITIONS[project.number]} />
+          )}
+        </>
       ))}
     </div>
 
@@ -264,6 +357,38 @@ const tabColors: Record<string, string> = {
             once: true,
           },
         });
+      });
+
+      document.querySelectorAll<HTMLElement>('[data-scene-portal]').forEach((portal) => {
+        ScrollTrigger.create({
+          trigger: portal,
+          start: 'top 90%',
+          end: 'top 25%',
+          scrub: 0.35,
+          onUpdate: (self) => {
+            const p = 0.04 + self.progress * 0.96;
+            portal.style.setProperty('--st-p', p.toFixed(4));
+          },
+        });
+
+        const targets = portal.querySelectorAll<HTMLElement>('.scene-portal__content');
+        if (targets.length) {
+          gsap.fromTo(
+            targets,
+            { y: 24, opacity: 0.35 },
+            {
+              y: 0,
+              opacity: 1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: portal,
+                start: 'top 88%',
+                end: 'top 42%',
+                scrub: 0.35,
+              },
+            }
+          );
+        }
       });
     }
 

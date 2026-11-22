@@ -17,7 +17,11 @@
   --ground-surface: #F6F5F2;
   --ground-accent: #A8794A;
   --p-inv-bg: #08090F;
+  --p-inv-surface: #12131C;
   --p-inv-ink: #F2F2EF;
+  --p-inv-muted: #9A9B9F;
+  --p-inv-action: #FF6B2C;
+  --p-inv-action-ink: #08090F;
 
   --font-display: 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-text: 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -47,11 +51,13 @@
   --r-lg: 20px;
 
   --s-2: 8px;
+  --s-3: 12px;
   --s-4: 16px;
   --s-5: 24px;
   --s-6: 32px;
   --s-7: 48px;
   --s-8: 64px;
+  --s-9: 80px;
 }
 
 @layer base {
