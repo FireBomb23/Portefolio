@@ -35,7 +35,7 @@ export interface Project {
 
 export const PROFILE = {
   handle: 'FireBomb23',
-  displayName: 'FireBomb23',
+  displayName: 'Rodrigo Albuquerque',
   role: 'Design & Engineering',
   institution: 'ESTGV · Instituto Politécnico de Viseu',
   degree: 'Licenciatura em Tecnologias e Design de Multimédia (3.º Ano)',
