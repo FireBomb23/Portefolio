@@ -1,0 +1,77 @@
+---
+interface Props {
+  type: 'infinity-nova' | 'labcd';
+}
+
+const { type } = Astro.props;
+---
+
+{type === 'infinity-nova' && (
+  <div class="aspect-[16/10] w-full bg-[#09090B] text-white relative flex items-center justify-center p-6 sm:p-8 select-none" aria-hidden="true">
+    <svg viewBox="0 0 640 400" class="w-full h-full" fill="none">
+      <line x1="28" y1="48" x2="612" y2="48" stroke="#FFFFFF" stroke-opacity="0.1" />
+      <line x1="28" y1="352" x2="612" y2="352" stroke="#FFFFFF" stroke-opacity="0.1" />
+
+      <text x="28" y="34" fill="#A1A1AA" font-family="JetBrains Mono, monospace" font-size="10">INFINITY NOVA · THREE.JS GECKOLIB</text>
+      <text x="612" y="34" text-anchor="end" fill="#0057FF" font-family="JetBrains Mono, monospace" font-size="10">19 BONES · 103 CUBES</text>
+
+      <g transform="translate(320 200)">
+        <circle r="114" stroke="#FFFFFF" stroke-opacity="0.1" />
+        <ellipse rx="146" ry="50" transform="rotate(-24)" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1.25" />
+        <ellipse rx="146" ry="50" transform="rotate(24)" stroke="#0057FF" stroke-opacity="0.9" stroke-width="1.5" />
+
+        <polygon points="0,-52 46,-26 46,26 0,52 -46,26 -46,-26" stroke="#FFFFFF" stroke-opacity="0.9" stroke-width="1.5" fill="#111113" />
+        <polyline points="-46,-26 0,0 46,-26" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="1.2" />
+        <line x1="0" y1="0" x2="0" y2="52" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="1.2" />
+
+        <circle cx="0" cy="-52" r="4" fill="#0057FF" />
+        <circle cx="0" cy="0" r="5" fill="#0057FF" />
+        <circle cx="46" cy="-26" r="3" fill="#FFFFFF" />
+        <circle cx="-46" cy="26" r="3" fill="#FFFFFF" />
+      </g>
+
+      <text x="28" y="376" fill="#A1A1AA" font-family="JetBrains Mono, monospace" font-size="10">JAVA 21 · NEOFORGE · DJANGO 5.2 · 2FA TOTP</text>
+      <text x="612" y="376" text-anchor="end" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10">MODRINTH / CURSEFORGE</text>
+    </svg>
+  </div>
+)}
+
+{type === 'labcd' && (
+  <div class="aspect-[16/10] w-full bg-[#09090B] text-white relative flex items-center justify-center p-6 sm:p-8 select-none" aria-hidden="true">
+    <svg viewBox="0 0 640 400" class="w-full h-full" fill="none">
+      <line x1="28" y1="48" x2="612" y2="48" stroke="#FFFFFF" stroke-opacity="0.1" />
+      <line x1="28" y1="352" x2="612" y2="352" stroke="#FFFFFF" stroke-opacity="0.1" />
+
+      <text x="28" y="34" fill="#A1A1AA" font-family="JetBrains Mono, monospace" font-size="10">LABCD · 3-TIER SYSTEM</text>
+      <text x="612" y="34" text-anchor="end" fill="#0057FF" font-family="JetBrains Mono, monospace" font-size="10">OFFLINE-FIRST · 3D STL</text>
+
+      <line x1="120" y1="200" x2="520" y2="200" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="1.25" />
+      <line x1="245" y1="200" x2="395" y2="200" stroke="#0057FF" stroke-width="1.75" />
+
+      <g transform="translate(120 200)">
+        <circle r="42" fill="#09090B" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.25" />
+        <circle r="4.5" fill="#FFFFFF" />
+        <text y="-60" text-anchor="middle" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="12" font-weight="600">Flutter Mobile</text>
+        <text y="64" text-anchor="middle" fill="#A1A1AA" font-family="JetBrains Mono, monospace" font-size="10">SQLITE · KANBAN</text>
+      </g>
+
+      <g transform="translate(320 200)">
+        <circle r="50" fill="#09090B" stroke="#0057FF" stroke-width="1.75" />
+        <circle r="32" stroke="#0057FF" stroke-opacity="0.35" stroke-dasharray="3 4" />
+        <circle r="5.5" fill="#0057FF" />
+        <text y="-68" text-anchor="middle" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="12" font-weight="600">Django REST</text>
+        <text y="72" text-anchor="middle" fill="#0057FF" font-family="JetBrains Mono, monospace" font-size="10">AUTH · 100MB STL</text>
+      </g>
+
+      <g transform="translate(520 200)">
+        <circle r="42" fill="#09090B" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.25" />
+        <circle r="4.5" fill="#FFFFFF" />
+        <text y="-60" text-anchor="middle" fill="#FFFFFF" font-family="Inter, sans-serif" font-size="12" font-weight="600">PostgreSQL</text>
+        <text y="64" text-anchor="middle" fill="#A1A1AA" font-family="JetBrains Mono, monospace" font-size="10">15 TABLES · TRIGGERS</text>
+      </g>
+
+      <text x="28" y="376" fill="#A1A1AA" font-family="JetBrains Mono, monospace" font-size="10">ADMIN · TÉCNICO · CLÍNICA</text>
+      <text x="612" y="376" text-anchor="end" fill="#FFFFFF" font-family="JetBrains Mono, monospace" font-size="10">PROJETO INTEGRADO IV</text>
+    </svg>
+  </div>
+)}

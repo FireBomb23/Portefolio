@@ -1,0 +1,242 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import InfinityNovaViewer3D from '../../components/InfinityNovaViewer3D.astro';
+import { PROJECTS, PROFILE } from '../../data/portfolio';
+import type { Project } from '../../data/portfolio';
+
+export function getStaticPaths() {
+  return PROJECTS.map((project, index) => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      nextProject: PROJECTS[(index + 1) % PROJECTS.length],
+      prevProject: PROJECTS[(index - 1 + PROJECTS.length) % PROJECTS.length],
+    },
+  }));
+}
+
+interface Props {
+  project: Project;
+  nextProject: Project;
+  prevProject: Project;
+}
+
+const { project, nextProject } = Astro.props;
+---
+
+<Layout
+  title={`${project.title} — ${PROFILE.displayName}`}
+  description={project.summary}
+>
+  <Header />
+
+  <main id="conteudo-principal">
+    <!-- ==================== 1. PROJECT EDITORIAL HEADER ==================== -->
+    <section class="hero-enter mx-auto max-w-[1400px] px-4 sm:px-7 pt-10 sm:pt-14 pb-10 space-y-10">
+      <div class="flex items-center justify-between gap-4">
+        <a
+          href="/#casos"
+          class="inline-flex items-center gap-2 min-h-[40px] font-mono-tech text-xs text-[var(--ink-secondary)] hover:text-[var(--ink)] transition-colors"
+        >
+          <span aria-hidden="true">←</span>
+          Voltar ao Portfólio
+        </a>
+        <span class="font-mono-tech text-xs text-[var(--ink-muted)]">
+          {project.categoryLabel} · {project.year}
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+        <div class="lg:col-span-8 space-y-4">
+          <h1 class="font-extended text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.02] text-[var(--ink)]">
+            {project.title}
+          </h1>
+          <p class="text-base sm:text-xl text-[var(--ink-secondary)] max-w-[60ch] leading-relaxed">
+            {project.subtitle}
+          </p>
+        </div>
+
+        <div class="lg:col-span-4 flex flex-wrap lg:justify-end gap-2.5 no-print">
+          {project.links.map((link, idx) => (
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={idx === 0 ? 'pill-solid !min-h-[42px] !px-5 font-mono-tech' : 'pill-outline !min-h-[42px] !px-5 font-mono-tech'}
+            >
+              {link.label} ↗
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- 4-Column Metadata Strip -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 pt-6 hl-t text-xs">
+        <div class="space-y-1">
+          <div class="font-mono-tech text-[10px] uppercase tracking-wider text-[var(--ink-muted)]">PAPEL</div>
+          <div class="text-[var(--ink)] font-medium">{project.role}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="font-mono-tech text-[10px] uppercase tracking-wider text-[var(--ink-muted)]">ANO</div>
+          <div class="font-mono-tech text-[var(--ink)]">{project.year}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="font-mono-tech text-[10px] uppercase tracking-wider text-[var(--ink-muted)]">CONTEXTO</div>
+          <div class="text-[var(--ink)] font-medium">{project.context}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="font-mono-tech text-[10px] uppercase tracking-wider text-[var(--ink-muted)]">TECNOLOGIAS</div>
+          <div class="font-mono-tech text-[var(--ink-secondary)]">{project.stack.slice(0, 4).join(' · ')}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 2. FULL-WIDTH REAL 3D VIEWER OR STUDIO ARTWORK ==================== -->
+    <section class="mx-auto max-w-[1400px] px-4 sm:px-7 pb-16 sm:pb-24 space-y-6">
+      {project.slug === 'infinity-nova' ? (
+        <>
+          <InfinityNovaViewer3D />
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="overflow-hidden rounded-xl hl-all bg-[#09090B]">
+              <img
+                src="/infinity-nova/assets/banner.jpg"
+                alt="Banner oficial do mod Infinity Nova"
+                class="w-full aspect-[16/9] object-cover"
+              />
+            </div>
+            <div class="overflow-hidden rounded-xl hl-all bg-[#09090B] flex items-center justify-center p-8">
+              <img
+                src="/infinity-nova/assets/logo.png"
+                alt="Logo oficial Infinity Nova"
+                class="max-h-48 w-auto object-contain"
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <div class="overflow-hidden rounded-2xl hl-all bg-[#09090B]">
+          <img
+            src={project.image}
+            alt={project.imageAlt}
+            class="w-full aspect-[16/9] object-cover"
+            loading="eager"
+          />
+        </div>
+      )}
+    </section>
+
+    <!-- ==================== 3. CASE STUDY DEEP-DIVE ==================== -->
+    <section class="mx-auto max-w-[1400px] px-4 sm:px-7 pb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <!-- Sticky Left Specs Column -->
+        <aside class="lg:col-span-4 space-y-8 lg:sticky lg:top-28 lg:self-start">
+          <div class="space-y-4">
+            <h2 class="font-mono-tech text-xs uppercase tracking-wider text-[var(--ink-muted)]">
+              Especificações Técnicas
+            </h2>
+            <dl class="divide-y divide-[var(--line)] hl-t hl-b">
+              {project.specs.map((spec) => (
+                <div class="py-3.5 space-y-1">
+                  <dt class="font-mono-tech text-[10px] uppercase tracking-wider text-[var(--ink-muted)]">
+                    {spec.label}
+                  </dt>
+                  <dd class="text-sm font-medium text-[var(--ink)]">{spec.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <div class="space-y-3">
+            <h2 class="font-mono-tech text-xs uppercase tracking-wider text-[var(--ink-muted)]">
+              Stack Completa
+            </h2>
+            <div class="flex flex-wrap gap-2">
+              {project.stack.map((tech) => (
+                <span class="px-3 py-1.5 rounded-full hl-all bg-[var(--surface)] font-mono-tech text-[11px] text-[var(--ink)]">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        <!-- Right Editorial Narrative -->
+        <div class="lg:col-span-8 space-y-16">
+          <div class="space-y-4">
+            <h2 class="font-extended text-xl sm:text-2xl font-bold text-[var(--ink)]">
+              O Desafio
+            </h2>
+            <p class="text-base sm:text-lg text-[var(--ink-secondary)] leading-relaxed">
+              {project.problem}
+            </p>
+          </div>
+
+          <div class="space-y-4 hl-t pt-12">
+            <h2 class="font-extended text-xl sm:text-2xl font-bold text-[var(--ink)]">
+              Arquitetura &amp; Solução
+            </h2>
+            <p class="text-base sm:text-lg text-[var(--ink-secondary)] leading-relaxed">
+              {project.solution}
+            </p>
+            <div class="mt-6 p-6 rounded-xl bg-[var(--surface)] hl-all">
+              <p class="font-mono-tech text-xs sm:text-sm text-[var(--ink)] leading-relaxed">
+                {project.architectureNote}
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-6 hl-t pt-12">
+            <h2 class="font-extended text-xl sm:text-2xl font-bold text-[var(--ink)]">
+              Destaques de Engenharia
+            </h2>
+            <ul class="divide-y divide-[var(--line)] hl-t hl-b">
+              {project.highlights.map((item, idx) => (
+                <li class="py-5 flex items-start gap-4">
+                  <span class="font-mono-tech text-xs text-[#0057FF] pt-1 shrink-0">
+                    0{idx + 1}
+                  </span>
+                  <span class="text-sm sm:text-base text-[var(--ink)] leading-relaxed">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. NEXT PROJECT BAND ==================== -->
+    <section class="bg-[#0057FF] text-white">
+      <a
+        href={`/projetos/${nextProject.slug}`}
+        class="group block mx-auto max-w-[1400px] px-4 sm:px-7 py-16 sm:py-24"
+      >
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div class="space-y-3">
+            <span class="font-mono-tech text-xs uppercase tracking-[0.16em] text-white/75 block">
+              PRÓXIMO PROJETO
+            </span>
+            <h2 class="font-extended text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight group-hover:translate-x-2 transition-transform duration-300">
+              {nextProject.title}
+            </h2>
+            <p class="text-sm sm:text-base text-white/85 max-w-[50ch]">
+              {nextProject.subtitle}
+            </p>
+          </div>
+          <span class="font-extended text-3xl sm:text-5xl group-hover:translate-x-2 transition-transform duration-300" aria-hidden="true">
+            →
+          </span>
+        </div>
+      </a>
+    </section>
+  </main>
+
+  <footer class="hl-t bg-[var(--bg)]">
+    <div class="mx-auto max-w-[1400px] px-4 sm:px-7 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono-tech text-[var(--ink-muted)]">
+      <a href="/" class="hover:text-[var(--ink)] transition-colors">← {PROFILE.displayName}</a>
+      <span>{PROFILE.email}</span>
+    </div>
+  </footer>
+</Layout>

@@ -1,0 +1,438 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import BrandMark from '../components/BrandMark.astro';
+import StatusWidget from '../components/StatusWidget.astro';
+import FragmentsMosaic from '../components/FragmentsMosaic.astro';
+import { PROFILE, PROJECTS, SKILL_GROUPS, TIMELINE } from '../data/portfolio';
+
+const flagshipCases = PROJECTS.filter((p) => p.featured);
+const secondaryCases = PROJECTS.filter((p) => !p.featured);
+---
+
+<Layout>
+  <Header />
+
+  <main id="conteudo-principal">
+    <!-- ==================== 1. FULL-BLEED STUDIO HERO (SOKOLOVSKI-STYLE) ==================== -->
+    <section
+      aria-labelledby="hero-heading"
+      class="hero-enter relative overflow-hidden min-h-[calc(100vh-92px)] flex flex-col justify-between"
+    >
+      <!-- Full-bleed studio monochrome 3D artwork backdrop -->
+      <div aria-hidden="true" class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <img
+          src="/images/hero-visual.jpg"
+          alt=""
+          class="w-full h-full object-cover object-center opacity-50 scale-[1.01]"
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-[var(--bg)]/80 via-[var(--bg)]/30 to-[var(--bg)]" />
+      </div>
+
+      <div class="relative z-10 mx-auto w-full max-w-[1400px] px-4 sm:px-7 pt-8 sm:pt-12 pb-8 flex-1 flex flex-col justify-between gap-12">
+        <!-- Top 4-column Swiss Info Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 items-start">
+          <!-- Col 1: Identity -->
+          <div class="lg:col-span-3 flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full hl-all bg-[var(--surface)]/80 backdrop-blur-md flex items-center justify-center shrink-0">
+              <BrandMark size={26} />
+            </div>
+            <div class="leading-tight">
+              <div class="text-sm font-semibold text-[var(--ink)]">{PROFILE.displayName}</div>
+              <div class="text-xs text-[var(--ink-secondary)]">ESTGV · Viseu, PT</div>
+            </div>
+          </div>
+
+          <!-- Col 2: Discipline Title -->
+          <div class="lg:col-span-3">
+            <h1
+              id="hero-heading"
+              class="text-lg sm:text-xl font-medium tracking-tight text-[var(--ink)]"
+            >
+              Design &amp; Engineering
+            </h1>
+            <p class="mt-2 text-xs text-[var(--ink-secondary)] leading-relaxed max-w-[30ch]" data-i18n="hero.subtitle">
+              Aplicações fullstack, mobile offline-first e experiências 3D em WebGL.
+            </p>
+          </div>
+
+          <!-- Col 3: Micro 11px Swiss Lists -->
+          <div class="lg:col-span-3 grid grid-cols-2 gap-4 text-[11px] leading-relaxed">
+            <div>
+              <div class="text-[var(--ink-muted)] mb-1.5" data-i18n="hero.whatTitle">O que construo</div>
+              <ul class="space-y-0.5 text-[var(--ink-secondary)]">
+                <li>Web Apps Fullstack</li>
+                <li>Mobile Flutter</li>
+                <li>Visualizadores 3D</li>
+                <li>Mods &amp; Sistemas</li>
+              </ul>
+            </div>
+            <div>
+              <div class="text-[var(--ink-muted)] mb-1.5" data-i18n="hero.stackTitle">Especialidades</div>
+              <ul class="space-y-0.5 text-[var(--ink-secondary)]">
+                <li>Django &amp; PostgreSQL</li>
+                <li>React &amp; Astro</li>
+                <li>Three.js &amp; Blender</li>
+                <li>Figma &amp; UX/UEQ</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Col 4: Signature Rotating Widget -->
+          <div class="lg:col-span-3 flex lg:justify-end">
+            <StatusWidget />
+          </div>
+        </div>
+
+        <!-- Center Editorial Statement over the dark monolith -->
+        <div class="my-auto py-8 sm:py-12 text-center space-y-4">
+          <div class="font-extended font-extrabold uppercase tracking-[-0.03em] text-[clamp(2.2rem,6.5vw,5.5rem)] leading-[0.95] text-[var(--ink)]">
+            PORTFOLIO 2026
+          </div>
+          <p class="font-mono-tech text-[10px] sm:text-[11px] tracking-[0.16em] uppercase text-[var(--ink-secondary)]" data-i18n="hero.mantra">
+            ABORDAGEM ORIENTADA A PRODUTO — DO CÓDIGO À INTERFACE 3D
+          </p>
+        </div>
+
+        <!-- Bottom Edge of Hero: Fragments Header Bar -->
+        <div class="flex items-end justify-between pt-4 hl-t">
+          <div class="text-base sm:text-lg font-medium tracking-tight text-[var(--ink)]" data-i18n="nav.fragments">
+            Fragmentos
+          </div>
+          <p class="hidden md:block text-[11px] text-[var(--ink-secondary)]" data-i18n="fragments.desc">
+            Módulos reais extraídos de projetos web, mobile, base de dados e 3D. Clica para abrir a página do projeto.
+          </p>
+          <div class="font-mono-tech text-sm sm:text-base text-[var(--ink-muted)]">12</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 2. FRAGMENTS MOSAIC GRID ==================== -->
+    <section id="fragmentos" aria-label="Mosaico de Fragmentos" class="scroll-mt-24 mx-auto max-w-[1400px] px-4 sm:px-7 pt-4 pb-16 sm:pb-24 space-y-8">
+      <FragmentsMosaic />
+
+      <div class="flex justify-center pt-2 no-print">
+        <a href="#casos" class="pill-solid !min-h-[38px] !px-6" data-i18n="fragments.cta">
+          Ver todos os casos
+        </a>
+      </div>
+    </section>
+
+    <!-- ==================== 3. GIANT EXTENDED TYPOGRAPHIC STATEMENT ==================== -->
+    <section
+      id="sobre"
+      aria-label="Declaração Técnica"
+      class="scroll-mt-24 hl-t hl-b py-12 sm:py-20 overflow-hidden select-none"
+    >
+      <div class="mx-auto max-w-[1400px] px-4 sm:px-7 space-y-6">
+        <div class="font-mono-tech text-[10px] tracking-[0.16em] uppercase text-[var(--ink-muted)] text-center">
+          FULLSTACK · MOBILE · 3D PIPELINE · UI/UX
+        </div>
+        <div
+          aria-hidden="true"
+          class="font-extended font-extrabold uppercase leading-[0.88] tracking-[-0.04em] text-[clamp(2.4rem,9.2vw,8.6rem)] text-[var(--ink-ghost)]"
+        >
+          <div>DESIGN</div>
+          <div>FULLSTACK</div>
+          <div>3D &amp; ETC.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. CASES (DEDICATED PROJECT PAGES) ==================== -->
+    <section id="casos" aria-labelledby="casos-heading" class="scroll-mt-24 mx-auto max-w-[1400px] px-4 sm:px-7 py-16 sm:py-24 space-y-12">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <h2 id="casos-heading" class="font-extended text-2xl sm:text-4xl font-bold tracking-tight text-[var(--ink)]" data-i18n="cases.title">
+          CASOS
+        </h2>
+        <p class="text-xs sm:text-sm text-[var(--ink-secondary)] max-w-[44ch]" data-i18n="cases.subtitle">
+          Cada projeto tem a sua própria página de estudo de caso com arquitetura, especificações e links.
+        </p>
+      </div>
+
+      <!-- Row 1: 2 Flagship Visual Cases (01 & 02) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {flagshipCases.map((project, idx) => (
+          <article class="case-card group flex flex-col justify-between">
+            <a href={`/projetos/${project.slug}`} class="block overflow-hidden bg-[#09090B]">
+              <img
+                src={project.image}
+                alt={project.imageAlt}
+                loading="lazy"
+                class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            </a>
+
+            <div class="p-6 flex flex-col justify-between flex-1 gap-5">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between font-mono-tech text-[11px] text-[var(--ink-muted)]">
+                  <span><strong class="text-[#0057FF] mr-2">0{idx + 1}</strong>{project.categoryLabel}</span>
+                  <span>{project.year}</span>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-semibold tracking-tight text-[var(--ink)]">
+                  <a href={`/projetos/${project.slug}`} class="hover:text-[#0057FF] transition-colors">
+                    {project.title}
+                  </a>
+                </h3>
+                <p class="text-xs sm:text-sm text-[var(--ink-secondary)] leading-relaxed">
+                  {project.summary}
+                </p>
+              </div>
+
+              <div class="pt-4 hl-t flex flex-wrap items-center justify-between gap-3 no-print">
+                <a href={`/projetos/${project.slug}`} class="pill-solid">
+                  <span data-i18n="cases.viewCase">Ver caso</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+                <div class="flex items-center gap-3 font-mono-tech text-[11px] text-[var(--ink-secondary)]">
+                  {project.links.map((l) => (
+                    <a
+                      href={l.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="hover:text-[var(--ink)] transition-colors whitespace-nowrap py-1"
+                    >
+                      {l.label} ↗
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Row 2: 3-Column Studio Gallery (03, 04 & 05) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {secondaryCases.map((project, idx) => (
+          <article class="case-card group flex flex-col justify-between">
+            <a href={`/projetos/${project.slug}`} class="block overflow-hidden bg-[#09090B]">
+              <img
+                src={project.image}
+                alt={project.imageAlt}
+                loading="lazy"
+                class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            </a>
+
+            <div class="p-5 flex flex-col justify-between flex-1 gap-4">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between font-mono-tech text-[10px] text-[var(--ink-muted)]">
+                  <span><strong class="text-[#0057FF] mr-1.5">0{idx + 3}</strong>{project.categoryLabel}</span>
+                  <span>{project.year}</span>
+                </div>
+                <h3 class="text-lg font-semibold tracking-tight text-[var(--ink)]">
+                  <a href={`/projetos/${project.slug}`} class="hover:text-[#0057FF] transition-colors">
+                    {project.title}
+                  </a>
+                </h3>
+                <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">
+                  {project.subtitle}
+                </p>
+              </div>
+
+              <div class="pt-3 hl-t flex items-center justify-between no-print">
+                <a href={`/projetos/${project.slug}`} class="font-mono-tech text-xs font-medium text-[var(--ink)] hover:text-[#0057FF] transition-colors">
+                  Abrir página →
+                </a>
+                <span class="font-mono-tech text-[10px] text-[var(--ink-muted)]">
+                  {project.stack.slice(0, 2).join(' · ')}
+                </span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Capabilities 4-Column Hairline Row -->
+      <div class="pt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 hl-t">
+        {SKILL_GROUPS.map((group) => (
+          <div class="pt-6 space-y-3">
+            <h3 class="font-mono-tech text-xs uppercase tracking-wider text-[var(--ink)]">
+              {group.title}
+            </h3>
+            <ul class="space-y-1.5 text-xs text-[var(--ink-secondary)]">
+              {group.skills.map((s) => (
+                <li>{s}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ==================== 5. ELECTRIC COBALT BLUE CLIMAX (#0057FF) ==================== -->
+    <section
+      id="estgv"
+      aria-labelledby="cobalt-heading"
+      class="scroll-mt-20 bg-[#0057FF] text-white py-20 sm:py-28"
+    >
+      <div class="mx-auto max-w-[1400px] px-4 sm:px-7 space-y-16">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/20 pb-10">
+          <div class="space-y-3">
+            <div class="font-mono-tech text-[11px] uppercase tracking-[0.14em] text-white/75">
+              ESTGV · LICENCIATURA EM TECNOLOGIAS E DESIGN DE MULTIMÉDIA
+            </div>
+            <h2
+              id="cobalt-heading"
+              class="font-extended font-extrabold uppercase tracking-tight leading-[0.95] text-[clamp(2rem,6vw,5.25rem)]"
+            >
+              DAPE 26/27
+            </h2>
+          </div>
+          <p class="text-sm sm:text-base text-white/85 max-w-[44ch] leading-relaxed" data-i18n="cobalt.desc">
+            Disponível para estágio curricular em Desenvolvimento Fullstack, Mobile Flutter, Interfaces Web Interativas ou Pipeline 3D.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {TIMELINE.map((t) => (
+            <div class="space-y-2 border-t border-white/25 pt-5">
+              <div class="font-mono-tech text-[11px] text-white/70">{t.period}</div>
+              <h3 class="text-base font-semibold text-white">{t.title}</h3>
+              <p class="text-xs sm:text-sm text-white/80 leading-relaxed">{t.description}</p>
+            </div>
+          ))}
+        </div>
+
+        <div id="contacto" class="pt-6 border-t border-white/20 flex flex-col sm:flex-row sm:items-center justify-between gap-6 no-print">
+          <div class="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              id="footer-copy-email"
+              data-email={PROFILE.email}
+              class="inline-flex items-center justify-center min-h-[42px] px-5 rounded-full bg-white text-[#0057FF] font-mono-tech text-xs font-semibold hover:bg-white/90 transition-colors cursor-pointer"
+            >
+              {PROFILE.email}
+            </button>
+            <button
+              type="button"
+              onclick="window.print()"
+              class="inline-flex items-center justify-center min-h-[42px] px-5 rounded-full border border-white/40 text-white text-xs font-medium hover:bg-white/10 transition-colors cursor-pointer"
+              data-i18n="contact.print"
+            >
+              Imprimir CV
+            </button>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-5 font-mono-tech text-xs text-white/90">
+            <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4 whitespace-nowrap py-1">GitHub ↗</a>
+            <a href={PROFILE.modrinth} target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4 whitespace-nowrap py-1">Modrinth ↗</a>
+            <a href={PROFILE.curseforge} target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4 whitespace-nowrap py-1">CurseForge ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="hl-t bg-[var(--bg)]">
+    <div class="mx-auto max-w-[1400px] px-4 sm:px-7 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono-tech text-[var(--ink-muted)]">
+      <span>{PROFILE.displayName} · {PROFILE.location}</span>
+      <span>Design &amp; Engineering · 2026</span>
+    </div>
+  </footer>
+
+  <div
+    id="copy-toast"
+    role="status"
+    aria-live="polite"
+    hidden
+    class="fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-full bg-[#0057FF] text-white font-mono-tech text-xs font-medium shadow-lg"
+  >
+    Email copiado.
+  </div>
+
+  <script>
+    const toast = document.getElementById('copy-toast');
+    let toastTimer: number | undefined;
+
+    async function copyEmail(email: string) {
+      try {
+        await navigator.clipboard.writeText(email);
+        if (toast) {
+          toast.hidden = false;
+          clearTimeout(toastTimer);
+          toastTimer = window.setTimeout(() => { toast.hidden = true; }, 2200);
+        }
+      } catch {
+        window.location.href = `mailto:${email}`;
+      }
+    }
+
+    ['header-copy-email', 'footer-copy-email'].forEach((id) => {
+      const btn = document.getElementById(id);
+      btn?.addEventListener('click', () => {
+        const email = btn.dataset.email;
+        if (email) copyEmail(email);
+      });
+    });
+
+    // PT / EN Switcher
+    const dict: Record<string, Record<string, string>> = {
+      pt: {
+        'nav.fragments': 'Fragmentos',
+        'nav.cases': 'Casos',
+        'nav.about': 'Sobre',
+        'nav.approach': 'Percurso',
+        'nav.contacts': 'Contactos',
+        'hero.subtitle': 'Aplicações fullstack, mobile offline-first e experiências 3D em WebGL.',
+        'hero.whatTitle': 'O que construo',
+        'hero.stackTitle': 'Especialidades',
+        'hero.mantra': 'ABORDAGEM ORIENTADA A PRODUTO — DO CÓDIGO À INTERFACE 3D',
+        'fragments.desc': 'Módulos reais extraídos de projetos web, mobile, base de dados e 3D. Clica para abrir a página do projeto.',
+        'fragments.cta': 'Ver todos os casos',
+        'cases.title': 'CASOS',
+        'cases.subtitle': 'Cada projeto tem a sua própria página de estudo de caso com arquitetura, especificações e links.',
+        'cases.viewCase': 'Ver caso',
+        'widget.details': 'Detalhes',
+        'cobalt.desc': 'Disponível para estágio curricular em Desenvolvimento Fullstack, Mobile Flutter, Interfaces Web Interativas ou Pipeline 3D.',
+        'contact.print': 'Imprimir CV',
+      },
+      en: {
+        'nav.fragments': 'Fragments',
+        'nav.cases': 'Cases',
+        'nav.about': 'About',
+        'nav.approach': 'Background',
+        'nav.contacts': 'Contacts',
+        'hero.subtitle': 'Fullstack web apps, offline-first mobile and interactive 3D WebGL systems.',
+        'hero.whatTitle': 'What I build',
+        'hero.stackTitle': 'Specialties',
+        'hero.mantra': 'PRODUCT-BASED ENGINEERING — FROM DATABASE TO 3D INTERFACE',
+        'fragments.desc': 'Real modules extracted from web, mobile, database and 3D projects. Click any tile to open its full page.',
+        'fragments.cta': 'View all cases',
+        'cases.title': 'CASES',
+        'cases.subtitle': 'Each project has a dedicated full-page case study with architecture, specs and links.',
+        'cases.viewCase': 'View case',
+        'widget.details': 'Details',
+        'cobalt.desc': 'Available for 2026/27 Internship in Fullstack Development, Flutter Mobile, Interactive Web Interfaces or 3D Pipelines.',
+        'contact.print': 'Print CV',
+      },
+    };
+
+    function setLang(lang: 'pt' | 'en') {
+      document.documentElement.lang = lang === 'pt' ? 'pt-PT' : 'en';
+      const table = dict[lang];
+      document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
+        const key = el.dataset.i18n;
+        if (key && table[key]) el.textContent = table[key];
+      });
+      document.querySelectorAll<HTMLElement>('[data-pt][data-en]').forEach((el) => {
+        el.textContent = lang === 'pt' ? (el.dataset.pt || '') : (el.dataset.en || '');
+      });
+      document.querySelectorAll<HTMLButtonElement>('.lang-btn, .lang-btn-mobile').forEach((b) => {
+        const active = b.dataset.lang === lang;
+        b.setAttribute('aria-pressed', String(active));
+        b.className = b.classList.contains('lang-btn')
+          ? `lang-btn px-2 py-0.5 rounded-full cursor-pointer ${active ? 'bg-[var(--ink)] text-[var(--bg)] font-semibold' : 'text-[var(--ink-secondary)] hover:text-[var(--ink)]'}`
+          : `lang-btn-mobile px-2.5 py-1 rounded-full ${active ? 'bg-[var(--ink)] text-[var(--bg)]' : 'hl-all text-[var(--ink-secondary)]'}`;
+      });
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('.lang-btn, .lang-btn-mobile').forEach((b) => {
+      b.addEventListener('click', () => {
+        const l = b.dataset.lang === 'en' ? 'en' : 'pt';
+        setLang(l);
+      });
+    });
+  </script>
+</Layout>
