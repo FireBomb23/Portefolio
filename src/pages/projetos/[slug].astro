@@ -97,20 +97,32 @@ const { project, nextProject } = Astro.props;
       {project.slug === 'infinity-nova' ? (
         <>
           <InfinityNovaViewer3D />
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="overflow-hidden rounded-xl hl-all bg-[#09090B]">
+          <div class="space-y-4">
+            <div class="overflow-hidden rounded-xl hl-all bg-[#07070A] p-3 sm:p-4">
               <img
-                src="/infinity-nova/assets/banner.jpg"
-                alt="Banner oficial do mod Infinity Nova"
-                class="w-full aspect-[16/9] object-cover"
+                src="/infinity-nova/assets/banner_description.png"
+                alt="Banner oficial de apresentação do Infinity Nova"
+                class="w-full h-auto rounded-lg"
+                style="image-rendering: pixelated;"
               />
             </div>
-            <div class="overflow-hidden rounded-xl hl-all bg-[#09090B] flex items-center justify-center p-8">
-              <img
-                src="/infinity-nova/assets/logo.png"
-                alt="Logo oficial Infinity Nova"
-                class="max-h-48 w-auto object-contain"
-              />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="overflow-hidden rounded-xl hl-all bg-[#07070A] p-3 flex items-center justify-center">
+                <img
+                  src="/infinity-nova/assets/banner_changelog.png"
+                  alt="Banner de changelogs Infinity Nova"
+                  class="w-full h-auto rounded-lg"
+                  style="image-rendering: pixelated;"
+                />
+              </div>
+              <div class="overflow-hidden rounded-xl hl-all bg-[#07070A]">
+                <img
+                  src="/infinity-nova/assets/banner.png"
+                  alt="Arte pixel-art oficial da Manopla Infinity Nova"
+                  class="w-full h-full object-cover"
+                  style="image-rendering: pixelated;"
+                />
+              </div>
             </div>
           </div>
         </>

@@ -60,8 +60,8 @@ export const PROJECTS: Project[] = [
     role: 'Criador, Fullstack & 3D Engineer',
     context: 'Projeto Pessoal · Publicado em Modrinth & CurseForge',
     featured: true,
-    image: '/infinity-nova/assets/banner.jpg',
-    imageAlt: 'Banner oficial do mod Infinity Nova',
+    image: '/infinity-nova/assets/banner.png',
+    imageAlt: 'Banner oficial pixel-art do mod Infinity Nova',
     summary:
       'Ecossistema multi-camada construído de raiz: mod de Minecraft em Java 21 (NeoForge + GeckoLib), site oficial com visualizador 3D Three.js para ficheiros .geo.json reais e backend Django 5.2 com PostgreSQL 18 e autenticação 2FA TOTP.',
     problem:
