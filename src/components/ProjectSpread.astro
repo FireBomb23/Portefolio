@@ -55,6 +55,7 @@ for (const tech of project.stack) {
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
       <!-- Editorial Dossier Column (5 cols) -->
       <div
+        data-gsap-dossier
         class:list={[
           'lg:col-span-5 space-y-6',
           isMediaFirst ? 'lg:order-2' : 'lg:order-1',
@@ -79,7 +80,7 @@ for (const tech of project.stack) {
         </div>
 
         <div class="space-y-3">
-          <h2 class="display text-[clamp(2.25rem,5vw,4.75rem)]">
+          <h2 data-gsap-title class="display text-[clamp(2.25rem,5vw,4.75rem)]">
             {project.title}
           </h2>
           <p class="text-base sm:text-lg text-[var(--muted)] leading-snug">
@@ -139,6 +140,7 @@ for (const tech of project.stack) {
 
       <!-- Primary Visual Stage Column (7 cols) -->
       <div
+        data-gsap-stage
         class:list={[
           'lg:col-span-7',
           isMediaFirst ? 'lg:order-1' : 'lg:order-2',
@@ -362,11 +364,11 @@ for (const tech of project.stack) {
 
     <!-- Full-Width Bento Gallery Below Hero Spread -->
     {project.slug === 'infinity-nova' && (
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+      <div data-gsap-gallery class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
         {project.gallery.map((item) => (
           <div
             class:list={[
-              'media reveal border border-[var(--line)]',
+              'media border border-[var(--line)]',
               item.span === 'full' ? 'md:col-span-2' : 'aspect-[16/10]',
               item.contain ? 'p-6 sm:p-10 flex items-center justify-center' : '',
             ]}
@@ -390,12 +392,12 @@ for (const tech of project.stack) {
     )}
 
     {project.slug === 'cyrix' && (
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+      <div data-gsap-gallery class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
         {project.gallery
           .filter((item) => item.src !== '/projetos/cyrix/home-mobile.png')
           .map((item) => (
             <div
-              class="media reveal border border-[var(--line)] aspect-[16/10]"
+              class="media border border-[var(--line)] aspect-[16/10]"
               style={`background:${project.ground};`}
             >
               <img
@@ -409,10 +411,10 @@ for (const tech of project.stack) {
     )}
 
     {project.slug === 'cg-3d-lab' && (
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-2">
+      <div data-gsap-gallery class="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-2">
         {project.gallery.map((item) => (
           <div
-            class="lg:col-span-3 media reveal border border-[var(--line)] aspect-square p-6 flex items-center justify-center"
+            class="lg:col-span-3 media border border-[var(--line)] aspect-square p-6 flex items-center justify-center"
             style={`background:${project.ground};`}
           >
             <img
@@ -424,7 +426,7 @@ for (const tech of project.stack) {
         ))}
 
         <div
-          class="lg:col-span-6 reveal border border-[var(--line)] p-6 sm:p-8 flex flex-col justify-between gap-6"
+          class="lg:col-span-6 border border-[var(--line)] p-6 sm:p-8 flex flex-col justify-between gap-6"
           style={`background:${project.ground}; color:${project.ink};`}
         >
           <div class="mono text-[#EDEDEA]/65">Pipeline 3D</div>

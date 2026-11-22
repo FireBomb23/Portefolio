@@ -28,6 +28,13 @@ const polaroids = [
   { src: '/infinity-nova/textures/manopla_3d.png', alt: 'Mapa UV Manopla 3D', label: '04 Mapa UV', pixel: true, tilt: '-rotate-1' },
 ];
 
+const counters = [
+  { num: '715+', label: 'Downloads no Modrinth & CurseForge' },
+  { num: '08', label: 'Modelos 3D .geo.json no browser' },
+  { num: '15', label: 'Tabelas PostgreSQL & PL/pgSQL' },
+  { num: '05', label: 'Projetos completos em scroll' },
+];
+
 const personalTools = [
   'Java 21',
   'Python',
@@ -42,7 +49,7 @@ const personalTools = [
 ];
 ---
 
-<section id="sobre-mim" aria-labelledby="hero-nome" class="paper-grid enter pt-6 pb-16 sm:pb-24">
+<section id="sobre-mim" data-enter aria-labelledby="hero-nome" class="hero paper-grid pt-6 pb-14 sm:pb-20">
   <div class="wrap space-y-10 sm:space-y-12">
     <!-- Top meta strip -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pb-4 border-b border-[var(--line)] mono text-[var(--muted)]">
@@ -67,7 +74,11 @@ const personalTools = [
     <div class="border border-[var(--line)] bg-[var(--surface)]/55 p-5 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
       <!-- Left Column: Refined Architectural Portrait Frame -->
       <div class="lg:col-span-4 flex flex-col justify-between gap-4">
-        <div class="p-2 border border-[var(--ink)] bg-[var(--bg)] shadow-[0_18px_40px_-15px_rgba(14,14,14,0.22)]">
+        <div
+          data-enter-media
+          data-tilt-card
+          class="p-2 border border-[var(--ink)] bg-[var(--bg)] shadow-[0_18px_40px_-15px_rgba(14,14,14,0.22)] will-change-transform"
+        >
           <div
             data-photo-slot="public/rodrigo.jpg"
             class="aspect-[4/5] w-full bg-[#111113] text-[#EDEDEA] dark-grid relative overflow-hidden flex flex-col justify-between p-5"
@@ -151,13 +162,14 @@ const personalTools = [
           </div>
         </div>
 
-        <!-- 3 Tilted Polaroid Work Snapshots -->
+        <!-- 3 Tilted Polaroid Work Snapshots with 3D tilt -->
         <div class="pt-2 px-1 grid grid-cols-3 gap-2.5 sm:gap-3 overflow-hidden sm:overflow-visible">
           {polaroids.map((shot) => (
             <a
               href={shot.label.startsWith('01') ? '#projeto-01' : shot.label.startsWith('03') ? '#projeto-03' : '#projeto-04'}
+              data-tilt-card
               class:list={[
-                'group block bg-[#F7F6F2] p-1.5 sm:p-2 pb-3 sm:pb-4 border border-[var(--line)] shadow-[0_10px_24px_-10px_rgba(14,14,14,0.18)] transition-transform duration-300 hover:rotate-0 hover:-translate-y-1',
+                'group block bg-[#F7F6F2] p-1.5 sm:p-2 pb-3 sm:pb-4 border border-[var(--line)] shadow-[0_10px_24px_-10px_rgba(14,14,14,0.18)] will-change-transform',
                 shot.tilt,
               ]}
             >
@@ -214,6 +226,18 @@ const personalTools = [
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Live 4-Counter Strip powered by motion.js [data-m-count] -->
+    <div class="border border-[var(--line)] bg-[var(--line)] grid grid-cols-2 lg:grid-cols-4 gap-[1px]">
+      {counters.map((c) => (
+        <div class="bg-[var(--bg)] p-5 sm:p-6 space-y-1.5">
+          <div class="display text-[clamp(2rem,3.5vw,3.25rem)] text-[var(--ink)]">
+            <span data-m-count>{c.num}</span>
+          </div>
+          <div class="text-xs text-[var(--muted)] leading-snug">{c.label}</div>
+        </div>
+      ))}
     </div>
   </div>
 </section>

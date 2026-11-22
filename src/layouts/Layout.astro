@@ -13,7 +13,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="pt-PT">
+<html lang="pt-PT" data-motion="live">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,6 +27,17 @@ const {
       href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="/assets/motion/motion.css" />
+    <link rel="stylesheet" href="/assets/scenes/scenes.css" />
+    <link rel="stylesheet" href="/assets/scenes/letter-bar-floods-the-ground/scene.css" />
+    <link rel="stylesheet" href="/assets/moments/word-highlight/moment.css" />
+    <link rel="stylesheet" href="/assets/moments/letters-assemble/moment.css" />
+    <script is:inline>
+      document.documentElement.classList.add('m-enter', 'sc-js', 'mo-js');
+      setTimeout(function () {
+        document.documentElement.classList.add('m-enter-done', 'sc-safe', 'mo-safe');
+      }, 1800);
+    </script>
   </head>
   <body id="topo">
     <a
@@ -37,5 +48,9 @@ const {
     </a>
 
     <slot />
+
+    <script is:inline type="module" src="/assets/motion/motion.js"></script>
+    <script is:inline type="module" src="/assets/moments/moments.js"></script>
+    <script is:inline type="module" src="/assets/scenes/scenes.js"></script>
   </body>
 </html>

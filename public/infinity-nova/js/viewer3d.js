@@ -5,8 +5,7 @@
  */
 
 (function () {
-  const prefersReducedMotion =
-    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const prefersReducedMotion = document.documentElement.dataset.motion === 'off';
   const loadedTextures = {};
   const textureCallbacks = {};
 
