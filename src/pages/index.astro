@@ -22,12 +22,40 @@ const tabColors: Record<string, string> = {
   <Header />
 
   <main id="conteudo-principal">
-    <!-- 1. Parte Pessoal (hero + data-enter + counters + 3D tilt) -->
+    <!-- 1. Sobre Mim: Live WebGL Shader Hero + Radial Hub Diagram + Light Editorial Bento -->
     <AboutMeSpread />
 
-    <!-- 2. Momento 1: word-highlight scrubbed to scroll -->
+    <!-- 2. Big Scene 1: Manopla cai por entre tipografia gigante ao fazer scroll -->
     <section
-      class="paper-grid border-t border-[var(--line)] py-20 sm:py-28"
+      class="sc world-light border-b border-black/10"
+      data-big-scene="object-through-giant-type"
+      data-big-scene-opts='{"hold": 1}'
+      style="--h: 1"
+      aria-label="Da ideia à engenharia"
+    >
+      <div class="sc__stage">
+        <blockquote class="ott__quote">
+          <p class="ott__line"><span class="ott__half">DO FIGMA</span> <span class="ott__half">AO 3D</span></p>
+          <p class="ott__line"><span class="ott__half">DO JAVA</span> <span class="ott__half">À WEB</span></p>
+          <p class="ott__line"><span class="ott__half">DA API</span> <span class="ott__half">AOS DADOS</span></p>
+          <p class="ott__line"><span class="ott__half">TUDO DE</span> <span class="ott__half">RAIZ</span></p>
+        </blockquote>
+        <div class="ott__object" data-move>
+          <img
+            class="ott__img pixel"
+            src="/infinity-nova/textures/manopla.png"
+            alt="Manopla do Infinito em pixel art"
+            width="320"
+            height="320"
+          />
+        </div>
+        <p class="ott__credit">Rodrigo Albuquerque · ESTGV Viseu</p>
+      </div>
+    </section>
+
+    <!-- 3. Momento 1: word-highlight scrubbed to scroll -->
+    <section
+      class="world-light py-20 sm:py-28 border-b border-black/10"
       data-moment="word-highlight"
       aria-label="Como trabalho"
     >
@@ -38,7 +66,7 @@ const tabColors: Record<string, string> = {
       </div>
     </section>
 
-    <!-- 3. Big Scene: letter-bar-floods-the-ground (sticky 2-screen zoom transitioning paper -> dark) -->
+    <!-- 4. Big Scene 2: letter-bar-floods-the-ground transitioning paper -> dark projects -->
     <section
       class="sc"
       data-big-scene="letter-bar-floods-the-ground"
@@ -51,17 +79,17 @@ const tabColors: Record<string, string> = {
         <div class="lbf__ground">
           <div class="lbf__next">
             <h2>5 projetos. Sem cliques obrigatórios.</h2>
-            <p>Continua a descer — podes rodar as peças 3D, testar a calculadora da ESTGV e ver os ecrãs reais de cada trabalho.</p>
+            <p>Continua a descer — podes rodar as peças 3D, ver a app offline a montar-se no ecrã e testar a calculadora da ESTGV.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 4. Marquee & Índice em Separadores de Pasta -->
+    <!-- 5. Marquee & Índice em Separadores de Pasta -->
     <section
       id="projetos"
       aria-label="Índice dos projetos"
-      class="scroll-mt-14 dark-grid text-[#EDEDEA] border-t border-b border-white/10"
+      class="scroll-mt-14 bg-[#08090F] text-[#EDEDEA] border-t border-b border-white/10"
     >
       <div aria-hidden="true" class="border-b border-white/10 py-3.5 overflow-hidden select-none">
         <div class="marquee-track mono text-[#EDEDEA]/80">
@@ -91,16 +119,16 @@ const tabColors: Record<string, string> = {
       </div>
     </section>
 
-    <!-- 5. Todos os Projetos em Scroll Contínuo -->
+    <!-- 6. Todos os Projetos com Arquitetura e Mundo Próprio -->
     <div>
       {PROJECTS.map((project) => (
         <ProjectSpread project={project} />
       ))}
     </div>
 
-    <!-- 6. Momento 2: letters-assemble antes do contacto -->
+    <!-- 7. Momento 2: letters-assemble antes do contacto -->
     <section
-      class="paper-grid border-t border-[var(--line)] py-20 sm:py-28"
+      class="world-light border-t border-black/10 py-20 sm:py-28"
       data-moment="letters-assemble"
       data-moment-opts='{"spread": 1.1}'
       aria-label="Chamada para contacto"
@@ -113,22 +141,22 @@ const tabColors: Record<string, string> = {
       </div>
     </section>
 
-    <!-- 7. Contacto -->
-    <section id="contacto" aria-labelledby="contacto-titulo" class="scroll-mt-14 bg-[#0E0E0E] text-[#EDEDEA] border-t border-white/10">
+    <!-- 8. Contacto -->
+    <section id="contacto" aria-labelledby="contacto-titulo" class="scroll-mt-14 bg-[#070709] text-[#F2F2EF] border-t border-white/10">
       <div class="wrap py-20 sm:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-end">
         <div class="lg:col-span-7 space-y-6">
-          <div id="contacto-titulo" class="mono text-[#A8A8A0]">
+          <div id="contacto-titulo" class="mono text-[#9A9B9F]">
             ESTÁGIO CURRICULAR 2026/27 · VISEU / REMOTO
           </div>
 
-          <p class="text-base sm:text-lg text-[#EDEDEA]/85 leading-relaxed max-w-[54ch]">
+          <p class="text-base sm:text-lg text-[#F2F2EF]/85 leading-relaxed max-w-[54ch]">
             Respondo rápido por email. Também podes ver o código no GitHub ou descarregar o mod no Modrinth e no CurseForge.
           </p>
 
           <div>
             <a
               href={`mailto:${PROFILE.email}`}
-              class="link display text-[clamp(1.15rem,3vw,2.75rem)] inline-block max-w-full text-[#EDEDEA]"
+              class="link display text-[clamp(1.15rem,3vw,2.75rem)] inline-block max-w-full text-[#F2F2EF]"
             >
               {PROFILE.email}
             </a>
@@ -144,10 +172,10 @@ const tabColors: Record<string, string> = {
               class="group flex items-center justify-between gap-4 p-4 sm:p-5 hover:bg-white/[0.06] transition-colors"
             >
               <div>
-                <div class="text-sm sm:text-base font-semibold text-[#EDEDEA]">GitHub</div>
-                <div class="mono text-[11px] text-[#A8A8A0]">@FireBomb23 · Repositórios e código</div>
+                <div class="text-sm sm:text-base font-semibold text-[#F2F2EF]">GitHub</div>
+                <div class="mono text-[11px] text-[#9A9B9F]">@FireBomb23 · Repositórios e código</div>
               </div>
-              <span class="mono text-[#EDEDEA]/80 group-hover:translate-x-1 transition-transform">↗</span>
+              <span class="mono text-[#F2F2EF]/80 group-hover:translate-x-1 transition-transform">↗</span>
             </a>
 
             <a
@@ -157,10 +185,10 @@ const tabColors: Record<string, string> = {
               class="group flex items-center justify-between gap-4 p-4 sm:p-5 hover:bg-white/[0.06] transition-colors"
             >
               <div>
-                <div class="text-sm sm:text-base font-semibold text-[#EDEDEA]">Modrinth</div>
-                <div class="mono text-[11px] text-[#A8A8A0]">Infinity Nova · 715+ downloads</div>
+                <div class="text-sm sm:text-base font-semibold text-[#F2F2EF]">Modrinth</div>
+                <div class="mono text-[11px] text-[#9A9B9F]">Infinity Nova · 715+ downloads</div>
               </div>
-              <span class="mono text-[#EDEDEA]/80 group-hover:translate-x-1 transition-transform">↗</span>
+              <span class="mono text-[#F2F2EF]/80 group-hover:translate-x-1 transition-transform">↗</span>
             </a>
 
             <a
@@ -170,10 +198,10 @@ const tabColors: Record<string, string> = {
               class="group flex items-center justify-between gap-4 p-4 sm:p-5 hover:bg-white/[0.06] transition-colors"
             >
               <div>
-                <div class="text-sm sm:text-base font-semibold text-[#EDEDEA]">CurseForge</div>
-                <div class="mono text-[11px] text-[#A8A8A0]">Infinity Nova · Modpack &amp; releases</div>
+                <div class="text-sm sm:text-base font-semibold text-[#F2F2EF]">CurseForge</div>
+                <div class="mono text-[11px] text-[#9A9B9F]">Infinity Nova · Modpack &amp; releases</div>
               </div>
-              <span class="mono text-[#EDEDEA]/80 group-hover:translate-x-1 transition-transform">↗</span>
+              <span class="mono text-[#F2F2EF]/80 group-hover:translate-x-1 transition-transform">↗</span>
             </a>
           </div>
         </div>
@@ -192,130 +220,18 @@ const tabColors: Record<string, string> = {
     const reducedMotion = document.documentElement.dataset.motion === 'off';
 
     if (!reducedMotion) {
-      const heroDesk = document.querySelector<HTMLElement>('[data-hero-desk]');
-      const heroFloats = document.querySelectorAll<HTMLElement>('[data-hero-float]');
-
-      if (heroFloats.length > 0) {
-        gsap.from(heroFloats, {
-          scale: 0.78,
-          opacity: 0,
-          y: 36,
-          stagger: 0.08,
-          duration: 0.85,
-          ease: 'back.out(1.35)',
-        });
-
-        heroFloats.forEach((card) => {
-          const depth = parseFloat(card.getAttribute('data-float-depth') || '1');
-          if (heroDesk) {
-            gsap.to(card, {
-              y: -36 * depth,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: heroDesk,
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 0.5,
-              },
-            });
-          }
-        });
-
-        if (heroDesk) {
-          heroDesk.addEventListener('pointermove', (e: PointerEvent) => {
-            if (e.pointerType === 'touch') return;
-            const r = heroDesk.getBoundingClientRect();
-            if (!r.width || !r.height) return;
-            const nx = (e.clientX - r.left) / r.width - 0.5;
-            const ny = (e.clientY - r.top) / r.height - 0.5;
-            heroFloats.forEach((card) => {
-              const depth = parseFloat(card.getAttribute('data-float-depth') || '1');
-              gsap.to(card, {
-                x: nx * 28 * depth,
-                rotateY: nx * 8 * depth,
-                rotateX: -ny * 7 * depth,
-                duration: 0.45,
-                ease: 'power2.out',
-                transformPerspective: 900,
-              });
-            });
-          });
-
-          heroDesk.addEventListener('pointerleave', () => {
-            heroFloats.forEach((card) => {
-              gsap.to(card, {
-                x: 0,
-                rotateX: 0,
-                rotateY: 0,
-                duration: 0.6,
-                ease: 'power3.out',
-              });
-            });
-          });
-        }
-      }
-
-      const polaroidCards = document.querySelectorAll<HTMLElement>('[data-polaroid-card]');
-      if (polaroidCards.length > 0) {
-        gsap.from(polaroidCards, {
-          y: 30,
-          opacity: 0,
-          scale: 0.92,
-          stagger: 0.08,
-          duration: 0.6,
-          ease: 'back.out(1.4)',
-          scrollTrigger: {
-            trigger: polaroidCards[0],
-            start: 'top 90%',
-            once: true,
-          },
-        });
-      }
-
-      document.querySelectorAll<HTMLElement>('[data-gsap-card]').forEach((card) => {
-        gsap.from(card, {
-          y: 32,
-          opacity: 0,
-          duration: 0.65,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 90%',
-            once: true,
-          },
-        });
-      });
-
-      document.querySelectorAll<HTMLElement>('[data-gsap-dossier]').forEach((dossier) => {
-        const blocks = Array.from(dossier.children);
-        if (!blocks.length) return;
-        gsap.from(blocks, {
-          y: 26,
-          opacity: 0,
-          stagger: 0.08,
-          duration: 0.55,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: dossier,
-            start: 'top 88%',
-            once: true,
-          },
-        });
-      });
-
       document.querySelectorAll<HTMLElement>('[data-gsap-stage]').forEach((stage) => {
         gsap.fromTo(
           stage,
-          { y: 48, scale: 0.94, clipPath: 'inset(6% 4% 6% 4%)' },
+          { y: 36, scale: 0.96 },
           {
             y: 0,
             scale: 1,
-            clipPath: 'inset(0% 0% 0% 0%)',
             ease: 'power2.out',
             scrollTrigger: {
               trigger: stage,
               start: 'top 92%',
-              end: 'top 38%',
+              end: 'top 42%',
               scrub: 0.5,
             },
           }
@@ -324,65 +240,33 @@ const tabColors: Record<string, string> = {
 
       document.querySelectorAll<HTMLElement>('[data-gsap-title]').forEach((title) => {
         gsap.from(title, {
-          y: 40,
-          skewY: 2,
+          y: 32,
           opacity: 0,
-          duration: 0.7,
+          duration: 0.65,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: title,
-            start: 'top 88%',
+            start: 'top 90%',
             once: true,
           },
         });
       });
 
-      document.querySelectorAll<HTMLElement>('[data-gsap-gallery]').forEach((grid) => {
-        const items = Array.from(grid.children);
-        if (!items.length) return;
-        gsap.from(items, {
-          y: 32,
+      document.querySelectorAll<HTMLElement>('[data-gsap-dossier]').forEach((dossier) => {
+        gsap.from(dossier, {
+          y: 28,
           opacity: 0,
-          stagger: 0.1,
-          duration: 0.6,
+          duration: 0.65,
           ease: 'power2.out',
           scrollTrigger: {
-            trigger: grid,
+            trigger: dossier,
             start: 'top 88%',
             once: true,
           },
-        });
-      });
-
-      document.querySelectorAll<HTMLElement>('[data-tilt-card]').forEach((card) => {
-        card.addEventListener('pointermove', (e: PointerEvent) => {
-          if (e.pointerType === 'touch') return;
-          const r = card.getBoundingClientRect();
-          if (!r.width || !r.height) return;
-          const nx = (e.clientX - r.left) / r.width - 0.5;
-          const ny = (e.clientY - r.top) / r.height - 0.5;
-          gsap.to(card, {
-            rotateY: nx * 14,
-            rotateX: -ny * 14,
-            duration: 0.35,
-            ease: 'power2.out',
-            transformPerspective: 800,
-          });
-        });
-
-        card.addEventListener('pointerleave', () => {
-          gsap.to(card, {
-            rotateX: 0,
-            rotateY: 0,
-            duration: 0.45,
-            ease: 'power2.out',
-            clearProps: 'transform',
-          });
         });
       });
     }
 
-    // Re-sync ScrollTrigger after design-taste-frontend scenes.js expands sticky scenes
     const rootObserver = new MutationObserver(() => {
       if (document.documentElement.hasAttribute('data-scenes-ready')) {
         ScrollTrigger.refresh();
@@ -390,12 +274,11 @@ const tabColors: Record<string, string> = {
     });
     rootObserver.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['data-scenes-ready'],
+      attributeFilter: ['data-scenes-ready', 'data-moments-ready'],
     });
     window.addEventListener('load', () => ScrollTrigger.refresh());
-    setTimeout(() => ScrollTrigger.refresh(), 600);
+    setTimeout(() => ScrollTrigger.refresh(), 900);
 
-    // Scroll progress bar & active folder tab highlighter
     const progressBar = document.getElementById('scroll-progress');
     const folderTabs = document.querySelectorAll<HTMLElement>('[data-folder-tab]');
     const navProjects = document.querySelectorAll<HTMLElement>('[data-nav-project]');
