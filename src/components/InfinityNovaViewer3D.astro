@@ -1,9 +1,10 @@
 ---
 interface Props {
   initial?: 'manopla' | 'tesseract';
+  instanceId?: string;
 }
 
-const { initial = 'manopla' } = Astro.props;
+const { initial = 'manopla', instanceId = 'main' } = Astro.props;
 
 const models = [
   { key: 'manopla', label: 'Manopla', icon: '/infinity-nova/textures/manopla.png' },
@@ -18,18 +19,18 @@ const models = [
 ---
 
 <div
-  id="infinity-viewer-root"
+  data-viewer-root={instanceId}
   data-initial={initial}
   class="relative w-full h-[min(78vh,760px)] min-h-[420px] select-none"
 >
-  <div id="infinity-3d-stage" class="absolute inset-0 cursor-grab active:cursor-grabbing"></div>
+  <div data-viewer-stage class="absolute inset-0 cursor-grab active:cursor-grabbing"></div>
 
   <div class="pointer-events-none absolute inset-x-0 bottom-5 z-10">
     <div class="wrap flex items-end justify-between gap-4">
       <div
         role="group"
         aria-label="Escolher modelo"
-        class="pointer-events-auto flex flex-wrap gap-1.5"
+        class="pointer-events-auto flex flex-wrap items-center gap-1.5"
       >
         {models.map((m) => (
           <button
@@ -49,6 +50,17 @@ const models = [
             />
           </button>
         ))}
+
+        {initial === 'manopla' && (
+          <button
+            type="button"
+            data-snap-btn
+            aria-label="Estalar dedos (tecla G)"
+            class="h-11 rounded-none border border-white/15 bg-black/40 hover:border-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047FF] focus-visible:outline-offset-2 mono text-white/80 px-3 transition-colors cursor-pointer"
+          >
+            G · Estalar
+          </button>
+        )}
       </div>
 
       <span class="hidden sm:inline mono text-white/60">
@@ -58,34 +70,91 @@ const models = [
   </div>
 </div>
 
-<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script is:inline src="/infinity-nova/js/geo_model.js"></script>
-<script is:inline src="/infinity-nova/js/viewer3d.js"></script>
 <script is:inline>
-  window.addEventListener('DOMContentLoaded', function () {
-    var root = document.getElementById('infinity-viewer-root');
-    var initial = (root && root.getAttribute('data-initial')) || 'manopla';
+  (function () {
+    if (window.__novaViewerBootstrapped) return;
+    window.__novaViewerBootstrapped = true;
 
-    if (typeof window.init3DViewer === 'function') {
-      window.init3DViewer('infinity-3d-stage', initial);
+    function loadScript(src) {
+      return new Promise(function (resolve, reject) {
+        var existing = document.querySelector('script[data-nova-src="' + src + '"]');
+        if (existing) {
+          resolve();
+          return;
+        }
+        var s = document.createElement('script');
+        s.src = src;
+        s.setAttribute('data-nova-src', src);
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
     }
 
-    document.querySelectorAll('[data-model-btn]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var key = btn.getAttribute('data-model-btn');
-        if (key && typeof window.select3DModel === 'function') {
-          window.select3DModel(key);
-        }
-      });
-    });
+    function bootAllViewers() {
+      loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js')
+        .then(function () {
+          return loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js');
+        })
+        .then(function () {
+          return loadScript('/infinity-nova/js/geo_model.js');
+        })
+        .then(function () {
+          return loadScript('/infinity-nova/js/viewer3d.js');
+        })
+        .then(function () {
+          if (typeof window.create3DViewer !== 'function') return;
+          var gauntletInstances = [];
 
-    window.addEventListener('keydown', function (e) {
-      var tag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : '';
-      if (tag === 'input' || tag === 'textarea' || (e.target && e.target.isContentEditable)) return;
-      if ((e.key === 'g' || e.key === 'G') && typeof window.playSnapAnimation === 'function') {
-        window.playSnapAnimation();
-      }
-    });
-  });
+          document.querySelectorAll('[data-viewer-root]').forEach(function (root) {
+            if (root.getAttribute('data-viewer-ready') === 'true') return;
+            root.setAttribute('data-viewer-ready', 'true');
+
+            var stage = root.querySelector('[data-viewer-stage]');
+            var initial = root.getAttribute('data-initial') || 'manopla';
+            var instance = window.create3DViewer(stage, initial, root);
+            if (!instance) return;
+
+            if (initial === 'manopla') {
+              gauntletInstances.push(instance);
+            }
+
+            root.querySelectorAll('[data-model-btn]').forEach(function (btn) {
+              btn.addEventListener('click', function () {
+                var key = btn.getAttribute('data-model-btn');
+                if (key) instance.selectModel(key);
+              });
+            });
+
+            var snapBtn = root.querySelector('[data-snap-btn]');
+            if (snapBtn) {
+              snapBtn.addEventListener('click', function () {
+                instance.playSnap();
+              });
+            }
+          });
+
+          if (!window.__novaKeyBound) {
+            window.__novaKeyBound = true;
+            window.addEventListener('keydown', function (e) {
+              var tag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : '';
+              if (tag === 'input' || tag === 'textarea' || (e.target && e.target.isContentEditable)) return;
+              if (e.key === 'g' || e.key === 'G') {
+                if (gauntletInstances.length > 0) {
+                  gauntletInstances[0].playSnap();
+                } else if (typeof window.playSnapAnimation === 'function') {
+                  window.playSnapAnimation();
+                }
+              }
+            });
+          }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootAllViewers);
+    } else {
+      bootAllViewers();
+    }
+  })();
 </script>

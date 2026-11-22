@@ -2,110 +2,66 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ProjectMedia from '../components/ProjectMedia.astro';
-import { PROFILE, PROJECTS, USES, TIMELINE } from '../data/portfolio';
+import AboutMeSpread from '../components/AboutMeSpread.astro';
+import ProjectSpread from '../components/ProjectSpread.astro';
+import { PROFILE, PROJECTS } from '../data/portfolio';
+
+const marqueePhrase =
+  'PROJETOS SELECIONADOS · SCROLL CONTÍNUO · WEB FULLSTACK · MOBILE FLUTTER · 3D WEBGL · JAVA MODDING · ';
 ---
 
 <Layout>
   <Header />
 
   <main id="conteudo-principal">
-    <!-- Hero -->
-    <section class="enter wrap min-h-[calc(100svh-56px)] flex flex-col justify-between py-8">
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pb-4 border-b border-[var(--line)] mono text-[var(--muted)]">
-        <span>3.º ano · ESTGV, Viseu</span>
-        <span>À procura de estágio 2026/27</span>
-        <span class="sm:text-right">
-          <a href={`mailto:${PROFILE.email}`} class="link text-[var(--ink)]">{PROFILE.email}</a>
-        </span>
+    <!-- 1. Parte Pessoal -->
+    <AboutMeSpread />
+
+    <!-- 2. Transição Animada & Índice de Pastas -->
+    <section id="projetos" aria-labelledby="projetos-capitulo" class="scroll-mt-14 dark-grid text-[#EDEDEA] border-t border-b border-white/10">
+      <!-- Marquee contínuo -->
+      <div aria-hidden="true" class="border-b border-white/10 py-3.5 overflow-hidden select-none">
+        <div class="marquee-track mono text-[#EDEDEA]/80">
+          <span class="pr-4">{marqueePhrase}{marqueePhrase}</span>
+          <span class="pr-4">{marqueePhrase}{marqueePhrase}</span>
+        </div>
       </div>
 
-      <div class="pt-16 pb-4">
-        <h1 class="display text-[clamp(2.25rem,10.5vw,13rem)]">
-          Rodrigo<br />Albuquerque
-        </h1>
-        <p class="max-w-[52ch] text-lg md:text-xl mt-8 leading-snug text-[var(--ink)]">
-          Estudo Tecnologias e Design de Multimédia na ESTGV. Faço sites, apps e mods de Minecraft, e gosto de perceber cada parte — da base de dados ao modelo 3D.
-        </p>
-      </div>
-    </section>
-
-    <!-- Projetos -->
-    <section id="projetos" aria-labelledby="projetos-titulo" class="scroll-mt-14 wrap pt-16 pb-20">
-      <div class="border-t border-[var(--line)] pt-8 pb-8 flex items-baseline justify-between">
-        <h2 id="projetos-titulo" class="display text-[clamp(2rem,4vw,3.5rem)]">
-          Projetos
+      <!-- Cabeçalho de Capítulo -->
+      <div class="wrap pt-14 sm:pt-20 pb-10 space-y-4 reveal">
+        <div class="mono text-[#EDEDEA]/60">0{PROJECTS.length} PROJETOS</div>
+        <h2 id="projetos-capitulo" class="display text-[clamp(2.25rem,6vw,5.5rem)] max-w-[18ch]">
+          Projetos — Sem cliques, basta fazer scroll
         </h2>
-        <span class="mono text-[var(--muted)]">0{PROJECTS.length}</span>
       </div>
 
-      <div>
-        {PROJECTS.map((project) => (
-          <a href={`/projetos/${project.slug}`} class="group block border-t border-[var(--line)] py-8">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-baseline">
-              <span class="mono text-[var(--muted)] md:col-span-1">{project.number}</span>
-
-              <h3 class="display text-[clamp(2rem,5vw,4.5rem)] md:col-span-5 text-[var(--ink)] group-hover:text-[var(--accent)] transition-colors">
-                {project.title}<span aria-hidden="true" class="inline-block ml-2 transition-transform duration-200 group-hover:translate-x-1">→</span>
-              </h3>
-
-              <p class="text-base text-[var(--muted)] md:col-span-4 leading-snug">
-                {project.oneLiner}
-              </p>
-
-              <span class="mono text-[var(--muted)] md:col-span-2 md:text-right">
-                {project.kind} · {project.year}
-              </span>
-            </div>
-
-            <div class="mt-6">
-              <ProjectMedia project={project} />
-            </div>
-          </a>
-        ))}
+      <!-- Separadores tipo pastas do portfolio -->
+      <div class="wrap pt-4">
+        <nav aria-label="Índice dos projetos" class="flex flex-wrap gap-1 border-b border-white/10">
+          {PROJECTS.map((p, idx) => (
+            <a
+              href={`#projeto-${p.number}`}
+              data-folder-tab={p.number}
+              class:list={['folder-tab mono', { 'is-active': idx === 0 }]}
+            >
+              <span>{p.number}</span>
+              <span>{p.title}</span>
+            </a>
+          ))}
+        </nav>
       </div>
     </section>
 
-    <!-- Sobre -->
-    <section id="sobre" aria-labelledby="sobre-titulo" class="scroll-mt-14 wrap py-20 border-t border-[var(--line)]">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
-        <div class="md:col-span-3">
-          <h2 id="sobre-titulo" class="display text-[clamp(2rem,4vw,3.5rem)]">
-            Sobre
-          </h2>
-        </div>
+    <!-- 3. Todos os Projetos em Scroll Contínuo -->
+    <div>
+      {PROJECTS.map((project) => (
+        <ProjectSpread project={project} />
+      ))}
+    </div>
 
-        <div class="md:col-span-8 md:col-start-5 space-y-12">
-          <p class="text-xl md:text-2xl leading-snug">
-            Estou no 3.º ano de Tecnologias e Design de Multimédia na ESTGV, em Viseu. O curso mistura design e programação, e eu gosto das duas partes: tanto desenho os ecrãs no Figma como escrevo a API e a base de dados por trás. O projeto de que mais gosto é o Infinity Nova, porque fiz tudo sozinho — código, modelos, texturas e site. Procuro estágio para 2026/27 em desenvolvimento web, mobile ou 3D.
-          </p>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 pt-10 border-t border-[var(--line)]">
-            <div class="space-y-3">
-              <h3 class="mono text-[var(--muted)]">Uso</h3>
-              <p class="text-base leading-relaxed">{USES}</p>
-            </div>
-
-            <div class="space-y-3">
-              <h3 class="mono text-[var(--muted)]">Percurso</h3>
-              <div class="space-y-5">
-                {TIMELINE.map((t) => (
-                  <div class="space-y-1">
-                    <div class="mono text-[var(--muted)]">{t.period} · {t.place}</div>
-                    <div class="text-base font-medium">{t.title}</div>
-                    <p class="text-sm text-[var(--muted)] leading-snug">{t.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contacto -->
-    <section id="contacto" aria-labelledby="contacto-titulo" class="scroll-mt-14 bg-[#0E0E0E] text-[#EDEDEA]">
-      <div class="wrap py-24 space-y-8">
+    <!-- 4. Contacto -->
+    <section id="contacto" aria-labelledby="contacto-titulo" class="scroll-mt-14 bg-[#0E0E0E] text-[#EDEDEA] border-t border-white/10">
+      <div class="wrap py-24 space-y-8 reveal">
         <div id="contacto-titulo" class="mono text-[#9A9A94]">Contacto</div>
 
         <div>
@@ -129,4 +85,76 @@ import { PROFILE, PROJECTS, USES, TIMELINE } from '../data/portfolio';
   </main>
 
   <Footer />
+
+  <script is:inline>
+    (function () {
+      document.documentElement.classList.add('js-ready');
+
+      var reveals = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var revealObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+        );
+
+        reveals.forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight) {
+            el.classList.add('is-visible');
+          } else {
+            revealObserver.observe(el);
+          }
+        });
+      } else {
+        reveals.forEach(function (el) {
+          el.classList.add('is-visible');
+        });
+      }
+
+      var progressBar = document.getElementById('scroll-progress');
+      var folderTabs = document.querySelectorAll('[data-folder-tab]');
+      var navProjects = document.querySelectorAll('[data-nav-project]');
+      var articles = Array.from(document.querySelectorAll('article[id^="projeto-"]'));
+
+      function setActiveProject(num) {
+        folderTabs.forEach(function (tab) {
+          tab.classList.toggle('is-active', tab.getAttribute('data-folder-tab') === num);
+        });
+        navProjects.forEach(function (link) {
+          var isMatch = link.getAttribute('data-nav-project') === num;
+          link.style.color = isMatch ? 'var(--accent)' : '';
+          link.style.fontWeight = isMatch ? '600' : '';
+        });
+      }
+
+      function onScroll() {
+        var doc = document.documentElement;
+        var max = doc.scrollHeight - window.innerHeight;
+        if (progressBar && max > 0) {
+          var pct = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
+          progressBar.style.width = pct.toFixed(2) + '%';
+        }
+
+        var marker = window.innerHeight * 0.35;
+        var current = null;
+        for (var i = 0; i < articles.length; i++) {
+          var r = articles[i].getBoundingClientRect();
+          if (r.top <= marker) {
+            current = articles[i].id.replace('projeto-', '');
+          }
+        }
+        if (current) setActiveProject(current);
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
 </Layout>

@@ -1,0 +1,188 @@
+---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { PROFILE } from '../data/portfolio';
+
+const candidateFiles = ['rodrigo.jpg', 'rodrigo.jpeg', 'rodrigo.png', 'rodrigo.webp'];
+const foundFile = candidateFiles.find((name) => existsSync(join(process.cwd(), 'public', name)));
+const portraitSrc = foundFile ? `/${foundFile}` : null;
+
+const focusAreas = [
+  { title: 'Web Fullstack', desc: 'Django, Node / Express, React e Astro' },
+  { title: 'Mobile Offline', desc: 'Flutter, Dart e SQLite sincronizado' },
+  { title: 'Modelação & 3D Web', desc: 'Blender, Blockbench e Three.js' },
+  { title: 'UI/UX & Dados', desc: 'Figma, PostgreSQL e PL/pgSQL' },
+];
+
+const careerSteps = [
+  { year: '2026', title: 'Infinity Nova', note: 'Mod Java 21, Three.js & Django (700+ downloads)' },
+  { year: '2026', title: 'LabCD', note: 'App Flutter & API Django/PostgreSQL (Lab. Catarina Domingos)' },
+  { year: '2025/26', title: 'Cyrix', note: 'Portal NIS2 em React, Express e Django' },
+  { year: '2025', title: 'EcoGo', note: 'Identidade, UI Figma & Calculadora CO₂ (ESTGV)' },
+];
+
+const tools = [
+  { code: 'Jv', label: 'Java 21' },
+  { code: 'Py', label: 'Python & Django' },
+  { code: 'Ts', label: 'JS / TypeScript' },
+  { code: 'Re', label: 'React' },
+  { code: 'Fl', label: 'Flutter' },
+  { code: 'Pg', label: 'PostgreSQL' },
+  { code: '3D', label: 'Three.js & Blender' },
+  { code: 'Fg', label: 'Figma' },
+];
+---
+
+<section id="sobre-mim" aria-labelledby="hero-nome" class="paper-grid enter pt-6 pb-16 sm:pb-24">
+  <div class="wrap space-y-10 sm:space-y-12">
+    <!-- Top meta strip -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pb-4 border-b border-[var(--line)] mono text-[var(--muted)]">
+      <span>3.º ANO · ESTGV, VISEU</span>
+      <span>ESTÁGIO CURRICULAR 2026/27</span>
+      <span class="sm:text-right">
+        <a href={`mailto:${PROFILE.email}`} class="link text-[var(--ink)]">{PROFILE.email}</a>
+      </span>
+    </div>
+
+    <!-- Hero headline -->
+    <div class="space-y-3">
+      <h1 id="hero-nome" class="display text-[clamp(2.25rem,10.5vw,11.5rem)]">
+        Rodrigo<br />Albuquerque
+      </h1>
+      <p class="mono text-[var(--muted)] pt-2">
+        Design, Web Fullstack, Mobile &amp; 3D
+      </p>
+    </div>
+
+    <!-- Personal Spread Board (12-col editorial layout) -->
+    <div class="border border-[var(--line)] bg-[var(--surface)]/55 p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+      <!-- Left Column: Portrait Frame (ready for public/rodrigo.jpg) -->
+      <div class="lg:col-span-4 flex flex-col justify-between gap-4">
+        <div
+          data-photo-slot="public/rodrigo.jpg"
+          class="aspect-[4/5] w-full border border-[var(--ink)] bg-[#111113] text-[#EDEDEA] dark-grid relative overflow-hidden flex flex-col justify-between p-5"
+          style="box-shadow: 6px 6px 0 #0E0E0E;"
+        >
+          {portraitSrc ? (
+            <img
+              src={portraitSrc}
+              alt="Fotografia de Rodrigo Albuquerque"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : (
+            <>
+              <!-- Architectural Crosshair Frame Placeholder -->
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 100 125"
+                class="absolute inset-0 w-full h-full pointer-events-none opacity-25"
+                fill="none"
+                stroke="#EDEDEA"
+                stroke-width="0.4"
+              >
+                <line x1="50" y1="0" x2="50" y2="125" stroke-dasharray="2 2" />
+                <line x1="0" y1="62.5" x2="100" y2="62.5" stroke-dasharray="2 2" />
+                <circle cx="50" cy="46" r="16" />
+                <path d="M 24 125 C 24 88, 76 88, 76 125" />
+              </svg>
+
+              <div class="relative z-10 flex items-center justify-between mono text-[10px] text-[#EDEDEA]/70">
+                <span>40.6566° N, 7.9125° W</span>
+                <span>VISEU</span>
+              </div>
+
+              <div class="relative z-10 my-auto text-center select-none">
+                <span class="display text-[clamp(3.5rem,7vw,5.5rem)] text-[#EDEDEA]/90">RA</span>
+              </div>
+            </>
+          )}
+
+          <div class="relative z-10 mt-auto self-start bg-[#EDEDEA] text-[#0E0E0E] px-2.5 py-1 border border-[#0E0E0E] mono text-[10px] font-medium -rotate-1">
+            FEITO POR RODRIGO · FIREBOMB23
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Column: Bio & Foco -->
+      <div class="lg:col-span-4 flex flex-col justify-between gap-8">
+        <div class="space-y-5">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="mono text-[10px] px-2 py-0.5 border border-[var(--ink)] bg-[var(--bg)] -rotate-1">
+              VISEU · PORTUGAL
+            </span>
+            <span class="mono text-[10px] px-2 py-0.5 border border-[var(--ink)] bg-[var(--bg)] rotate-1">
+              ESTGV · L-TDM
+            </span>
+          </div>
+
+          <h2 class="display text-[clamp(1.75rem,3vw,2.75rem)]">
+            Olá! Sou o Rodrigo.
+          </h2>
+
+          <div class="space-y-4 text-sm sm:text-base leading-relaxed text-[var(--ink)]">
+            <p>
+              Estou no 3.º ano de Tecnologias e Design de Multimédia na ESTGV, em Viseu. Gosto tanto da parte visual como do código que faz tudo funcionar — por isso desenho os ecrãs no Figma, modelo em 3D e programo a API e a base de dados por trás.
+            </p>
+            <p>
+              Fora das aulas criei o Infinity Nova, um mod de Minecraft em Java com site próprio em Three.js e Django que já passou os 700 downloads. Procuro estágio para 2026/27 em desenvolvimento web, mobile ou 3D.
+            </p>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-[var(--line)] space-y-3">
+          <div class="mono text-[var(--muted)]">Foco</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {focusAreas.map((item) => (
+              <div class="space-y-0.5">
+                <div class="text-sm font-semibold text-[var(--ink)]">{item.title}</div>
+                <div class="text-xs text-[var(--muted)] leading-snug">{item.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Percurso, Estudos & Ferramentas -->
+      <div class="lg:col-span-4 flex flex-col justify-between gap-8 lg:border-l lg:border-[var(--line)] lg:pl-8">
+        <div class="space-y-6">
+          <div class="space-y-3">
+            <div class="mono text-[var(--muted)]">Percurso &amp; Projetos</div>
+            <ul class="space-y-2.5">
+              {careerSteps.map((step) => (
+                <li class="flex items-baseline gap-3 text-sm leading-snug">
+                  <span class="mono text-[var(--muted)] shrink-0 w-14">{step.year}</span>
+                  <span>
+                    <strong class="font-semibold">{step.title}</strong> — <span class="text-[var(--muted)]">{step.note}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="pt-5 border-t border-[var(--line)] space-y-2">
+            <div class="flex items-center justify-between mono text-[var(--muted)]">
+              <span>Estudos</span>
+              <span>PT · EN</span>
+            </div>
+            <div class="flex items-baseline gap-3 text-sm">
+              <span class="mono text-[var(--muted)] shrink-0">2024—2027</span>
+              <span>Licenciatura em Tecnologias e Design de Multimédia · ESTGV (IPV)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-[var(--line)] space-y-3">
+          <div class="mono text-[var(--muted)]">Ferramentas que uso</div>
+          <div class="grid grid-cols-4 gap-2.5">
+            {tools.map((t) => (
+              <div class="flex flex-col items-start gap-1" title={t.label}>
+                <span class="tool-tile" aria-hidden="true">{t.code}</span>
+                <span class="text-[10px] leading-tight text-[var(--muted)] truncate w-full">{t.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
