@@ -8,6 +8,14 @@ import { PROFILE, PROJECTS } from '../data/portfolio';
 
 const marqueePhrase =
   'RODRIGO ALBUQUERQUE · VISEU · WEB FULLSTACK · MOBILE FLUTTER · 3D NO BROWSER · JAVA 21 · ';
+
+const tabColors: Record<string, string> = {
+  '01': '#F5B82E',
+  '02': '#0047FF',
+  '03': '#F59E0B',
+  '04': '#FF6B00',
+  '05': '#6EE7B7',
+};
 ---
 
 <Layout>
@@ -70,6 +78,11 @@ const marqueePhrase =
               data-folder-tab={p.number}
               class:list={['folder-tab mono', { 'is-active': idx === 0 }]}
             >
+              <span
+                aria-hidden="true"
+                class="w-2 h-2 inline-block shrink-0"
+                style={`background:${tabColors[p.number] || '#0047FF'};`}
+              ></span>
               <span>{p.number}</span>
               <span>{p.title}</span>
             </a>
@@ -179,6 +192,117 @@ const marqueePhrase =
     const reducedMotion = document.documentElement.dataset.motion === 'off';
 
     if (!reducedMotion) {
+      const heroDesk = document.querySelector<HTMLElement>('[data-hero-desk]');
+      const heroFloats = document.querySelectorAll<HTMLElement>('[data-hero-float]');
+
+      if (heroFloats.length > 0) {
+        gsap.from(heroFloats, {
+          scale: 0.78,
+          opacity: 0,
+          y: 36,
+          stagger: 0.08,
+          duration: 0.85,
+          ease: 'back.out(1.35)',
+        });
+
+        heroFloats.forEach((card) => {
+          const depth = parseFloat(card.getAttribute('data-float-depth') || '1');
+          if (heroDesk) {
+            gsap.to(card, {
+              y: -36 * depth,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: heroDesk,
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 0.5,
+              },
+            });
+          }
+        });
+
+        if (heroDesk) {
+          heroDesk.addEventListener('pointermove', (e: PointerEvent) => {
+            if (e.pointerType === 'touch') return;
+            const r = heroDesk.getBoundingClientRect();
+            if (!r.width || !r.height) return;
+            const nx = (e.clientX - r.left) / r.width - 0.5;
+            const ny = (e.clientY - r.top) / r.height - 0.5;
+            heroFloats.forEach((card) => {
+              const depth = parseFloat(card.getAttribute('data-float-depth') || '1');
+              gsap.to(card, {
+                x: nx * 28 * depth,
+                rotateY: nx * 8 * depth,
+                rotateX: -ny * 7 * depth,
+                duration: 0.45,
+                ease: 'power2.out',
+                transformPerspective: 900,
+              });
+            });
+          });
+
+          heroDesk.addEventListener('pointerleave', () => {
+            heroFloats.forEach((card) => {
+              gsap.to(card, {
+                x: 0,
+                rotateX: 0,
+                rotateY: 0,
+                duration: 0.6,
+                ease: 'power3.out',
+              });
+            });
+          });
+        }
+      }
+
+      const polaroidCards = document.querySelectorAll<HTMLElement>('[data-polaroid-card]');
+      if (polaroidCards.length > 0) {
+        gsap.from(polaroidCards, {
+          y: 30,
+          opacity: 0,
+          scale: 0.92,
+          stagger: 0.08,
+          duration: 0.6,
+          ease: 'back.out(1.4)',
+          scrollTrigger: {
+            trigger: polaroidCards[0],
+            start: 'top 90%',
+            once: true,
+          },
+        });
+      }
+
+      document.querySelectorAll<HTMLElement>('[data-gsap-card]').forEach((card) => {
+        gsap.from(card, {
+          y: 32,
+          opacity: 0,
+          duration: 0.65,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 90%',
+            once: true,
+          },
+        });
+      });
+
+      document.querySelectorAll<HTMLElement>('[data-gsap-dossier]').forEach((dossier) => {
+        const blocks = Array.from(dossier.children);
+        if (!blocks.length) return;
+        gsap.from(blocks, {
+          y: 26,
+          opacity: 0,
+          stagger: 0.08,
+          duration: 0.55,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: dossier,
+            start: 'top 88%',
+            once: true,
+          },
+        });
+      });
+
       document.querySelectorAll<HTMLElement>('[data-gsap-stage]').forEach((stage) => {
         gsap.fromTo(
           stage,

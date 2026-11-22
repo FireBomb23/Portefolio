@@ -9,14 +9,12 @@ interface Props {
 
 const { project } = Astro.props;
 
-const isMediaFirst = project.number === '02' || project.number === '04';
-
 const swatchesMap: Record<string, string[]> = {
-  'infinity-nova': ['#090A0F', '#E5B842', '#00F0FF', '#A855F7'],
-  labcd: ['#DCE3E8', '#0E0E0E', '#0047FF', '#EDEDEA'],
-  cyrix: ['#0F172A', '#EAB308', '#F8FAFC', '#16A34A'],
-  'cg-3d-lab': ['#111111', '#00F0FF', '#EA7600', '#EDEDEA'],
-  ecogo: ['#1E6B45', '#F2F0EB', '#0E0E0E', '#A7F3D0'],
+  'infinity-nova': ['#08090F', '#F5B82E', '#00F0FF', '#A855F7'],
+  labcd: ['#D8E2EB', '#0047FF', '#0D131A', '#EDF2F7'],
+  cyrix: ['#070D19', '#F59E0B', '#10B981', '#F8FAFC'],
+  'cg-3d-lab': ['#141416', '#FF6B00', '#00F0FF', '#F3F3F0'],
+  ecogo: ['#0D3B26', '#F4EFE6', '#6EE7B7', '#0E0E0E'],
 };
 
 const swatches = swatchesMap[project.slug] || [project.ground, project.ink, '#0047FF', '#EDEDEA'];
@@ -47,151 +45,271 @@ for (const tech of project.stack) {
     uniqueTools.push(tech);
   }
 }
+
+const novaSpecs = [
+  { label: 'Geometria', value: '8 Modelos .geo.json' },
+  { label: 'Rigging Manopla', value: '19 Bones · 103 Cubos' },
+  { label: 'Runtime Mod', value: 'NeoForge 21.1.86+' },
+  { label: 'Admin Segurança', value: 'Django 5.2 + 2FA TOTP' },
+];
+
+const cyrixScreens = [
+  {
+    src: '/projetos/cyrix/servicos.png',
+    title: '02 · CATÁLOGO DE SERVIÇOS',
+    alt: 'Página de Serviços da Cyrix',
+  },
+  {
+    src: '/projetos/cyrix/sobre.png',
+    title: '03 · EQUIPA & SOBRE NÓS',
+    alt: 'Página Sobre Nós da Cyrix',
+  },
+  {
+    src: '/projetos/cyrix/login.png',
+    title: '04 · ÁREA RESTRITA JWT + 2FA',
+    alt: 'Ecrã de acesso à Área Restrita da Cyrix',
+  },
+];
 ---
 
-<article id={`projeto-${project.number}`} class="scroll-mt-14 border-t border-[var(--line)]">
-  <div class="wrap py-14 sm:py-20 space-y-10">
-    <!-- 12-Col Side-by-Side Hero Spread -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-      <!-- Editorial Dossier Column (5 cols) -->
+{/* ========================================================================
+    PROJETO 01 — INFINITY NOVA (Deep Space Obsidian · Supernova Gold & Cyan)
+   ======================================================================== */}
+{project.slug === 'infinity-nova' && (
+  <article id={`projeto-${project.number}`} class="scroll-mt-14 space-grid text-[#F0F2F5] border-t border-white/15 overflow-x-clip">
+    <div class="wrap py-16 sm:py-24 space-y-12">
+      <!-- Game Release Top Header -->
       <div
-        data-gsap-dossier
-        class:list={[
-          'lg:col-span-5 space-y-6',
-          isMediaFirst ? 'lg:order-2' : 'lg:order-1',
-        ]}
+        data-gsap-card
+        class="border border-[#F5B82E]/35 bg-[#11131F]/80 p-6 sm:p-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6"
       >
-        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--line)]">
-          <div class="flex items-center gap-2 mono text-[var(--muted)]">
-            <span class="px-2 py-0.5 bg-[var(--ink)] text-[var(--bg)] font-medium">
-              {project.number} / 05
+        <div class="space-y-3 max-w-3xl">
+          <div class="flex flex-wrap items-center gap-2.5 mono text-[11px]">
+            <span class="px-2.5 py-1 bg-[#F5B82E] text-[#08090F] font-bold">
+              PROJETO 01 / 05 · MOD JAVA 21 &amp; 3D WEB
             </span>
-            <span>{project.kind} · {project.year}</span>
+            <span class="text-[#00F0FF]">MINECRAFT 1.21.1 · 715+ DOWNLOADS</span>
           </div>
-          <div class="flex flex-wrap items-center gap-2">
+          <h2 data-gsap-title class="display text-[clamp(2.5rem,6vw,5.5rem)] text-[#F5B82E]">
+            {project.title}
+          </h2>
+          <p class="text-base sm:text-xl text-[#F0F2F5]/85 leading-snug">
+            {project.oneLiner}
+          </p>
+          <div class="mono text-[11px] text-[#9496A1]">
+            {project.context} · {project.role}
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          {project.links.map((l) => (
+            <a
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-3.5 py-2 border border-[#F5B82E]/60 bg-[#08090F] hover:bg-[#F5B82E] hover:text-[#08090F] transition-colors mono text-xs font-semibold text-[#F5B82E]"
+            >
+              {l.label} ↗
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- 12-Col Main Arena: Dark Obsidian Dossier (5) + Sticky HUD 3D Arena (7) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        <div data-gsap-dossier class="lg:col-span-5 space-y-5">
+          <div class="border border-white/10 bg-[#11131F]/90 p-6 space-y-2">
+            <h3 class="mono text-[11px] text-[#F5B82E] font-semibold">01 · A IDEIA NO JOGO</h3>
+            <p class="text-[15px] sm:text-base leading-[1.68] text-[#F0F2F5]/90">
+              {project.about}
+            </p>
+          </div>
+
+          <div class="border border-white/10 bg-[#11131F]/90 p-6 space-y-2">
+            <h3 class="mono text-[11px] text-[#00F0FF] font-semibold">02 · JAVA 21, THREE.JS &amp; 2FA</h3>
+            <p class="text-[15px] sm:text-base leading-[1.68] text-[#F0F2F5]/90">
+              {project.work}
+            </p>
+          </div>
+
+          <!-- 2x2 Technical Spec Grid -->
+          <div class="grid grid-cols-2 gap-3">
+            {novaSpecs.map((spec) => (
+              <div class="border border-white/10 bg-[#0D0F18] p-4 space-y-1">
+                <div class="mono text-[10px] text-[#9496A1]">{spec.label}</div>
+                <div class="text-sm font-semibold text-[#F0F2F5]">{spec.value}</div>
+              </div>
+            ))}
+          </div>
+
+          <!-- Stack & Neon Swatches -->
+          <div class="border border-white/15 bg-[#11131F]/90 p-4 flex flex-wrap items-center justify-between gap-6">
+            <div class="space-y-2">
+              <div class="mono text-[11px] text-[#9496A1]">Ferramentas usadas</div>
+              <div class="flex flex-wrap gap-2">
+                {uniqueTools.map((tech) => (
+                  <span class="border border-white/15 bg-black/40 p-1 inline-flex">
+                    <ToolIcon name={tech} size={32} />
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="mono text-[11px] text-[#9496A1]">Paleta</div>
+              <div class="flex items-center gap-1.5">
+                {swatches.map((hex) => (
+                  <span
+                    title={hex}
+                    aria-label={`Cor ${hex}`}
+                    class="w-6 h-6 border border-white/25 inline-block"
+                    style={`background:${hex};`}
+                  ></span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 lg:sticky lg:top-20">
+          <div
+            data-gsap-stage
+            class="relative border-2 border-[#F5B82E]/60 bg-[#05060A] p-1.5 shadow-[0_0_50px_-12px_rgba(0,240,255,0.25)]"
+          >
+            <div class="border border-[#00F0FF]/25 overflow-hidden">
+              <InfinityNovaViewer3D initial="manopla" instanceId="nova" compact={true} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Pixel-Art Banners & UV Texture Inspector Deck -->
+      <div data-gsap-gallery class="space-y-4 pt-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {project.gallery.slice(0, 3).map((item) => (
+            <div
+              class:list={[
+                'media border border-[#F5B82E]/30 bg-[#05060A] p-4 sm:p-8 flex items-center justify-center',
+                item.span === 'full' ? 'md:col-span-2' : 'aspect-[16/10]',
+              ]}
+            >
+              <img
+                src={item.src}
+                alt={item.alt}
+                class:list={[
+                  item.span === 'full' ? 'w-full h-auto object-contain' : 'w-full h-full object-contain',
+                  { pixel: item.pixelated },
+                ]}
+              />
+            </div>
+          ))}
+        </div>
+
+        <!-- Dedicated 64x64 UV Inspector Row -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {project.gallery.slice(3).map((item, idx) => (
+            <div class="border border-[#00F0FF]/25 bg-[#0D0F18] p-5 space-y-4">
+              <div class="flex items-center justify-between mono text-[11px]">
+                <span class="text-[#00F0FF]">
+                  {idx === 0 ? 'UV MAP 01 · MANOPLA 64×64 PX' : 'UV MAP 02 · TESSERACT 64×64 PX'}
+                </span>
+                <span class="text-[#9496A1]">BEDROCK / GECKOLIB</span>
+              </div>
+              <div class="media aspect-[16/10] bg-[#05060A] border border-white/10 p-6 flex items-center justify-center">
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  class="w-full h-full object-contain pixel"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </article>
+)}
+
+{/* ========================================================================
+    PROJETO 02 — LABCD (Clinical Blueprint Slate · Cobalt & Offline Sync)
+   ======================================================================== */}
+{project.slug === 'labcd' && (
+  <article id={`projeto-${project.number}`} class="scroll-mt-14 blueprint-grid text-[#0D131A] border-t-2 border-[#0D131A] overflow-x-clip">
+    <div class="wrap py-16 sm:py-24 space-y-10">
+      <!-- Clinical Blueprint Specification Header -->
+      <div
+        data-gsap-card
+        class="border-2 border-[#0D131A] bg-[#EDF2F7] p-6 sm:p-8 shadow-[8px_8px_0_#0D131A] grid grid-cols-1 lg:grid-cols-12 gap-6 items-end"
+      >
+        <div class="lg:col-span-8 space-y-3">
+          <div class="flex flex-wrap items-center gap-2.5 mono text-[11px]">
+            <span class="px-2.5 py-1 bg-[#0047FF] text-[#FFFFFF] font-semibold">
+              PROJETO 02 / 05 · MOBILE FLUTTER &amp; POSTGRESQL
+            </span>
+            <span class="text-[#0D131A] font-medium">MODO OFFLINE-FIRST · 15 TABELAS</span>
+          </div>
+          <h2 data-gsap-title class="display text-[clamp(2.5rem,5.5vw,5rem)] text-[#0D131A]">
+            {project.title}
+          </h2>
+          <p class="text-base sm:text-lg text-[#35424E] leading-snug max-w-3xl">
+            {project.oneLiner}
+          </p>
+        </div>
+
+        <div class="lg:col-span-4 flex flex-col lg:items-end gap-3">
+          <div class="mono text-[11px] text-[#35424E] lg:text-right">
+            {project.context} · {project.role}
+          </div>
+          <div class="flex flex-wrap gap-2">
             {project.links.map((l) => (
               <a
                 href={l.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="px-2.5 py-1 border border-[var(--ink)] bg-[var(--bg)] hover:bg-[var(--ink)] hover:text-[var(--bg)] transition-colors mono text-[11px] font-medium text-[var(--ink)]"
+                class="px-3.5 py-2 border-2 border-[#0D131A] bg-[#FFFFFF] hover:bg-[#0D131A] hover:text-[#FFFFFF] transition-colors mono text-xs font-semibold shadow-[3px_3px_0_#0047FF]"
               >
                 {l.label} ↗
               </a>
             ))}
           </div>
         </div>
-
-        <div class="space-y-3">
-          <h2 data-gsap-title class="display text-[clamp(2.25rem,5vw,4.75rem)]">
-            {project.title}
-          </h2>
-          <p class="text-base sm:text-lg text-[var(--muted)] leading-snug">
-            {project.oneLiner}
-          </p>
-          <div class="mono text-[11px] text-[var(--muted)]">
-            {project.context} · {project.role}
-          </div>
-        </div>
-
-        <div class="space-y-5 pt-4 border-t border-[var(--line)]">
-          <div class="space-y-1.5">
-            <h3 class="mono text-[11px] text-[var(--accent)] font-medium">01 · O PROJETO</h3>
-            <p class="text-[15px] sm:text-base leading-[1.68] text-[var(--ink)]/90 max-w-[65ch]">
-              {project.about}
-            </p>
-          </div>
-          <div class="space-y-1.5">
-            <h3 class="mono text-[11px] text-[var(--muted)] font-medium">02 · O QUE CONSTRUÍ</h3>
-            <p class="text-[15px] sm:text-base leading-[1.68] text-[var(--ink)]/90 max-w-[65ch]">
-              {project.work}
-            </p>
-          </div>
-        </div>
-
-        <ul class="divide-y divide-[var(--line)] border-t border-b border-[var(--line)]">
-          {project.details.map((d) => (
-            <li class="py-2 text-sm leading-snug flex items-baseline gap-2.5">
-              <span class="mono text-[var(--accent)] shrink-0">+</span>
-              <span>{d}</span>
-            </li>
-          ))}
-        </ul>
-
-        <!-- Ferramentas usadas + Paleta de cores -->
-        <div class="border border-[var(--line)] bg-[var(--surface)]/45 p-4 flex flex-wrap items-center justify-between gap-6">
-          <div class="space-y-2">
-            <div class="mono text-[11px] text-[var(--muted)]">Ferramentas usadas</div>
-            <div class="flex flex-wrap gap-2">
-              {uniqueTools.map((tech) => (
-                <ToolIcon name={tech} size={34} />
-              ))}
-            </div>
-          </div>
-
-          <div class="space-y-2">
-            <div class="mono text-[11px] text-[var(--muted)]">Paleta</div>
-            <div class="flex items-center gap-1.5">
-              {swatches.map((hex) => (
-                <span
-                  title={hex}
-                  aria-label={`Cor ${hex}`}
-                  class="w-6 h-6 border border-[var(--ink)]/25 inline-block"
-                  style={`background:${hex};`}
-                ></span>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
 
-      <!-- Primary Visual Stage Column (7 cols, sticky while reading dossier) -->
-      <div
-        class:list={[
-          'lg:col-span-7 lg:sticky lg:top-20',
-          isMediaFirst ? 'lg:order-1' : 'lg:order-2',
-        ]}
-      >
-        <div data-gsap-stage>
-        {project.slug === 'infinity-nova' && (
-          <div class="border border-[var(--ink)] bg-[#090A0F] overflow-hidden">
-            <InfinityNovaViewer3D initial="manopla" instanceId="nova" compact={true} />
-          </div>
-        )}
-
-        {project.slug === 'labcd' && (
+      <!-- Reversed 12-Col Workbench: Left Sticky Interactive Stage (7) + Right Hard-Shadow Datasheet (5) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        <div class="lg:col-span-7 lg:sticky lg:top-20">
           <div
-            class="border border-[var(--ink)] p-5 sm:p-7 space-y-6"
-            style={`background:${project.ground}; color:${project.ink};`}
+            data-gsap-stage
+            class="border-2 border-[#0D131A] bg-[#EDF2F7] p-5 sm:p-7 shadow-[10px_10px_0_#0047FF] space-y-6"
           >
             <!-- App Window Header -->
-            <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[#0E0E0E]/15">
-              <span class="mono font-medium text-[#0E0E0E]">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b-2 border-[#0D131A]/15">
+              <span class="mono font-semibold text-[#0D131A]">
                 LabCD · Produção Protética · Modo Offline Ativo — SQLite Local
               </span>
               <span class="inline-flex items-center gap-1.5" aria-hidden="true">
-                <span class="w-2.5 h-2.5 border border-[#0E0E0E]"></span>
-                <span class="w-2.5 h-2.5 border border-[#0E0E0E]"></span>
-                <span class="w-2.5 h-2.5 bg-[#0E0E0E]"></span>
+                <span class="w-2.5 h-2.5 border border-[#0D131A]"></span>
+                <span class="w-2.5 h-2.5 border border-[#0D131A]"></span>
+                <span class="w-2.5 h-2.5 bg-[#0047FF]"></span>
               </span>
             </div>
 
             <!-- 3-Column Prosthetic Kanban -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {labcdKanban.map((col) => (
-                <div class="border border-[#0E0E0E]/20 bg-[#EDEDEA] p-4 space-y-2">
-                  <div class="mono text-[11px] text-[#0047FF] font-medium">{col.bench}</div>
-                  <div class="text-sm font-semibold text-[#0E0E0E]">{col.card}</div>
-                  <div class="mono text-[11px] text-[#62625D]">{col.detail}</div>
+                <div class="border-2 border-[#0D131A] bg-[#FFFFFF] p-4 space-y-2 shadow-[3px_3px_0_#0D131A]">
+                  <div class="mono text-[11px] text-[#0047FF] font-semibold">{col.bench}</div>
+                  <div class="text-sm font-bold text-[#0D131A]">{col.card}</div>
+                  <div class="mono text-[11px] text-[#35424E]">{col.detail}</div>
                 </div>
               ))}
             </div>
 
             <!-- Architectural Odontograma SVG -->
-            <div class="border border-[#0E0E0E]/20 bg-[#EDEDEA]/75 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="border-2 border-[#0D131A] bg-[#FFFFFF] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div class="space-y-1">
-                <div class="mono text-[11px] text-[#0E0E0E]/75">Odontograma &amp; Ficheiro .STL</div>
-                <div class="text-sm font-medium">Dentes 11–28 / 31–48 · Validação binária até 100 MB</div>
+                <div class="mono text-[11px] text-[#0047FF] font-semibold">Odontograma &amp; Ficheiro .STL</div>
+                <div class="text-sm font-semibold text-[#0D131A]">Dentes 11–28 / 31–48 · Validação binária até 100 MB</div>
               </div>
               <svg viewBox="0 0 220 56" width="220" height="56" aria-hidden="true" class="shrink-0">
                 {Array.from({ length: 12 }).map((_, idx) => {
@@ -205,7 +323,7 @@ for (const tech of project.stack) {
                       height="18"
                       rx="2"
                       fill={active ? '#0047FF' : 'none'}
-                      stroke="#0E0E0E"
+                      stroke="#0D131A"
                       stroke-width="1.2"
                     />
                   );
@@ -220,8 +338,8 @@ for (const tech of project.stack) {
                       width="13"
                       height="18"
                       rx="2"
-                      fill={active ? '#0E0E0E' : 'none'}
-                      stroke="#0E0E0E"
+                      fill={active ? '#0D131A' : 'none'}
+                      stroke="#0D131A"
                       stroke-width="1.2"
                     />
                   );
@@ -230,32 +348,190 @@ for (const tech of project.stack) {
             </div>
 
             <!-- Pulsing Data-Lane Architecture Diagram -->
-            <div class="pt-2 space-y-2">
-              <div class="mono text-[11px] text-[#0E0E0E]/70">Sincronização offline-first</div>
+            <div class="pt-2 space-y-2.5">
+              <div class="mono text-[11px] text-[#35424E] font-semibold">SINCRONIZAÇÃO OFFLINE-FIRST</div>
               <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 items-center">
-                <div class="border border-[#0E0E0E] bg-[#EDEDEA] px-3 py-2.5 text-center mono text-[11px]">
+                <div class="border-2 border-[#0D131A] bg-[#FFFFFF] px-3 py-2.5 text-center mono text-[11px] font-semibold">
                   Flutter + SQLite
                 </div>
                 <div class="pulse-lane hidden sm:block"><div class="pulse-dot"></div></div>
-                <div class="border border-[#0E0E0E] bg-[#EDEDEA] px-3 py-2.5 text-center mono text-[11px]">
+                <div class="border-2 border-[#0D131A] bg-[#FFFFFF] px-3 py-2.5 text-center mono text-[11px] font-semibold">
                   Django REST API
                 </div>
                 <div class="pulse-lane hidden sm:block"><div class="pulse-dot" style="animation-delay: 0.9s;"></div></div>
-                <div class="border border-[#0E0E0E] bg-[#0E0E0E] text-[#EDEDEA] px-3 py-2.5 text-center mono text-[11px]">
+                <div class="border-2 border-[#0D131A] bg-[#0D131A] text-[#FFFFFF] px-3 py-2.5 text-center mono text-[11px] font-semibold">
                   PostgreSQL · 15 Tabelas
                 </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
 
-        {project.slug === 'cyrix' && (
-          <div class="border border-[var(--ink)] bg-[#0F172A] p-4 sm:p-6 pb-8 relative overflow-hidden">
-            <!-- Browser Window Chrome -->
+        <div data-gsap-dossier class="lg:col-span-5 space-y-5">
+          <div class="border-2 border-[#0D131A] bg-[#EDF2F7] p-6 shadow-[6px_6px_0_#0D131A] space-y-2">
+            <h3 class="mono text-[11px] text-[#0047FF] font-semibold">01 · O PROBLEMA NAS BANCADAS</h3>
+            <p class="text-[15px] sm:text-base leading-[1.68] text-[#0D131A]">
+              {project.about}
+            </p>
+          </div>
+
+          <div class="border-2 border-[#0D131A] bg-[#EDF2F7] p-6 shadow-[6px_6px_0_#0D131A] space-y-2">
+            <h3 class="mono text-[11px] text-[#0D131A] font-semibold">02 · SQLITE OFFLINE &amp; TRIGGERS PL/PGSQL</h3>
+            <p class="text-[15px] sm:text-base leading-[1.68] text-[#0D131A]">
+              {project.work}
+            </p>
+          </div>
+
+          <ul class="border-2 border-[#0D131A] bg-[#FFFFFF] divide-y-2 divide-[#0D131A]/15">
+            {project.details.map((d, i) => (
+              <li class="p-3.5 text-sm leading-snug flex items-baseline gap-3">
+                <span class="mono text-xs font-bold text-[#0047FF] shrink-0">0{i + 1}</span>
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="border-2 border-[#0D131A] bg-[#EDF2F7] p-4 flex flex-wrap items-center justify-between gap-6">
+            <div class="space-y-2">
+              <div class="mono text-[11px] text-[#35424E] font-semibold">Ferramentas usadas</div>
+              <div class="flex flex-wrap gap-2">
+                {uniqueTools.map((tech) => (
+                  <ToolIcon name={tech} size={34} />
+                ))}
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="mono text-[11px] text-[#35424E] font-semibold">Paleta</div>
+              <div class="flex items-center gap-1.5">
+                {swatches.map((hex) => (
+                  <span
+                    title={hex}
+                    aria-label={`Cor ${hex}`}
+                    class="w-6 h-6 border-2 border-[#0D131A] inline-block"
+                    style={`background:${hex};`}
+                  ></span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+)}
+
+{/* ========================================================================
+    PROJETO 03 — CYRIX (Cyber Defense Midnight Navy · Amber & Emerald)
+   ======================================================================== */}
+{project.slug === 'cyrix' && (
+  <article id={`projeto-${project.number}`} class="scroll-mt-14 navy-grid text-[#F8FAFC] border-t border-white/15 overflow-x-clip">
+    <div class="wrap py-16 sm:py-24 space-y-12">
+      <!-- Tactical Command Header -->
+      <div
+        data-gsap-card
+        class="border border-white/15 bg-[#0F172A]/85 p-6 sm:p-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6"
+      >
+        <div class="space-y-3 max-w-3xl">
+          <div class="flex flex-wrap items-center gap-3 mono text-[11px]">
+            <span class="px-2.5 py-1 bg-[#F59E0B] text-[#070D19] font-bold">
+              PROJETO 03 / 05 · PORTAL NIS2 &amp; BACKOFFICE
+            </span>
+            <span class="inline-flex items-center gap-2 px-2.5 py-1 border border-[#10B981]/50 bg-[#10B981]/10 text-[#34D399]">
+              <span class="w-2 h-2 bg-[#10B981] inline-block" aria-hidden="true"></span>
+              ONLINE · CYRIX-MU.VERCEL.APP
+            </span>
+          </div>
+          <h2 data-gsap-title class="display text-[clamp(2.5rem,5.5vw,5.25rem)] text-[#F8FAFC]">
+            {project.title}
+          </h2>
+          <p class="text-base sm:text-xl text-[#CBD5E1] leading-snug">
+            {project.oneLiner}
+          </p>
+          <div class="mono text-[11px] text-[#94A3B8]">
+            {project.context} · {project.role}
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          {project.links.map((l, idx) => (
+            <a
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={[
+                'px-3.5 py-2 border transition-colors mono text-xs font-semibold',
+                idx === 0
+                  ? 'border-[#F59E0B] bg-[#F59E0B] text-[#070D19] hover:bg-[#FBBF24]'
+                  : 'border-white/30 bg-[#070D19] text-[#F8FAFC] hover:border-[#F59E0B] hover:text-[#F59E0B]',
+              ]}
+            >
+              {l.label} ↗
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- 12-Col Command Split: Amber-Accented Dossier (5) + Sticky Browser + Mobile Overlay (7) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        <div data-gsap-dossier class="lg:col-span-5 space-y-5">
+          <div class="bg-[#0F172A] border border-white/10 border-l-4 border-l-[#F59E0B] p-6 space-y-2">
+            <h3 class="mono text-[11px] text-[#F59E0B] font-semibold">01 · SEGURANÇA &amp; DIRETIVA NIS2</h3>
+            <p class="text-[15px] sm:text-base leading-[1.68] text-[#F8FAFC]/90">
+              {project.about}
+            </p>
+          </div>
+
+          <div class="bg-[#0F172A] border border-white/10 border-l-4 border-l-[#10B981] p-6 space-y-2">
+            <h3 class="mono text-[11px] text-[#34D399] font-semibold">02 · EXPRESS + DJANGO NA MESMA BD</h3>
+            <p class="text-[15px] sm:text-base leading-[1.68] text-[#F8FAFC]/90">
+              {project.work}
+            </p>
+          </div>
+
+          <ul class="border border-white/15 bg-[#0B1221] divide-y divide-white/10">
+            {project.details.map((d) => (
+              <li class="p-3.5 text-sm leading-snug flex items-baseline gap-2.5 text-[#E2E8F0]">
+                <span class="mono text-[#F59E0B] shrink-0">+</span>
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="border border-white/15 bg-[#0F172A] p-4 flex flex-wrap items-center justify-between gap-6">
+            <div class="space-y-2">
+              <div class="mono text-[11px] text-[#94A3B8]">Ferramentas usadas</div>
+              <div class="flex flex-wrap gap-2">
+                {uniqueTools.map((tech) => (
+                  <span class="border border-white/15 bg-black/30 p-1 inline-flex">
+                    <ToolIcon name={tech} size={32} />
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="mono text-[11px] text-[#94A3B8]">Paleta</div>
+              <div class="flex items-center gap-1.5">
+                {swatches.map((hex) => (
+                  <span
+                    title={hex}
+                    aria-label={`Cor ${hex}`}
+                    class="w-6 h-6 border border-white/25 inline-block"
+                    style={`background:${hex};`}
+                  ></span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 lg:sticky lg:top-20">
+          <div data-gsap-stage class="border border-white/20 bg-[#0F172A] p-4 sm:p-6 pb-8 relative">
             <div class="border border-white/15 bg-[#020617] overflow-hidden">
-              <div class="px-3 py-2 border-b border-white/10 flex items-center justify-between mono text-[11px] text-white/70">
-                <span>cyrix-mu.vercel.app</span>
-                <span>React + Express + PostgreSQL</span>
+              <div class="px-3.5 py-2.5 border-b border-white/10 flex items-center justify-between mono text-[11px] text-white/75">
+                <span class="text-[#F59E0B]">cyrix-mu.vercel.app</span>
+                <span>React + Express + Django</span>
               </div>
               {project.cover.type === 'image' && (
                 <div class="media">
@@ -268,8 +544,11 @@ for (const tech of project.stack) {
               )}
             </div>
 
-            <!-- Layered Mobile Frame -->
-            <div class="mt-4 sm:mt-0 sm:absolute sm:bottom-4 sm:right-4 sm:w-[26%] w-44 mx-auto border-2 border-white/25 bg-[#0F172A] shadow-2xl overflow-hidden">
+            <!-- Layered Mobile Frame with Amber Trim -->
+            <div class="mt-4 sm:mt-0 sm:absolute sm:bottom-4 sm:right-4 sm:w-[27%] w-44 mx-auto border-2 border-[#F59E0B] bg-[#020617] shadow-2xl overflow-hidden">
+              <div class="px-2 py-1 bg-[#0F172A] border-b border-white/10 mono text-[9px] text-[#F59E0B]">
+                MOBILE VIEW
+              </div>
               <img
                 src="/projetos/cyrix/home-mobile.png"
                 alt="Versão mobile do portal Cyrix"
@@ -277,24 +556,307 @@ for (const tech of project.stack) {
               />
             </div>
           </div>
-        )}
+        </div>
+      </div>
 
-        {project.slug === 'cg-3d-lab' && (
-          <div class="border border-[var(--ink)] bg-[#111111] overflow-hidden">
+      <!-- Asymmetric 4-Screen Magazine Bento -->
+      <div data-gsap-gallery class="space-y-4 pt-2">
+        <div class="border border-white/15 bg-[#020617] overflow-hidden">
+          <div class="px-4 py-2.5 border-b border-white/10 bg-[#0F172A] flex items-center justify-between mono text-[11px]">
+            <span class="text-[#F59E0B]">01 · DIAGNÓSTICO &amp; AUTOAVALIAÇÃO NIS2</span>
+            <span class="text-[#94A3B8]">FRONTEND REACT</span>
+          </div>
+          <div class="media">
+            <img
+              src="/projetos/cyrix/nis2.png"
+              alt="Página da diretiva NIS2 com autoavaliação na Cyrix"
+              class="w-full h-auto object-cover object-top"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {cyrixScreens.map((scr) => (
+            <div class="border border-white/15 bg-[#020617] overflow-hidden flex flex-col">
+              <div class="px-3.5 py-2 border-b border-white/10 bg-[#0F172A] mono text-[10px] text-[#E2E8F0]">
+                {scr.title}
+              </div>
+              <div class="media aspect-[16/10] bg-[#0F172A]">
+                <img
+                  src={scr.src}
+                  alt={scr.alt}
+                  class="w-full h-full object-cover object-top"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </article>
+)}
+
+{/* ========================================================================
+    PROJETO 04 — COMPUTAÇÃO GRÁFICA (3D Viewport Charcoal · Blender Orange & Cyan)
+   ======================================================================== */}
+{project.slug === 'cg-3d-lab' && (
+  <article id={`projeto-${project.number}`} class="scroll-mt-14 viewport-grid text-[#F3F3F0] border-t border-white/15 overflow-x-clip">
+    <div class="wrap py-16 sm:py-24 space-y-12">
+      <!-- 3D Viewport Toolbar Header -->
+      <div
+        data-gsap-card
+        class="border border-white/15 bg-[#1C1C21] p-6 sm:p-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6"
+      >
+        <div class="space-y-3 max-w-3xl">
+          <div class="flex flex-wrap items-center gap-2 mono text-[11px]">
+            <span class="px-2.5 py-1 bg-[#FF6B00] text-[#0E0E0E] font-bold">
+              PROJETO 04 / 05 · COMPUTAÇÃO GRÁFICA &amp; WEBGL
+            </span>
+            <span class="px-2 py-1 border border-white/20 bg-[#141416] text-[#FF6B00]">X: 0.00</span>
+            <span class="px-2 py-1 border border-white/20 bg-[#141416] text-[#34D399]">Y: 1.00</span>
+            <span class="px-2 py-1 border border-white/20 bg-[#141416] text-[#00F0FF]">Z: 0.00</span>
+          </div>
+          <h2 data-gsap-title class="display text-[clamp(2.35rem,5.2vw,4.75rem)] text-[#F3F3F0]">
+            {project.title}
+          </h2>
+          <p class="text-base sm:text-xl text-[#D4D4CE] leading-snug">
+            {project.oneLiner}
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3 shrink-0">
+          <span class="mono text-[11px] text-[#9A9A94]">{project.context}</span>
+          {project.links.map((l) => (
+            <a
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-3.5 py-2 border border-[#FF6B00]/60 bg-[#141416] hover:bg-[#FF6B00] hover:text-[#0E0E0E] transition-colors mono text-xs font-semibold text-[#FF6B00]"
+            >
+              {l.label} ↗
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- 12-Col Studio Split: Left Sticky 3D Tesseract Viewport (7) + Right Dark Studio Dossier (5) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        <div class="lg:col-span-7 lg:sticky lg:top-20">
+          <div
+            data-gsap-stage
+            class="border-2 border-[#FF6B00]/60 bg-[#0B0B0D] shadow-[0_0_45px_-12px_rgba(255,107,0,0.22)] overflow-hidden"
+          >
             <InfinityNovaViewer3D initial="tesseract" instanceId="cg" compact={true} />
           </div>
-        )}
+        </div>
 
-        {project.slug === 'ecogo' && (
+        <div data-gsap-dossier class="lg:col-span-5 space-y-5">
+          <div class="border border-white/10 bg-[#1C1C21] p-6 space-y-2">
+            <h3 class="mono text-[11px] text-[#FF6B00] font-semibold">01 · TOPOLOGIA, LUZ &amp; RIGGING</h3>
+            <p class="text-[15px] sm:text-base leading-[1.68] text-[#F3F3F0]/90">
+              {project.about}
+            </p>
+          </div>
+
+          <div class="border border-white/10 bg-[#1C1C21] p-6 space-y-2">
+            <h3 class="mono text-[11px] text-[#00F0FF] font-semibold">02 · BLENDER &amp; BLOCKBENCH PARA THREE.JS</h3>
+            <p class="text-[15px] sm:text-base leading-[1.68] text-[#F3F3F0]/90">
+              {project.work}
+            </p>
+          </div>
+
+          <ul class="border border-white/15 bg-[#111114] divide-y divide-white/10">
+            {project.details.map((d) => (
+              <li class="p-3.5 text-sm leading-snug flex items-baseline gap-2.5 text-[#E4E4DF]">
+                <span class="mono text-[#FF6B00] shrink-0">+</span>
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="border border-white/15 bg-[#1C1C21] p-4 flex flex-wrap items-center justify-between gap-6">
+            <div class="space-y-2">
+              <div class="mono text-[11px] text-[#9A9A94]">Ferramentas usadas</div>
+              <div class="flex flex-wrap gap-2">
+                {uniqueTools.map((tech) => (
+                  <span class="border border-white/15 bg-black/30 p-1 inline-flex">
+                    <ToolIcon name={tech} size={32} />
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="mono text-[11px] text-[#9A9A94]">Paleta</div>
+              <div class="flex items-center gap-1.5">
+                {swatches.map((hex) => (
+                  <span
+                    title={hex}
+                    aria-label={`Cor ${hex}`}
+                    class="w-6 h-6 border border-white/25 inline-block"
+                    style={`background:${hex};`}
+                  ></span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom 12-Col UV & Pipeline Deck -->
+      <div data-gsap-gallery class="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-2">
+        {project.gallery.map((item, idx) => (
+          <div class="lg:col-span-3 border border-white/15 bg-[#0B0B0D] p-4 flex flex-col justify-between gap-3">
+            <div class:list={['mono text-[10px]', idx === 0 ? 'text-[#FF6B00]' : 'text-[#00F0FF]']}>
+              {idx === 0 ? 'UV 01 · MANOPLA 64×64' : 'UV 02 · TESSERACT 64×64'}
+            </div>
+            <div class="media aspect-square bg-[#141416] border border-white/10 p-5 flex items-center justify-center">
+              <img
+                src={item.src}
+                alt={item.alt}
+                class="w-full h-full object-contain pixel"
+              />
+            </div>
+          </div>
+        ))}
+
+        <div class="lg:col-span-6 border border-white/15 bg-[#1C1C21] p-6 sm:p-8 flex flex-col justify-between gap-6">
+          <div class="flex items-center justify-between mono text-[11px]">
+            <span class="text-[#F3F3F0]">PIPELINE 3D EM PRODUÇÃO</span>
+            <span class="text-[#FF6B00]">60 FPS WEBGL</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-center">
+            <div class="border border-[#FF6B00]/50 bg-[#141416] p-3 text-center space-y-1">
+              <div class="mono text-xs text-[#FF6B00] font-semibold">01 · Blender</div>
+              <div class="text-xs text-[#D4D4CE]">UV · PBR · Rigging</div>
+            </div>
+            <div class="pulse-lane-dark hidden sm:block"><div class="pulse-dot"></div></div>
+            <div class="border border-[#33A8FF]/50 bg-[#141416] p-3 text-center space-y-1">
+              <div class="mono text-xs text-[#33A8FF] font-semibold">02 · Blockbench</div>
+              <div class="text-xs text-[#D4D4CE]">.geo.json</div>
+            </div>
+            <div class="pulse-lane-dark hidden sm:block"><div class="pulse-dot" style="animation-delay: 0.9s;"></div></div>
+            <div class="border border-[#00F0FF]/50 bg-[#141416] p-3 text-center space-y-1">
+              <div class="mono text-xs text-[#00F0FF] font-semibold">03 · Three.js</div>
+              <div class="text-xs text-[#D4D4CE]">WebGL no browser</div>
+            </div>
+          </div>
+
+          <p class="text-sm text-[#D4D4CE] leading-relaxed">
+            Estes dois quadrados são os mapas UV 64×64 reais, pintados pixel a pixel e colados diretamente nos modelos 3D acima.
+          </p>
+        </div>
+      </div>
+    </div>
+  </article>
+)}
+
+{/* ========================================================================
+    PROJETO 05 — ECOGO (Forest Campus Green · Warm Cream Poster Calculator)
+   ======================================================================== */}
+{project.slug === 'ecogo' && (
+  <article id={`projeto-${project.number}`} class="scroll-mt-14 forest-grid text-[#F4EFE6] border-t border-white/15 overflow-x-clip">
+    <div class="wrap py-16 sm:py-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        <!-- Left 5 Columns: Forest Editorial Dossier -->
+        <div data-gsap-dossier class="lg:col-span-5 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[#F4EFE6]/20">
+            <span class="px-2.5 py-1 bg-[#6EE7B7] text-[#0D3B26] mono text-[11px] font-bold">
+              PROJETO 05 / 05 · IDENTIDADE &amp; UI/UX
+            </span>
+            <div class="flex flex-wrap gap-2">
+              {project.links.map((l) => (
+                <a
+                  href={l.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-3 py-1 border border-[#F4EFE6]/60 bg-black/20 hover:bg-[#F4EFE6] hover:text-[#0D3B26] transition-colors mono text-[11px] font-semibold"
+                >
+                  {l.label} ↗
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div class="inline-block bg-[#F4EFE6] text-[#0D3B26] px-2.5 py-0.5 border-2 border-[#0E0E0E] mono text-[10px] font-bold -rotate-1">
+              ECO-ESCOLAS · ESTGV VISEU
+            </div>
+            <h2 data-gsap-title class="display text-[clamp(2.75rem,5.5vw,5.25rem)] text-[#F4EFE6]">
+              {project.title}
+            </h2>
+            <p class="text-base sm:text-lg text-[#D1FAE5] leading-snug">
+              {project.oneLiner}
+            </p>
+            <div class="mono text-[11px] text-[#A7F3D0]/85">
+              {project.context} · {project.role}
+            </div>
+          </div>
+
+          <div class="bg-black/20 border border-[#F4EFE6]/15 p-5 space-y-4">
+            <div class="space-y-1.5">
+              <h3 class="mono text-[11px] text-[#6EE7B7] font-semibold">01 · MOBILIDADE NO CAMPUS</h3>
+              <p class="text-[15px] leading-[1.65] text-[#F4EFE6]/90">
+                {project.about}
+              </p>
+            </div>
+            <div class="space-y-1.5 pt-3 border-t border-[#F4EFE6]/15">
+              <h3 class="mono text-[11px] text-[#6EE7B7] font-semibold">02 · MARCA, FIGMA &amp; CALCULADORA</h3>
+              <p class="text-[15px] leading-[1.65] text-[#F4EFE6]/90">
+                {project.work}
+              </p>
+            </div>
+          </div>
+
+          <ul class="border border-[#F4EFE6]/20 divide-y divide-[#F4EFE6]/15 bg-black/15">
+            {project.details.map((d) => (
+              <li class="p-3 text-sm leading-snug flex items-baseline gap-2.5 text-[#F4EFE6]">
+                <span class="mono text-[#6EE7B7] shrink-0">+</span>
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="border border-[#F4EFE6]/20 bg-black/25 p-4 flex flex-wrap items-center justify-between gap-6">
+            <div class="space-y-2">
+              <div class="mono text-[11px] text-[#A7F3D0]">Ferramentas usadas</div>
+              <div class="flex flex-wrap gap-2">
+                {uniqueTools.map((tech) => (
+                  <span class="border border-white/15 bg-black/25 p-1 inline-flex">
+                    <ToolIcon name={tech} size={32} />
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="mono text-[11px] text-[#A7F3D0]">Paleta</div>
+              <div class="flex items-center gap-1.5">
+                {swatches.map((hex) => (
+                  <span
+                    title={hex}
+                    aria-label={`Cor ${hex}`}
+                    class="w-6 h-6 border border-white/30 inline-block"
+                    style={`background:${hex};`}
+                  ></span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 7 Columns: Sticky High-Contrast Warm Cream CO2 Calculator Poster -->
+        <div class="lg:col-span-7 lg:sticky lg:top-20">
           <div
+            data-gsap-stage
             data-ecogo-calc
-            class="border border-[var(--ink)] p-5 sm:p-8 space-y-6"
-            style={`background:${project.ground}; color:${project.ink};`}
+            class="border-2 border-[#0E0E0E] bg-[#F4EFE6] text-[#0D3B26] p-6 sm:p-8 shadow-[12px_12px_0_rgba(0,0,0,0.38)] space-y-6"
           >
-            <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-white/20">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b-2 border-[#0D3B26]/20">
               <div class="space-y-0.5">
-                <div class="mono text-[11px] text-[#F2F0EB]/75">EcoGo · Eco-Escolas ESTGV</div>
-                <div class="text-xl font-bold">Calculadora de CO₂ no Campus</div>
+                <div class="mono text-[11px] text-[#0D3B26]/75 font-semibold">SIMULADOR INTERATIVO · ECO-ESCOLAS</div>
+                <div class="text-xl sm:text-2xl font-bold text-[#0E0E0E]">Calculadora de CO₂ no Campus</div>
               </div>
 
               <div role="group" aria-label="Escolher distância ao campus" class="flex flex-wrap gap-1.5">
@@ -304,10 +866,10 @@ for (const tech of project.stack) {
                     data-km-btn={km}
                     aria-pressed={km === 8 ? 'true' : 'false'}
                     class:list={[
-                      'px-3 py-1.5 mono border transition-colors cursor-pointer',
+                      'px-3 py-1.5 mono border-2 transition-colors cursor-pointer',
                       km === 8
-                        ? 'bg-[#F2F0EB] text-[#0E0E0E] border-[#F2F0EB] font-semibold'
-                        : 'border-white/30 text-[#F2F0EB] hover:border-white',
+                        ? 'bg-[#0D3B26] text-[#F4EFE6] border-[#0D3B26] font-semibold'
+                        : 'bg-white/70 text-[#0D3B26] border-[#0D3B26]/30 hover:border-[#0D3B26]',
                     ]}
                   >
                     {km} km
@@ -318,150 +880,58 @@ for (const tech of project.stack) {
 
             <!-- Live Trip Metrics -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div class="border border-white/25 bg-black/15 p-4 space-y-1">
-                <div class="mono text-[11px] text-[#F2F0EB]/75">Trajeto selecionado</div>
-                <div data-ecogo-km class="display text-3xl sm:text-4xl">8 km</div>
+              <div class="border-2 border-[#0D3B26]/25 bg-white p-4 space-y-1">
+                <div class="mono text-[11px] text-[#0D3B26]/75">Trajeto selecionado</div>
+                <div data-ecogo-km class="display text-3xl sm:text-4xl text-[#0E0E0E]">8 km</div>
               </div>
-              <div class="border border-white/25 bg-black/15 p-4 space-y-1">
-                <div class="mono text-[11px] text-[#F2F0EB]/75">Emissão automóvel / dia</div>
-                <div data-ecogo-car-val class="display text-3xl sm:text-4xl">960 g</div>
+              <div class="border-2 border-[#0D3B26]/25 bg-white p-4 space-y-1">
+                <div class="mono text-[11px] text-[#0D3B26]/75">Emissão automóvel / dia</div>
+                <div data-ecogo-car-val class="display text-3xl sm:text-4xl text-[#0E0E0E]">960 g</div>
               </div>
-              <div class="border border-white/25 bg-[#F2F0EB] text-[#0E0E0E] p-4 space-y-1">
-                <div class="mono text-[11px] text-[#0E0E0E]/70">Poupança anual a pé/bici</div>
-                <div data-ecogo-saved class="display text-3xl sm:text-4xl">172 kg</div>
+              <div class="border-2 border-[#0E0E0E] bg-[#0D3B26] text-[#F4EFE6] p-4 space-y-1 shadow-[4px_4px_0_#6EE7B7]">
+                <div class="mono text-[11px] text-[#A7F3D0]">Poupança anual a pé/bici</div>
+                <div data-ecogo-saved class="display text-3xl sm:text-4xl text-[#F4EFE6]">172 kg</div>
               </div>
             </div>
 
             <!-- Live Comparative Bars -->
-            <div class="space-y-3 pt-2">
+            <div class="space-y-4 pt-2 border-t-2 border-[#0D3B26]/15">
               <div class="space-y-1.5">
-                <div class="flex items-center justify-between mono text-xs">
+                <div class="flex items-center justify-between mono text-xs font-semibold text-[#0E0E0E]">
                   <span>Automóvel (~120 g/km)</span>
                   <span data-ecogo-bar-car-label>960 g CO₂</span>
                 </div>
-                <div class="h-3 bg-black/25 border border-white/20">
-                  <div data-ecogo-bar-car class="h-full bg-[#F2F0EB] transition-all duration-300" style="width: 100%;"></div>
+                <div class="h-3.5 bg-[#0D3B26]/15 border border-[#0D3B26]/30">
+                  <div data-ecogo-bar-car class="h-full bg-[#0E0E0E] transition-all duration-300" style="width: 100%;"></div>
                 </div>
               </div>
 
               <div class="space-y-1.5">
-                <div class="flex items-center justify-between mono text-xs">
+                <div class="flex items-center justify-between mono text-xs font-semibold text-[#0D3B26]">
                   <span>Autocarro (~68 g/km)</span>
                   <span data-ecogo-bar-bus-label>544 g CO₂</span>
                 </div>
-                <div class="h-3 bg-black/25 border border-white/20">
-                  <div data-ecogo-bar-bus class="h-full bg-[#A7F3D0] transition-all duration-300" style="width: 56%;"></div>
+                <div class="h-3.5 bg-[#0D3B26]/15 border border-[#0D3B26]/30">
+                  <div data-ecogo-bar-bus class="h-full bg-[#1E6B45] transition-all duration-300" style="width: 56%;"></div>
                 </div>
               </div>
 
               <div class="space-y-1.5">
-                <div class="flex items-center justify-between mono text-xs">
+                <div class="flex items-center justify-between mono text-xs font-semibold text-[#0D3B26]">
                   <span>Bicicleta / A pé</span>
                   <span>0 g CO₂</span>
                 </div>
-                <div class="h-3 bg-black/25 border border-white/20">
-                  <div class="h-full bg-[#A7F3D0]" style="width: 3%;"></div>
+                <div class="h-3.5 bg-[#0D3B26]/15 border border-[#0D3B26]/30">
+                  <div class="h-full bg-[#10B981]" style="width: 3%;"></div>
                 </div>
               </div>
             </div>
           </div>
-        )}
         </div>
       </div>
     </div>
-
-    <!-- Full-Width Bento Gallery Below Hero Spread -->
-    {project.slug === 'infinity-nova' && (
-      <div data-gsap-gallery class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-        {project.gallery.map((item) => (
-          <div
-            class:list={[
-              'media border border-[var(--line)]',
-              item.span === 'full' ? 'md:col-span-2' : 'aspect-[16/10]',
-              item.contain ? 'p-6 sm:p-10 flex items-center justify-center' : '',
-            ]}
-            style={`background:${project.ground};`}
-          >
-            <img
-              src={item.src}
-              alt={item.alt}
-              class:list={[
-                item.contain
-                  ? item.span === 'full'
-                    ? 'w-full h-auto object-contain'
-                    : 'w-full h-full object-contain'
-                  : 'w-full h-full object-cover object-top',
-                { pixel: item.pixelated },
-              ]}
-            />
-          </div>
-        ))}
-      </div>
-    )}
-
-    {project.slug === 'cyrix' && (
-      <div data-gsap-gallery class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-        {project.gallery
-          .filter((item) => item.src !== '/projetos/cyrix/home-mobile.png')
-          .map((item) => (
-            <div
-              class="media border border-[var(--line)] aspect-[16/10]"
-              style={`background:${project.ground};`}
-            >
-              <img
-                src={item.src}
-                alt={item.alt}
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-          ))}
-      </div>
-    )}
-
-    {project.slug === 'cg-3d-lab' && (
-      <div data-gsap-gallery class="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-2">
-        {project.gallery.map((item) => (
-          <div
-            class="lg:col-span-3 media border border-[var(--line)] aspect-square p-6 flex items-center justify-center"
-            style={`background:${project.ground};`}
-          >
-            <img
-              src={item.src}
-              alt={item.alt}
-              class="w-full h-full object-contain pixel"
-            />
-          </div>
-        ))}
-
-        <div
-          class="lg:col-span-6 border border-[var(--line)] p-6 sm:p-8 flex flex-col justify-between gap-6"
-          style={`background:${project.ground}; color:${project.ink};`}
-        >
-          <div class="mono text-[#EDEDEA]/65">Pipeline 3D</div>
-          <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-center">
-            <div class="border border-white/25 p-3 text-center space-y-1">
-              <div class="mono text-xs text-[#EA7600]">01 · Blender</div>
-              <div class="text-xs text-[#EDEDEA]/75">UV · PBR · Rigging</div>
-            </div>
-            <div class="pulse-lane-dark hidden sm:block"><div class="pulse-dot"></div></div>
-            <div class="border border-white/25 p-3 text-center space-y-1">
-              <div class="mono text-xs text-[#33A8FF]">02 · Blockbench</div>
-              <div class="text-xs text-[#EDEDEA]/75">.geo.json</div>
-            </div>
-            <div class="pulse-lane-dark hidden sm:block"><div class="pulse-dot" style="animation-delay: 0.9s;"></div></div>
-            <div class="border border-white/25 p-3 text-center space-y-1">
-              <div class="mono text-xs text-[#00F0FF]">03 · Three.js</div>
-              <div class="text-xs text-[#EDEDEA]/75">WebGL no browser</div>
-            </div>
-          </div>
-          <p class="text-sm text-[#EDEDEA]/75 leading-relaxed">
-            Estes dois quadrados são os mapas UV 64×64 reais, pintados pixel a pixel e colados diretamente nos modelos 3D acima.
-          </p>
-        </div>
-      </div>
-    )}
-  </div>
-</article>
+  </article>
+)}
 
 {project.slug === 'ecogo' && (
   <script is:inline>
@@ -496,8 +966,8 @@ for (const tech of project.stack) {
             var active = b === btn;
             b.setAttribute('aria-pressed', active ? 'true' : 'false');
             b.className = active
-              ? 'px-3 py-1.5 mono border transition-colors cursor-pointer bg-[#F2F0EB] text-[#0E0E0E] border-[#F2F0EB] font-semibold'
-              : 'px-3 py-1.5 mono border transition-colors cursor-pointer border-white/30 text-[#F2F0EB] hover:border-white';
+              ? 'px-3 py-1.5 mono border-2 transition-colors cursor-pointer bg-[#0D3B26] text-[#F4EFE6] border-[#0D3B26] font-semibold'
+              : 'px-3 py-1.5 mono border-2 transition-colors cursor-pointer bg-white/70 text-[#0D3B26] border-[#0D3B26]/30 hover:border-[#0D3B26]';
           });
         });
       });
