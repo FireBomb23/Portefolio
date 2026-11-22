@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import { PROFILE } from '../data/portfolio';
 
 interface Props {
   title?: string;
@@ -8,42 +7,33 @@ interface Props {
 }
 
 const {
-  title = `${PROFILE.displayName} — Design & Engineering`,
-  description = PROFILE.bio,
+  title = 'Rodrigo Albuquerque — Portfólio',
+  description = 'Portfólio de Rodrigo Albuquerque, estudante de Tecnologias e Design de Multimédia na ESTGV. Sites, apps, mods e 3D.',
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="pt-PT" data-theme="dark">
+<html lang="pt-PT">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#EDEDEA" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <!-- Prevent theme FOUC -->
-    <script is:inline>
-      try {
-        const saved = localStorage.getItem('portfolio-theme');
-        if (saved === 'light' || saved === 'dark') {
-          document.documentElement.setAttribute('data-theme', saved);
-        }
-      } catch {}
-    </script>
   </head>
   <body id="topo">
     <a
       href="#conteudo-principal"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:rounded-full focus:bg-[#0057FF] focus:text-white focus:text-xs focus:font-semibold"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#0E0E0E] focus:text-[#EDEDEA] mono"
     >
-      Saltar para o conteúdo principal
+      Saltar para o conteúdo
     </a>
 
     <slot />

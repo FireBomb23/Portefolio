@@ -1,47 +1,20 @@
 @import "tailwindcss";
 
-:root,
-html[data-theme="dark"] {
-  --bg: #000000;
-  --bg-subtle: #0A0A0B;
-  --surface: #111113;
-  --surface-2: #18181B;
-  --ink: #FFFFFF;
-  --ink-secondary: #A1A1AA;
-  --ink-muted: #63636B;
-  --ink-ghost: rgba(255, 255, 255, 0.08);
-  --line: rgba(255, 255, 255, 0.1);
-  --line-strong: rgba(255, 255, 255, 0.22);
-  --pill-bg: #FFFFFF;
-  --pill-ink: #000000;
-  --cobalt: #0057FF;
-  --widget-bg: rgba(24, 24, 27, 0.88);
-}
-
-html[data-theme="light"] {
-  --bg: #FFFFFF;
-  --bg-subtle: #F4F4F5;
-  --surface: #F7F7F8;
-  --surface-2: #EAEAEF;
-  --ink: #09090B;
-  --ink-secondary: #52525B;
-  --ink-muted: #8E8E98;
-  --ink-ghost: rgba(0, 0, 0, 0.06);
-  --line: rgba(0, 0, 0, 0.09);
-  --line-strong: rgba(0, 0, 0, 0.22);
-  --pill-bg: #09090B;
-  --pill-ink: #FFFFFF;
-  --cobalt: #0057FF;
-  --widget-bg: rgba(244, 244, 247, 0.92);
+:root {
+  --bg: #EDEDEA;
+  --ink: #0E0E0E;
+  --muted: #6B6B66;
+  --line: rgba(14, 14, 14, 0.14);
+  --accent: #0047FF;
 }
 
 @layer base {
   html {
     background-color: var(--bg);
     color: var(--ink);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-weight: 400;
     scroll-behavior: smooth;
-    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   body {
@@ -54,170 +27,109 @@ html[data-theme="light"] {
   }
 
   ::selection {
-    background: var(--cobalt);
+    background-color: var(--accent);
     color: #FFFFFF;
   }
 
   :focus-visible {
-    outline: 2px solid var(--cobalt);
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
-    border-radius: 4px;
   }
 }
 
-.font-extended {
-  font-family: 'Unbounded', 'Inter', sans-serif;
+.display {
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 800;
+  font-stretch: 115%;
+  letter-spacing: -0.035em;
+  line-height: 0.88;
 }
 
-.font-mono-tech {
+.mono {
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
 
-/* Hairlines */
-.hl-t { border-top: 1px solid var(--line); }
-.hl-b { border-bottom: 1px solid var(--line); }
-.hl-all { border: 1px solid var(--line); }
-
-/* Swiss Pill Controls */
-.pill-solid {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  min-height: 36px;
-  padding: 0 1rem;
-  border-radius: 9999px;
-  background-color: var(--pill-bg);
-  color: var(--pill-ink);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, background-color 0.2s ease;
-  cursor: pointer;
+.wrap {
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 3vw, 40px);
 }
 
-.pill-solid:hover {
-  opacity: 0.88;
-  transform: translateY(-1px);
-}
-
-.pill-solid:active {
-  transform: scale(0.98);
-}
-
-.pill-outline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  min-height: 36px;
-  padding: 0 0.95rem;
-  border-radius: 9999px;
-  border: 1px solid var(--line-strong);
-  background: transparent;
-  color: var(--ink);
-  font-size: 0.75rem;
-  font-weight: 500;
-  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
-  cursor: pointer;
-}
-
-.pill-outline:hover {
-  border-color: var(--ink);
-  background-color: var(--surface);
-  transform: translateY(-1px);
-}
-
-/* Fragment Mosaic Tile */
-.fragment-tile {
+.link {
   position: relative;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.link:hover {
+  color: var(--accent);
+}
+
+.link:hover::after {
+  transform: scaleX(1);
+}
+
+.media {
   overflow: hidden;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
-  cursor: pointer;
 }
 
-.fragment-tile:hover {
-  transform: translateY(-3px);
-  border-color: var(--line-strong);
-  z-index: 2;
+.media img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Case Card */
-.case-card {
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--surface);
-  overflow: hidden;
-  transition: border-color 0.25s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.media:hover img,
+.group:hover .media img {
+  transform: scale(1.02);
 }
 
-.case-card:hover {
-  border-color: var(--line-strong);
-  transform: translateY(-2px);
+.pixel {
+  image-rendering: pixelated;
 }
 
-/* Rotating Awards / Highlights Widget (sokolovski.pro signature) */
-.status-widget {
-  background: var(--widget-bg);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--line-strong);
-  border-radius: 14px;
-}
-
-/* Slide-over Case Study Drawer */
-dialog.case-drawer {
-  margin: 0 0 0 auto;
-  height: 100dvh;
-  max-height: 100dvh;
-  width: min(100vw, 600px);
-  background: var(--bg);
-  color: var(--ink);
-  border: none;
-  border-left: 1px solid var(--line-strong);
-  padding: 0;
-}
-
-dialog.case-drawer::backdrop {
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(6px);
-}
-
-dialog.case-drawer[open] {
-  animation: drawerIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes drawerIn {
-  from { opacity: 0; transform: translateX(24px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-/* Hero clean entrance */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.hero-enter {
-  animation: fadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+.enter {
+  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .hero-enter, dialog.case-drawer[open], .fragment-tile, .case-card, .pill-solid, .pill-outline {
+  html {
+    scroll-behavior: auto;
+  }
+  .enter,
+  .link,
+  .link::after,
+  .media img,
+  * {
     animation: none !important;
     transition: none !important;
+  }
+  .media:hover img,
+  .group:hover .media img {
     transform: none !important;
   }
-}
-
-@media print {
-  html, body {
-    background: #FFFFFF !important;
-    color: #000000 !important;
-  }
-  .no-print { display: none !important; }
 }

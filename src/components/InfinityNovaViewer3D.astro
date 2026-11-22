@@ -1,128 +1,91 @@
 ---
+interface Props {
+  initial?: 'manopla' | 'tesseract';
+}
+
+const { initial = 'manopla' } = Astro.props;
+
 const models = [
   { key: 'manopla', label: 'Manopla', icon: '/infinity-nova/textures/manopla.png' },
-  { key: 'power_stone', label: 'Power', icon: '/infinity-nova/textures/power_stone.png' },
-  { key: 'space_stone', label: 'Space', icon: '/infinity-nova/textures/space_stone.png' },
-  { key: 'reality_stone', label: 'Reality', icon: '/infinity-nova/textures/reality_stone.png' },
-  { key: 'soul_stone', label: 'Soul', icon: '/infinity-nova/textures/soul_stone.png' },
-  { key: 'time_stone', label: 'Time', icon: '/infinity-nova/textures/time_stone.png' },
-  { key: 'mind_stone', label: 'Mind', icon: '/infinity-nova/textures/mind_stone.png' },
+  { key: 'power_stone', label: 'Power Stone', icon: '/infinity-nova/textures/power_stone.png' },
+  { key: 'space_stone', label: 'Space Stone', icon: '/infinity-nova/textures/space_stone.png' },
+  { key: 'reality_stone', label: 'Reality Stone', icon: '/infinity-nova/textures/reality_stone.png' },
+  { key: 'soul_stone', label: 'Soul Stone', icon: '/infinity-nova/textures/soul_stone.png' },
+  { key: 'time_stone', label: 'Time Stone', icon: '/infinity-nova/textures/time_stone.png' },
+  { key: 'mind_stone', label: 'Mind Stone', icon: '/infinity-nova/textures/mind_stone.png' },
   { key: 'tesseract', label: 'Tesseract', icon: '/infinity-nova/textures/tesseract.png' },
 ];
 ---
 
-<div class="rounded-2xl hl-all overflow-hidden bg-[#07070A] text-white">
-  <!-- Top Control Bar -->
-  <div class="px-5 py-3.5 border-b border-white/10 flex flex-wrap items-center justify-between gap-3">
-    <div class="flex items-center gap-3">
-      <img
-        id="viewer-model-icon"
-        src="/infinity-nova/textures/manopla.png"
-        alt="Ícone do modelo ativo"
-        class="w-7 h-7 object-contain"
-        style="image-rendering: pixelated;"
-      />
-      <div>
-        <div id="viewer-model-title" class="text-sm font-semibold text-white leading-tight">
-          Infinity Gauntlet
-        </div>
-        <div id="viewer-model-sub" class="font-mono-tech text-[10px] text-[#A1A1AA]">
-          geo/manopla.geo.json • 19 bones • 103 cubes
-        </div>
+<div
+  id="infinity-viewer-root"
+  data-initial={initial}
+  class="relative w-full h-[min(78vh,760px)] min-h-[420px] select-none"
+>
+  <div id="infinity-3d-stage" class="absolute inset-0 cursor-grab active:cursor-grabbing"></div>
+
+  <div class="pointer-events-none absolute inset-x-0 bottom-5 z-10">
+    <div class="wrap flex items-end justify-between gap-4">
+      <div
+        role="group"
+        aria-label="Escolher modelo"
+        class="pointer-events-auto flex flex-wrap gap-1.5"
+      >
+        {models.map((m) => (
+          <button
+            type="button"
+            data-model-btn={m.key}
+            aria-label={m.label}
+            title={m.label}
+            aria-pressed={m.key === initial ? 'true' : 'false'}
+            class="w-11 h-11 rounded-none border border-white/15 bg-black/40 hover:border-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047FF] focus-visible:outline-offset-2 flex items-center justify-center transition-colors cursor-pointer"
+          >
+            <img
+              src={m.icon}
+              alt=""
+              width="24"
+              height="24"
+              class="w-6 h-6 object-contain pixel"
+            />
+          </button>
+        ))}
       </div>
-    </div>
 
-    <div class="flex flex-wrap items-center gap-2">
-      <button
-        type="button"
-        id="btn-play-snap"
-        onclick="window.playSnapAnimation && window.playSnapAnimation()"
-        class="inline-flex items-center gap-1.5 min-h-[34px] px-3.5 rounded-full bg-[#0057FF] text-white font-mono-tech text-[11px] font-semibold hover:bg-[#1a6aff] transition-colors cursor-pointer"
-      >
-        ✦ Play Snap
-      </button>
-      <button
-        type="button"
-        aria-pressed="true"
-        onclick="window.toggleAutoRotate && window.toggleAutoRotate(this)"
-        class="inline-flex items-center min-h-[34px] px-3 rounded-full border border-white/20 text-[11px] font-mono-tech text-white/90 hover:border-white transition-colors cursor-pointer"
-      >
-        Auto-Spin
-      </button>
-      <button
-        type="button"
-        aria-pressed="false"
-        onclick="window.toggleWireframe && window.toggleWireframe(this)"
-        class="inline-flex items-center min-h-[34px] px-3 rounded-full border border-white/20 text-[11px] font-mono-tech text-white/90 hover:border-white transition-colors cursor-pointer"
-      >
-        Wireframe
-      </button>
-      <button
-        type="button"
-        onclick="window.resetCamera && window.resetCamera()"
-        class="inline-flex items-center min-h-[34px] px-3 rounded-full border border-white/20 text-[11px] font-mono-tech text-white/90 hover:border-white transition-colors cursor-pointer"
-      >
-        Reset
-      </button>
-    </div>
-  </div>
-
-  <!-- 3D WebGL Stage -->
-  <div class="relative w-full h-[420px] sm:h-[520px] bg-[radial-gradient(circle_at_50%_45%,rgba(0,87,255,0.12),#07070A_68%)]">
-    <div id="infinity-3d-stage" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
-
-    <div class="pointer-events-none absolute bottom-3 left-4 right-4 flex flex-wrap items-end justify-between gap-2">
-      <div class="max-w-md space-y-0.5">
-        <div id="viewer-model-slot" class="font-mono-tech text-[10px] uppercase tracking-wider text-[#E5B842]">
-          Mainhand / Offhand
-        </div>
-        <p id="viewer-model-notes" class="text-xs text-[#A1A1AA] leading-snug">
-          Arrasta para rodar em 360° ou seleciona uma das 6 Joias e o Tesseract abaixo.
-        </p>
-      </div>
-      <span class="font-mono-tech text-[10px] text-[#63636B] uppercase">
-        DRAG TO ORBIT · SCROLL TO ZOOM
+      <span class="hidden sm:inline mono text-white/60">
+        Arrasta para rodar · G para estalar
       </span>
     </div>
   </div>
-
-  <!-- 8 Real Models Selector Bar -->
-  <div class="p-3 sm:p-4 border-t border-white/10 bg-[#0B0B0F] grid grid-cols-4 sm:grid-cols-8 gap-2">
-    {models.map((m, idx) => (
-      <button
-        type="button"
-        data-model-btn={m.key}
-        aria-pressed={idx === 0 ? 'true' : 'false'}
-        onclick={`window.select3DModel && window.select3DModel('${m.key}')`}
-        class={`flex flex-col items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl border transition-all cursor-pointer ${
-          idx === 0
-            ? 'border-[#E5B842] bg-white/[0.07]'
-            : 'border-white/10 bg-white/[0.02] hover:border-white/30 hover:bg-white/[0.05]'
-        }`}
-      >
-        <img
-          src={m.icon}
-          alt={m.label}
-          class="w-7 h-7 object-contain"
-          style="image-rendering: pixelated;"
-        />
-        <span class="font-mono-tech text-[10px] text-white/90 truncate max-w-full">
-          {m.label}
-        </span>
-      </button>
-    ))}
-  </div>
 </div>
 
-<!-- Load Three.js r128 + OrbitControls + Real Mod Geometry & Viewer -->
 <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script is:inline src="/infinity-nova/js/geo_model.js"></script>
 <script is:inline src="/infinity-nova/js/viewer3d.js"></script>
 <script is:inline>
-  window.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('DOMContentLoaded', function () {
+    var root = document.getElementById('infinity-viewer-root');
+    var initial = (root && root.getAttribute('data-initial')) || 'manopla';
+
     if (typeof window.init3DViewer === 'function') {
-      window.init3DViewer('infinity-3d-stage');
+      window.init3DViewer('infinity-3d-stage', initial);
     }
+
+    document.querySelectorAll('[data-model-btn]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var key = btn.getAttribute('data-model-btn');
+        if (key && typeof window.select3DModel === 'function') {
+          window.select3DModel(key);
+        }
+      });
+    });
+
+    window.addEventListener('keydown', function (e) {
+      var tag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : '';
+      if (tag === 'input' || tag === 'textarea' || (e.target && e.target.isContentEditable)) return;
+      if ((e.key === 'g' || e.key === 'G') && typeof window.playSnapAnimation === 'function') {
+        window.playSnapAnimation();
+      }
+    });
   });
 </script>

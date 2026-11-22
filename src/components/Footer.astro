@@ -1,0 +1,15 @@
+---
+import { PROFILE } from '../data/portfolio';
+---
+
+<footer class="bg-[var(--bg)] border-t border-[var(--line)]">
+  <div class="wrap py-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mono text-[var(--muted)]">
+    <span>© 2026 {PROFILE.displayName}</span>
+    <div class="flex flex-wrap items-center gap-6">
+      <a href={`mailto:${PROFILE.email}`} class="link text-[var(--ink)]">{PROFILE.email}</a>
+      <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" class="link text-[var(--ink)]">GitHub ↗</a>
+      <a href={PROFILE.modrinth} target="_blank" rel="noopener noreferrer" class="link text-[var(--ink)]">Modrinth ↗</a>
+      <a href={PROFILE.curseforge} target="_blank" rel="noopener noreferrer" class="link text-[var(--ink)]">CurseForge ↗</a>
+    </div>
+  </div>
+</footer>

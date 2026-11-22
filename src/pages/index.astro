@@ -1,571 +1,132 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import BrandMark from '../components/BrandMark.astro';
-import StatusWidget from '../components/StatusWidget.astro';
-import FragmentsMosaic from '../components/FragmentsMosaic.astro';
-import InfinityNovaViewer3D from '../components/InfinityNovaViewer3D.astro';
-import { PROFILE, PROJECTS, SKILL_GROUPS, TIMELINE } from '../data/portfolio';
-
-const flagshipProject = PROJECTS[0]; // 01 Infinity Nova
-const otherProjects = PROJECTS.slice(1); // 02 LabCD, 03 Cyrix, 04 CG 3D, 05 EcoGo
+import Footer from '../components/Footer.astro';
+import ProjectMedia from '../components/ProjectMedia.astro';
+import { PROFILE, PROJECTS, USES, TIMELINE } from '../data/portfolio';
 ---
 
-<Layout
-  title={`${PROFILE.displayName} — Design & Engineering · Portfolio 2026`}
-  description="Portfólio de Rodrigo Albuquerque: Fullstack Web (Django & PostgreSQL), Mobile Offline-First (Flutter), Modelação 3D & WebGL (Three.js & GeckoLib)."
->
+<Layout>
   <Header />
 
   <main id="conteudo-principal">
-    <!-- ==================== 1. HERO BENTO SHOWCASE ==================== -->
-    <section
-      aria-labelledby="hero-heading"
-      class="hero-enter relative overflow-hidden hl-b"
-    >
-      <!-- Subtle Tech Grid Ground -->
-      <div
-        aria-hidden="true"
-        class="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.07] bg-[radial-gradient(#0057FF_1px,transparent_1px)] [background-size:24px_24px]"
-      ></div>
-
-      <div class="relative z-10 mx-auto w-full max-w-[1400px] px-4 sm:px-7 pt-8 sm:pt-12 pb-12 sm:pb-16 space-y-10">
-        
-        <!-- Top 4-Column Swiss Header Info -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 items-start hl-b pb-8">
-          <!-- Col 1: Identity -->
-          <div class="lg:col-span-3 flex items-center gap-3">
-            <div class="w-11 h-11 rounded-full hl-all bg-[var(--surface)]/80 backdrop-blur-md flex items-center justify-center shrink-0">
-              <BrandMark size={26} />
-            </div>
-            <div class="leading-tight">
-              <div class="text-sm font-semibold text-[var(--ink)]">{PROFILE.displayName}</div>
-              <div class="text-xs font-mono-tech text-[var(--ink-secondary)]">{PROFILE.handle} · {PROFILE.location}</div>
-            </div>
-          </div>
-
-          <!-- Col 2: Academic & Institutional -->
-          <div class="lg:col-span-3 space-y-1">
-            <div class="text-xs font-medium text-[var(--ink)]">Licenciatura em Tecnologias e Design de Multimédia</div>
-            <div class="text-xs font-mono-tech text-[var(--ink-secondary)]">ESTGV · IPV (3.º Ano · 2025/26)</div>
-          </div>
-
-          <!-- Col 3: Availability Badge -->
-          <div class="lg:col-span-3 space-y-1">
-            <div class="inline-flex items-center gap-1.5 font-mono-tech text-[11px] font-semibold text-[#0057FF] uppercase tracking-wider">
-              <span class="w-2 h-2 rounded-full bg-[#0057FF] animate-pulse"></span>
-              {PROFILE.availability}
-            </div>
-            <p class="text-xs text-[var(--ink-secondary)]" data-i18n="hero.internshipNote">
-              Estágio Curricular em Desenvolvimento Web, Mobile ou 3D.
-            </p>
-          </div>
-
-          <!-- Col 4: Sokolovski Status Widget -->
-          <div class="lg:col-span-3 flex lg:justify-end">
-            <StatusWidget />
-          </div>
-        </div>
-
-        <!-- Bento Hero Centerpiece: Editorial Left + 3D Interactive Right -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
-          <!-- Left Column: Monumental Editorial Identity (7 cols) -->
-          <div class="lg:col-span-7 space-y-6">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full hl-all bg-[var(--surface)] text-[11px] font-mono-tech text-[var(--ink-secondary)]">
-              <span class="text-[#0057FF]">✦</span>
-              <span class="uppercase tracking-wider">PORTFOLIO · DIA DA EMPRESA 2026</span>
-            </div>
-
-            <div class="space-y-2">
-              <h1
-                id="hero-heading"
-                class="font-extended font-extrabold uppercase tracking-[-0.03em] text-[clamp(2.5rem,5.6vw,4.8rem)] leading-[0.92] text-[var(--ink)]"
-              >
-                RODRIGO<br />
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[var(--ink)] via-[var(--ink)] to-[var(--ink-secondary)]">
-                  ALBUQUERQUE
-                </span>
-              </h1>
-              <p class="font-mono-tech text-xs sm:text-sm text-[#0057FF] font-semibold tracking-wide uppercase pt-1">
-                Fullstack Web · Mobile Offline-First · Pipeline 3D WebGL
-              </p>
-            </div>
-
-            <p class="text-sm sm:text-base text-[var(--ink-secondary)] leading-relaxed max-w-[56ch]" data-i18n="hero.pitch">
-              Desenvolvo produtos digitais de raiz com rigor técnico: motores de jogo em Java 21 / NeoForge, visualização 3D interativa em WebGL/Three.js com modelos reais .geo.json, arquiteturas relacionais protegidas por 2FA TOTP em Django 5.2 / PostgreSQL 18 e aplicações móveis offline-first em Flutter.
-            </p>
-
-            <!-- 4-Stat Bento Metric Matrix -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-              <div class="p-3 rounded-xl hl-all bg-[var(--surface)]/50 backdrop-blur-sm space-y-0.5">
-                <div class="font-extended font-bold text-lg text-[var(--ink)]">01 MOD</div>
-                <div class="font-mono-tech text-[10px] text-[var(--ink-muted)]">Modrinth &amp; CurseForge</div>
-              </div>
-              <div class="p-3 rounded-xl hl-all bg-[var(--surface)]/50 backdrop-blur-sm space-y-0.5">
-                <div class="font-extended font-bold text-lg text-[#0057FF]">08 MODELOS</div>
-                <div class="font-mono-tech text-[10px] text-[var(--ink-muted)]">GeckoLib .geo.json</div>
-              </div>
-              <div class="p-3 rounded-xl hl-all bg-[var(--surface)]/50 backdrop-blur-sm space-y-0.5">
-                <div class="font-extended font-bold text-lg text-[var(--ink)]">15 TABELAS</div>
-                <div class="font-mono-tech text-[10px] text-[var(--ink-muted)]">PostgreSQL &amp; Triggers</div>
-              </div>
-              <div class="p-3 rounded-xl hl-all bg-[var(--surface)]/50 backdrop-blur-sm space-y-0.5">
-                <div class="font-extended font-bold text-lg text-[var(--ink)]">2FA TOTP</div>
-                <div class="font-mono-tech text-[10px] text-[var(--ink-muted)]">Fernet AES Encriptado</div>
-              </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-wrap items-center gap-3 pt-3 no-print">
-              <a href="#casos" class="pill-solid !min-h-[44px] !px-6 text-xs sm:text-sm font-semibold">
-                <span>Ver Casos de Estudo</span>
-                <span aria-hidden="true">↓</span>
-              </a>
-              <a href="/projetos/infinity-nova" class="pill-outline !min-h-[44px] !px-5 text-xs sm:text-sm font-medium">
-                Caso Infinity Nova 3D →
-              </a>
-              <button
-                type="button"
-                id="hero-copy-email"
-                data-email={PROFILE.email}
-                class="pill-outline !min-h-[44px] !px-5 text-xs sm:text-sm font-mono-tech text-[var(--ink-secondary)]"
-              >
-                Copiar Email
-              </button>
-            </div>
-          </div>
-
-          <!-- Right Column: Live 3D Interactive Stage (5 cols) -->
-          <div class="lg:col-span-5 flex flex-col space-y-3">
-            <div class="flex items-center justify-between font-mono-tech text-[11px] text-[var(--ink-muted)] px-1">
-              <span class="inline-flex items-center gap-1.5 text-[#0057FF] font-semibold">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#0057FF]"></span>
-                LIVE THREE.JS STAGE
-              </span>
-              <span>GEOMETRIA .GEO.JSON REAL</span>
-            </div>
-
-            <!-- Embedded Interactive 3D Model Stage -->
-            <div class="shadow-2xl rounded-2xl overflow-hidden hl-all">
-              <InfinityNovaViewer3D />
-            </div>
-
-            <p class="font-mono-tech text-[10px] text-[var(--ink-muted)] text-center">
-              Arrasta para rodar em 360° • Clica nas joias ou em "Play Snap" para ver animação.
-            </p>
-          </div>
-
-        </div>
-
+    <!-- Hero -->
+    <section class="enter wrap min-h-[calc(100svh-56px)] flex flex-col justify-between py-8">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pb-4 border-b border-[var(--line)] mono text-[var(--muted)]">
+        <span>3.º ano · ESTGV, Viseu</span>
+        <span>À procura de estágio 2026/27</span>
+        <span class="sm:text-right">
+          <a href={`mailto:${PROFILE.email}`} class="link text-[var(--ink)]">{PROFILE.email}</a>
+        </span>
       </div>
-    </section>
 
-    <!-- ==================== 2. TACTILE ZINE TICKER MARQUEE ==================== -->
-    <div
-      aria-hidden="true"
-      class="hl-b bg-[var(--surface)] text-[var(--ink)] py-3 overflow-hidden select-none whitespace-nowrap"
-    >
-      <div class="inline-flex items-center gap-6 font-mono-tech text-xs tracking-wider uppercase font-semibold animate-[ticker_28s_linear_infinite]">
-        <span>RODRIGO ALBUQUERQUE</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>ESTGV · ENGENHARIA DE MULTIMÉDIA 2026</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>JAVA 21 NEOFORGE</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>THREE.JS &amp; WEBGL</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>DJANGO 5.2 &amp; POSTGRESQL 18</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>FLUTTER OFFLINE-FIRST</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>GECKOLIB 3D KEYFRAMES</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>BLENDER &amp; PBR</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>2FA TOTP AES-128</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>RODRIGO ALBUQUERQUE</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>ESTGV · ENGENHARIA DE MULTIMÉDIA 2026</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>JAVA 21 NEOFORGE</span>
-        <span class="text-[#0057FF]">✦</span>
-        <span>THREE.JS &amp; WEBGL</span>
-        <span class="text-[#0057FF]">✦</span>
-      </div>
-    </div>
-
-    <!-- ==================== 3. PROJECTS SHOWCASE (CASOS SELECIONADOS) ==================== -->
-    <section id="casos" aria-labelledby="casos-heading" class="scroll-mt-24 mx-auto max-w-[1400px] px-4 sm:px-7 py-16 sm:py-24 space-y-16">
-      
-      <!-- Section Header -->
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 hl-b pb-8">
-        <div class="space-y-2">
-          <div class="font-mono-tech text-[11px] text-[#0057FF] uppercase tracking-wider font-semibold">
-            01 / PROJETOS SELECIONADOS
-          </div>
-          <h2 id="casos-heading" class="font-extended text-3xl sm:text-5xl font-bold tracking-tight text-[var(--ink)]" data-i18n="cases.title">
-            CASOS
-          </h2>
-        </div>
-        <p class="text-xs sm:text-sm text-[var(--ink-secondary)] max-w-[46ch] leading-relaxed" data-i18n="cases.subtitle">
-          Projetos desenvolvidos de raiz com foco em engenharia, rigor de dados e experiência interativa. Clica para abrir o estudo de caso detalhado.
+      <div class="pt-16 pb-4">
+        <h1 class="display text-[clamp(2.25rem,10.5vw,13rem)]">
+          Rodrigo<br />Albuquerque
+        </h1>
+        <p class="max-w-[52ch] text-lg md:text-xl mt-8 leading-snug text-[var(--ink)]">
+          Estudo Tecnologias e Design de Multimédia na ESTGV. Faço sites, apps e mods de Minecraft, e gosto de perceber cada parte — da base de dados ao modelo 3D.
         </p>
       </div>
-
-      <!-- Case 01: Flagship Hero Banner (Infinity Nova) -->
-      <article class="case-card group flex flex-col lg:flex-row overflow-hidden border border-white/10 dark:border-white/15 bg-[var(--surface)]">
-        <!-- Banner Image -->
-        <a href={`/projetos/${flagshipProject.slug}`} class="lg:w-7/12 block overflow-hidden bg-black relative aspect-[16/9] lg:aspect-auto">
-          <img
-            src={flagshipProject.image}
-            alt={flagshipProject.imageAlt}
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-            style="image-rendering: auto;"
-          />
-          <div class="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/20 font-mono-tech text-[10px] text-white">
-            <span class="w-2 h-2 rounded-full bg-[#E5B842]"></span>
-            <span>01 · FLAGSHIP PROJECT</span>
-          </div>
-        </a>
-
-        <!-- Content -->
-        <div class="lg:w-5/12 p-6 sm:p-8 flex flex-col justify-between gap-6">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between font-mono-tech text-xs text-[var(--ink-muted)]">
-              <span>{flagshipProject.categoryLabel}</span>
-              <span>{flagshipProject.year}</span>
-            </div>
-
-            <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--ink)]">
-              <a href={`/projetos/${flagshipProject.slug}`} class="hover:text-[#0057FF] transition-colors">
-                {flagshipProject.title}
-              </a>
-            </h3>
-
-            <p class="text-xs sm:text-sm text-[var(--ink-secondary)] leading-relaxed">
-              {flagshipProject.summary}
-            </p>
-
-            <!-- Specs Grid -->
-            <div class="grid grid-cols-2 gap-2.5 pt-2 font-mono-tech text-[11px]">
-              {flagshipProject.specs.map((sp) => (
-                <div class="p-2.5 rounded-lg hl-all bg-[var(--surface-2)]">
-                  <div class="text-[var(--ink-muted)] text-[10px]">{sp.label}</div>
-                  <div class="text-[var(--ink)] font-semibold truncate">{sp.value}</div>
-                </div>
-              ))}
-            </div>
-
-            <!-- Tech Pills -->
-            <div class="flex flex-wrap gap-1.5 pt-1">
-              {flagshipProject.stack.map((tech) => (
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono-tech hl-all bg-[var(--surface-2)] text-[var(--ink-secondary)]">
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div class="pt-6 hl-t flex flex-wrap items-center justify-between gap-3 no-print">
-            <a href={`/projetos/${flagshipProject.slug}`} class="pill-solid !min-h-[40px] !px-5 text-xs font-semibold">
-              <span data-i18n="cases.viewCase">Ver estudo de caso</span>
-              <span aria-hidden="true">→</span>
-            </a>
-            <div class="flex items-center gap-3 font-mono-tech text-xs text-[var(--ink-secondary)]">
-              {flagshipProject.links.map((l) => (
-                <a
-                  href={l.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="hover:text-[var(--ink)] transition-colors whitespace-nowrap py-1"
-                >
-                  {l.label} ↗
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Remaining Cases Grid: 02, 03, 04, 05 -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {otherProjects.map((project, idx) => (
-          <article class="case-card group flex flex-col justify-between overflow-hidden bg-[var(--surface)]">
-            <a href={`/projetos/${project.slug}`} class="block overflow-hidden bg-[#09090B] relative">
-              <img
-                src={project.image}
-                alt={project.imageAlt}
-                loading="lazy"
-                class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-              />
-              <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-black/75 backdrop-blur-md border border-white/20 font-mono-tech text-[10px] text-white">
-                0{idx + 2} · {project.categoryLabel}
-              </div>
-            </a>
-
-            <div class="p-6 flex flex-col justify-between flex-1 gap-5">
-              <div class="space-y-2.5">
-                <div class="flex items-center justify-between font-mono-tech text-[11px] text-[var(--ink-muted)]">
-                  <span>{project.context}</span>
-                  <span>{project.year}</span>
-                </div>
-
-                <h3 class="text-xl sm:text-2xl font-semibold tracking-tight text-[var(--ink)]">
-                  <a href={`/projetos/${project.slug}`} class="hover:text-[#0057FF] transition-colors">
-                    {project.title}
-                  </a>
-                </h3>
-
-                <p class="text-xs sm:text-sm text-[var(--ink-secondary)] leading-relaxed">
-                  {project.summary}
-                </p>
-
-                <!-- Stack Pills -->
-                <div class="flex flex-wrap gap-1.5 pt-2">
-                  {project.stack.slice(0, 4).map((tech) => (
-                    <span class="px-2 py-0.5 rounded-md text-[10px] font-mono-tech hl-all bg-[var(--surface-2)] text-[var(--ink-secondary)]">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div class="pt-4 hl-t flex items-center justify-between no-print">
-                <a href={`/projetos/${project.slug}`} class="pill-solid !min-h-[36px] !px-4 text-xs font-semibold">
-                  <span>Abrir Caso</span>
-                  <span aria-hidden="true">→</span>
-                </a>
-                <div class="flex items-center gap-3 font-mono-tech text-[11px] text-[var(--ink-secondary)]">
-                  {project.links.map((l) => (
-                    <a
-                      href={l.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="hover:text-[var(--ink)] transition-colors whitespace-nowrap py-1"
-                    >
-                      {l.label} ↗
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-
-      <!-- Skills Matrix 4-Column Bar -->
-      <div class="pt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 hl-t">
-        {SKILL_GROUPS.map((group) => (
-          <div class="pt-4 space-y-3">
-            <h3 class="font-mono-tech text-xs uppercase tracking-wider text-[var(--ink)] font-semibold flex items-center gap-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#0057FF]"></span>
-              {group.title}
-            </h3>
-            <ul class="space-y-1.5 text-xs text-[var(--ink-secondary)]">
-              {group.skills.map((s) => (
-                <li class="flex items-center gap-2">
-                  <span class="text-[var(--ink-muted)]">›</span>
-                  <span>{s}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-
     </section>
 
-    <!-- ==================== 4. FRAGMENTS MOSAIC SECTION ==================== -->
-    <section id="fragmentos" aria-label="Mosaico de Fragmentos" class="scroll-mt-24 hl-t hl-b py-16 sm:py-24 bg-[var(--surface)]">
-      <div class="mx-auto max-w-[1400px] px-4 sm:px-7 space-y-8">
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div class="space-y-1.5">
-            <div class="font-mono-tech text-[11px] text-[#0057FF] uppercase tracking-wider font-semibold">
-              02 / ARQUIVO TÉCNICO
-            </div>
-            <h2 class="font-extended text-2xl sm:text-4xl font-bold tracking-tight text-[var(--ink)]" data-i18n="nav.fragments">
-              FRAGMENTOS
-            </h2>
-          </div>
-          <p class="text-xs sm:text-sm text-[var(--ink-secondary)] max-w-[48ch]" data-i18n="fragments.desc">
-            Módulos reais, texturas pixel-art, esquemas SQL e geometria 3D extraídos dos 5 projetos. Clica em qualquer fragmento para abrir a página.
-          </p>
-        </div>
+    <!-- Projetos -->
+    <section id="projetos" aria-labelledby="projetos-titulo" class="scroll-mt-14 wrap pt-16 pb-20">
+      <div class="border-t border-[var(--line)] pt-8 pb-8 flex items-baseline justify-between">
+        <h2 id="projetos-titulo" class="display text-[clamp(2rem,4vw,3.5rem)]">
+          Projetos
+        </h2>
+        <span class="mono text-[var(--muted)]">0{PROJECTS.length}</span>
+      </div>
 
-        <FragmentsMosaic />
+      <div>
+        {PROJECTS.map((project) => (
+          <a href={`/projetos/${project.slug}`} class="group block border-t border-[var(--line)] py-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-baseline">
+              <span class="mono text-[var(--muted)] md:col-span-1">{project.number}</span>
+
+              <h3 class="display text-[clamp(2rem,5vw,4.5rem)] md:col-span-5 text-[var(--ink)] group-hover:text-[var(--accent)] transition-colors">
+                {project.title}<span aria-hidden="true" class="inline-block ml-2 transition-transform duration-200 group-hover:translate-x-1">→</span>
+              </h3>
+
+              <p class="text-base text-[var(--muted)] md:col-span-4 leading-snug">
+                {project.oneLiner}
+              </p>
+
+              <span class="mono text-[var(--muted)] md:col-span-2 md:text-right">
+                {project.kind} · {project.year}
+              </span>
+            </div>
+
+            <div class="mt-6">
+              <ProjectMedia project={project} />
+            </div>
+          </a>
+        ))}
       </div>
     </section>
 
-    <!-- ==================== 5. INSTITUTIONAL ESTGV DAPE SECTION (ELECTRIC COBALT #0057FF) ==================== -->
-    <section
-      id="estgv"
-      aria-labelledby="cobalt-heading"
-      class="scroll-mt-20 bg-[#0057FF] text-white py-20 sm:py-28"
-    >
-      <div class="mx-auto max-w-[1400px] px-4 sm:px-7 space-y-16">
-        
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-white/20 pb-10">
-          <div class="space-y-3">
-            <div class="font-mono-tech text-[11px] uppercase tracking-[0.14em] text-white/75 font-semibold">
-              ESTGV · INSTITUTO POLITÉCNICO DE VISEU
-            </div>
-            <h2
-              id="cobalt-heading"
-              class="font-extended font-extrabold uppercase tracking-tight leading-[0.95] text-[clamp(2rem,6vw,5rem)]"
-            >
-              ESTÁGIO DAPE 26/27
-            </h2>
-          </div>
-          <p class="text-sm sm:text-base text-white/90 max-w-[46ch] leading-relaxed" data-i18n="cobalt.desc">
-            Disponível para estágio curricular em Desenvolvimento Fullstack, Mobile Flutter, Visualização 3D em WebGL ou Engenharia de Software.
+    <!-- Sobre -->
+    <section id="sobre" aria-labelledby="sobre-titulo" class="scroll-mt-14 wrap py-20 border-t border-[var(--line)]">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
+        <div class="md:col-span-3">
+          <h2 id="sobre-titulo" class="display text-[clamp(2rem,4vw,3.5rem)]">
+            Sobre
+          </h2>
+        </div>
+
+        <div class="md:col-span-8 md:col-start-5 space-y-12">
+          <p class="text-xl md:text-2xl leading-snug">
+            Estou no 3.º ano de Tecnologias e Design de Multimédia na ESTGV, em Viseu. O curso mistura design e programação, e eu gosto das duas partes: tanto desenho os ecrãs no Figma como escrevo a API e a base de dados por trás. O projeto de que mais gosto é o Infinity Nova, porque fiz tudo sozinho — código, modelos, texturas e site. Procuro estágio para 2026/27 em desenvolvimento web, mobile ou 3D.
           </p>
-        </div>
 
-        <!-- Academic Pathway & Project Timeline -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {TIMELINE.map((t) => (
-            <div class="space-y-2 border-t border-white/25 pt-5">
-              <div class="font-mono-tech text-[11px] text-white/70 font-semibold">{t.period}</div>
-              <h3 class="text-base font-semibold text-white">{t.title}</h3>
-              <p class="text-xs sm:text-sm text-white/80 leading-relaxed">{t.description}</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 pt-10 border-t border-[var(--line)]">
+            <div class="space-y-3">
+              <h3 class="mono text-[var(--muted)]">Uso</h3>
+              <p class="text-base leading-relaxed">{USES}</p>
             </div>
-          ))}
-        </div>
 
-        <!-- Contact & CV Strip -->
-        <div id="contacto" class="pt-8 border-t border-white/20 flex flex-col sm:flex-row sm:items-center justify-between gap-6 no-print">
-          <div class="flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              id="footer-copy-email"
-              data-email={PROFILE.email}
-              class="inline-flex items-center justify-center min-h-[44px] px-6 rounded-full bg-white text-[#0057FF] font-mono-tech text-xs font-semibold hover:bg-white/90 transition-transform active:scale-95 cursor-pointer shadow-md"
-            >
-              Copiar {PROFILE.email}
-            </button>
-            <button
-              type="button"
-              onclick="window.print()"
-              class="inline-flex items-center justify-center min-h-[44px] px-5 rounded-full border border-white/40 text-white text-xs font-medium hover:bg-white/10 transition-colors cursor-pointer"
-              data-i18n="contact.print"
-            >
-              Imprimir / Guardar CV (PDF)
-            </button>
-          </div>
-
-          <div class="flex flex-wrap items-center gap-5 font-mono-tech text-xs text-white/90">
-            <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4 whitespace-nowrap py-1">GitHub ↗</a>
-            <a href={PROFILE.modrinth} target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4 whitespace-nowrap py-1">Modrinth ↗</a>
-            <a href={PROFILE.curseforge} target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4 whitespace-nowrap py-1">CurseForge ↗</a>
+            <div class="space-y-3">
+              <h3 class="mono text-[var(--muted)]">Percurso</h3>
+              <div class="space-y-5">
+                {TIMELINE.map((t) => (
+                  <div class="space-y-1">
+                    <div class="mono text-[var(--muted)]">{t.period} · {t.place}</div>
+                    <div class="text-base font-medium">{t.title}</div>
+                    <p class="text-sm text-[var(--muted)] leading-snug">{t.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
 
+    <!-- Contacto -->
+    <section id="contacto" aria-labelledby="contacto-titulo" class="scroll-mt-14 bg-[#0E0E0E] text-[#EDEDEA]">
+      <div class="wrap py-24 space-y-8">
+        <div id="contacto-titulo" class="mono text-[#9A9A94]">Contacto</div>
+
+        <div>
+          <a
+            href={`mailto:${PROFILE.email}`}
+            class="link display text-[clamp(1.75rem,6vw,6rem)] break-all sm:break-normal inline-block"
+          >
+            {PROFILE.email}
+          </a>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-6 mono">
+          <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" class="link text-[#EDEDEA]">GitHub ↗</a>
+          <a href={PROFILE.modrinth} target="_blank" rel="noopener noreferrer" class="link text-[#EDEDEA]">Modrinth ↗</a>
+          <a href={PROFILE.curseforge} target="_blank" rel="noopener noreferrer" class="link text-[#EDEDEA]">CurseForge ↗</a>
+        </div>
+
+        <div class="mono text-[#9A9A94]">Viseu, Portugal</div>
       </div>
     </section>
   </main>
 
-  <footer class="hl-t bg-[var(--bg)]">
-    <div class="mx-auto max-w-[1400px] px-4 sm:px-7 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono-tech text-[var(--ink-muted)]">
-      <span>{PROFILE.displayName} ({PROFILE.handle}) · {PROFILE.location}</span>
-      <span>ESTGV · Licenciatura em Tecnologias e Design de Multimédia · 2026</span>
-    </div>
-  </footer>
-
-  <!-- Toast notification -->
-  <div
-    id="copy-toast"
-    role="status"
-    aria-live="polite"
-    hidden
-    class="fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-full bg-[#0057FF] text-white font-mono-tech text-xs font-medium shadow-2xl"
-  >
-    Email copiado para a área de transferência.
-  </div>
-
-  <script>
-    const toast = document.getElementById('copy-toast');
-    let toastTimer: number | undefined;
-
-    async function copyEmail(email: string) {
-      try {
-        await navigator.clipboard.writeText(email);
-        if (toast) {
-          toast.hidden = false;
-          clearTimeout(toastTimer);
-          toastTimer = window.setTimeout(() => { toast.hidden = true; }, 2200);
-        }
-      } catch {
-        window.location.href = `mailto:${email}`;
-      }
-    }
-
-    ['header-copy-email', 'footer-copy-email', 'hero-copy-email'].forEach((id) => {
-      const btn = document.getElementById(id);
-      btn?.addEventListener('click', () => {
-        const email = btn.dataset.email;
-        if (email) copyEmail(email);
-      });
-    });
-
-    // PT / EN Switcher
-    const dict: Record<string, Record<string, string>> = {
-      pt: {
-        'nav.fragments': 'Fragmentos',
-        'nav.cases': 'Casos',
-        'nav.about': 'Sobre',
-        'nav.approach': 'Percurso',
-        'nav.contacts': 'Contactos',
-        'hero.subtitle': 'Aplicações fullstack, mobile offline-first e experiências 3D em WebGL.',
-        'hero.pitch': 'Desenvolvo produtos digitais de raiz com rigor técnico: motores de jogo em Java 21 / NeoForge, visualização 3D interativa em WebGL/Three.js com modelos reais .geo.json, arquiteturas relacionais protegidas por 2FA TOTP em Django 5.2 / PostgreSQL 18 e aplicações móveis offline-first em Flutter.',
-        'hero.internshipNote': 'Estágio Curricular em Desenvolvimento Web, Mobile ou 3D.',
-        'fragments.desc': 'Módulos reais, texturas pixel-art, esquemas SQL e geometria 3D extraídos dos 5 projetos. Clica em qualquer fragmento para abrir a página.',
-        'cases.title': 'CASOS',
-        'cases.subtitle': 'Projetos desenvolvidos de raiz com foco em engenharia, rigor de dados e experiência interativa. Clica para abrir o estudo de caso detalhado.',
-        'cases.viewCase': 'Ver estudo de caso',
-        'cobalt.desc': 'Disponível para estágio curricular em Desenvolvimento Fullstack, Mobile Flutter, Visualização 3D em WebGL ou Engenharia de Software.',
-        'contact.print': 'Imprimir / Guardar CV (PDF)',
-      },
-      en: {
-        'nav.fragments': 'Fragments',
-        'nav.cases': 'Cases',
-        'nav.about': 'About',
-        'nav.approach': 'Background',
-        'nav.contacts': 'Contacts',
-        'hero.subtitle': 'Fullstack web apps, offline-first mobile and interactive 3D WebGL systems.',
-        'hero.pitch': 'Engineering digital products from scratch with technical rigor: Java 21 / NeoForge game engines, real-time interactive 3D WebGL/Three.js visualization with actual .geo.json models, relational database architectures secured with 2FA TOTP in Django 5.2 / PostgreSQL 18, and offline-first mobile apps in Flutter.',
-        'hero.internshipNote': 'Curricular Internship in Web, Mobile or 3D Development.',
-        'fragments.desc': 'Real modules, pixel-art textures, SQL schemas and 3D geometry extracted from the 5 projects. Click any tile to open.',
-        'cases.title': 'CASES',
-        'cases.subtitle': 'Projects engineered from the ground up focusing on system design, data integrity and interactive experiences. Click to view full case study.',
-        'cases.viewCase': 'View case study',
-        'cobalt.desc': 'Available for 2026/27 Curricular Internship in Fullstack Development, Flutter Mobile, 3D WebGL Visualization or Software Engineering.',
-        'contact.print': 'Print / Save CV (PDF)',
-      },
-    };
-
-    function setLang(lang: 'pt' | 'en') {
-      document.documentElement.lang = lang === 'pt' ? 'pt-PT' : 'en';
-      const table = dict[lang];
-      document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
-        const key = el.dataset.i18n;
-        if (key && table[key]) el.textContent = table[key];
-      });
-      document.querySelectorAll<HTMLButtonElement>('.lang-btn, .lang-btn-mobile').forEach((b) => {
-        const active = b.dataset.lang === lang;
-        b.setAttribute('aria-pressed', String(active));
-        b.className = b.classList.contains('lang-btn')
-          ? `lang-btn px-2 py-0.5 rounded-full cursor-pointer ${active ? 'bg-[var(--ink)] text-[var(--bg)] font-semibold' : 'text-[var(--ink-secondary)] hover:text-[var(--ink)]'}`
-          : `lang-btn-mobile px-2.5 py-1 rounded-full ${active ? 'bg-[var(--ink)] text-[var(--bg)]' : 'hl-all text-[var(--ink-secondary)]'}`;
-      });
-    }
-
-    document.querySelectorAll<HTMLButtonElement>('.lang-btn, .lang-btn-mobile').forEach((b) => {
-      b.addEventListener('click', () => {
-        const l = b.dataset.lang === 'en' ? 'en' : 'pt';
-        setLang(l);
-      });
-    });
-  </script>
+  <Footer />
 </Layout>

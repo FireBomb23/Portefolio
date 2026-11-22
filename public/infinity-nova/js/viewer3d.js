@@ -579,9 +579,13 @@
     scene.add(rimLight);
   }
 
-  function init3DViewer(containerId) {
+  function init3DViewer(containerId, initialKey) {
     const container = document.getElementById(containerId);
     if (!container) return;
+
+    currentModelKey = initialKey || 'manopla';
+    activeAnimName = (currentModelKey === 'manopla' && !prefersReducedMotion) ? 'idle' : null;
+    animTime = 0;
 
     scene = new THREE.Scene();
 
@@ -600,7 +604,7 @@
     controls.dampingFactor = 0.06;
 
     setupLighting();
-    buildBedrockModel('manopla');
+    buildBedrockModel(currentModelKey);
 
     window.addEventListener('resize', () => {
       if (!container || !renderer || !camera) return;
