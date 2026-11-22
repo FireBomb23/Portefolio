@@ -7,7 +7,7 @@ import ProjectSpread from '../components/ProjectSpread.astro';
 import { PROFILE, PROJECTS } from '../data/portfolio';
 
 const marqueePhrase =
-  'PROJETOS SELECIONADOS · SCROLL CONTÍNUO · WEB FULLSTACK · MOBILE FLUTTER · 3D WEBGL · JAVA MODDING · ';
+  'RODRIGO ALBUQUERQUE · VISEU · WEB FULLSTACK · MOBILE FLUTTER · 3D NO BROWSER · JAVA 21 · ';
 ---
 
 <Layout>
@@ -21,12 +21,11 @@ const marqueePhrase =
     <section
       class="paper-grid border-t border-[var(--line)] py-20 sm:py-28"
       data-moment="word-highlight"
-      aria-label="Abordagem"
+      aria-label="Como trabalho"
     >
-      <div class="wrap space-y-4">
-        <div class="mono text-[var(--muted)]">COMO TRABALHO</div>
+      <div class="wrap">
         <p class="mo-wh__text">
-          Desenho a interface no <strong>Figma</strong>, modelo os objetos em <strong>3D</strong> e programo a <strong>API</strong> e a <strong>base de dados</strong> — gosto de perceber e construir o sistema inteiro, sem depender de <strong>templates</strong>.
+          Não gosto de ficar só pelo protótipo. Desenho o ecrã no <strong>Figma</strong>, fecho o modelo no <strong>Blender</strong> ou no <strong>Blockbench</strong>, e depois escrevo o código — da <strong>base de dados</strong> ao que corre no <strong>browser</strong>.
         </p>
       </div>
     </section>
@@ -43,8 +42,8 @@ const marqueePhrase =
         <h2 class="lbf__line" id="lbf-h">DO CÓD<span class="lbf__pivot">I</span>GO AO 3D</h2>
         <div class="lbf__ground">
           <div class="lbf__next">
-            <h2>05 Projetos — Basta fazer scroll</h2>
-            <p>Da Manopla do Infinito em Java e Three.js ao portal Cyrix, LabCD e EcoGo.</p>
+            <h2>5 projetos. Sem cliques obrigatórios.</h2>
+            <p>Continua a descer — podes rodar as peças 3D, testar a calculadora da ESTGV e ver os ecrãs reais de cada trabalho.</p>
           </div>
         </div>
       </div>
@@ -96,32 +95,75 @@ const marqueePhrase =
       <div class="wrap">
         <h2 class="mo-la__type">VAMOS CONVERSAR</h2>
         <p class="mo-la__sub">
-          Disponível para estágio curricular em 2026/27 — web fullstack, mobile ou 3D.
+          Procuro estágio curricular para 2026/27 em web, mobile ou 3D. Se gostaste do que viste, manda-me um email.
         </p>
       </div>
     </section>
 
     <!-- 7. Contacto -->
     <section id="contacto" aria-labelledby="contacto-titulo" class="scroll-mt-14 bg-[#0E0E0E] text-[#EDEDEA] border-t border-white/10">
-      <div class="wrap py-24 space-y-8">
-        <div id="contacto-titulo" class="mono text-[#9A9A94]">Contacto</div>
+      <div class="wrap py-20 sm:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-end">
+        <div class="lg:col-span-7 space-y-6">
+          <div id="contacto-titulo" class="mono text-[#A8A8A0]">
+            ESTÁGIO CURRICULAR 2026/27 · VISEU / REMOTO
+          </div>
 
-        <div>
-          <a
-            href={`mailto:${PROFILE.email}`}
-            class="link display text-[clamp(1.75rem,6vw,6rem)] break-all sm:break-normal inline-block"
-          >
-            {PROFILE.email}
-          </a>
+          <p class="text-base sm:text-lg text-[#EDEDEA]/85 leading-relaxed max-w-[54ch]">
+            Respondo rápido por email. Também podes ver o código no GitHub ou descarregar o mod no Modrinth e no CurseForge.
+          </p>
+
+          <div>
+            <a
+              href={`mailto:${PROFILE.email}`}
+              class="link display text-[clamp(1.15rem,3vw,2.75rem)] inline-block max-w-full text-[#EDEDEA]"
+            >
+              {PROFILE.email}
+            </a>
+          </div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-6 mono">
-          <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" class="link text-[#EDEDEA]">GitHub ↗</a>
-          <a href={PROFILE.modrinth} target="_blank" rel="noopener noreferrer" class="link text-[#EDEDEA]">Modrinth ↗</a>
-          <a href={PROFILE.curseforge} target="_blank" rel="noopener noreferrer" class="link text-[#EDEDEA]">CurseForge ↗</a>
-        </div>
+        <div class="lg:col-span-5">
+          <div class="border border-white/15 divide-y divide-white/15 bg-white/[0.02]">
+            <a
+              href={PROFILE.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex items-center justify-between gap-4 p-4 sm:p-5 hover:bg-white/[0.06] transition-colors"
+            >
+              <div>
+                <div class="text-sm sm:text-base font-semibold text-[#EDEDEA]">GitHub</div>
+                <div class="mono text-[11px] text-[#A8A8A0]">@FireBomb23 · Repositórios e código</div>
+              </div>
+              <span class="mono text-[#EDEDEA]/80 group-hover:translate-x-1 transition-transform">↗</span>
+            </a>
 
-        <div class="mono text-[#9A9A94]">Viseu, Portugal</div>
+            <a
+              href={PROFILE.modrinth}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex items-center justify-between gap-4 p-4 sm:p-5 hover:bg-white/[0.06] transition-colors"
+            >
+              <div>
+                <div class="text-sm sm:text-base font-semibold text-[#EDEDEA]">Modrinth</div>
+                <div class="mono text-[11px] text-[#A8A8A0]">Infinity Nova · 715+ downloads</div>
+              </div>
+              <span class="mono text-[#EDEDEA]/80 group-hover:translate-x-1 transition-transform">↗</span>
+            </a>
+
+            <a
+              href={PROFILE.curseforge}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex items-center justify-between gap-4 p-4 sm:p-5 hover:bg-white/[0.06] transition-colors"
+            >
+              <div>
+                <div class="text-sm sm:text-base font-semibold text-[#EDEDEA]">CurseForge</div>
+                <div class="mono text-[11px] text-[#A8A8A0]">Infinity Nova · Modpack &amp; releases</div>
+              </div>
+              <span class="mono text-[#EDEDEA]/80 group-hover:translate-x-1 transition-transform">↗</span>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   </main>

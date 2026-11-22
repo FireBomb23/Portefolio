@@ -27,6 +27,18 @@ const models = [
     compact ? 'h-[460px] sm:h-[580px]' : 'h-[min(78vh,760px)] min-h-[420px]',
   ]}
 >
+  <div class="pointer-events-none absolute inset-x-0 top-0 z-10 px-3 sm:px-4 py-2.5 flex items-center justify-between gap-2 border-b border-white/10 bg-black/55">
+    <span class="mono text-[11px] text-white/95 flex items-center gap-2 min-w-0">
+      <span class="w-2 h-2 bg-[#00F0FF] shrink-0 inline-block" aria-hidden="true"></span>
+      <span data-active-model-name class="truncate">
+        {initial === 'tesseract' ? 'Tesseract · Cubo Cósmico' : 'Manopla do Infinito · 19 bones'}
+      </span>
+    </span>
+    <span class="hidden sm:inline mono text-[11px] text-white/70 shrink-0">
+      Arrasta para rodar · WebGL 60 fps
+    </span>
+  </div>
+
   <div data-viewer-stage class="absolute inset-0 cursor-grab active:cursor-grabbing"></div>
 
   <div class="pointer-events-none absolute inset-x-0 bottom-4 z-10">
@@ -40,10 +52,16 @@ const models = [
           <button
             type="button"
             data-model-btn={m.key}
+            data-model-title={m.label}
             aria-label={m.label}
             title={m.label}
             aria-pressed={m.key === initial ? 'true' : 'false'}
-            class="w-11 h-11 rounded-none border border-white/15 bg-black/50 hover:border-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047FF] focus-visible:outline-offset-2 flex items-center justify-center transition-colors cursor-pointer"
+            class:list={[
+              'w-11 h-11 rounded-none border hover:border-white/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047FF] focus-visible:outline-offset-2 flex items-center justify-center transition-colors cursor-pointer',
+              m.key === initial
+                ? 'border-[#00F0FF] bg-white/15'
+                : 'border-white/20 bg-black/60',
+            ]}
           >
             <img
               src={m.icon}
@@ -60,15 +78,15 @@ const models = [
             type="button"
             data-snap-btn
             aria-label="Estalar dedos (tecla G)"
-            class="h-11 rounded-none border border-white/15 bg-black/50 hover:border-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047FF] focus-visible:outline-offset-2 mono text-white/85 px-3 transition-colors cursor-pointer"
+            class="h-11 rounded-none border border-white/20 bg-black/60 hover:border-white/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047FF] focus-visible:outline-offset-2 mono text-white/90 px-3 transition-colors cursor-pointer"
           >
             G · Estalar
           </button>
         )}
       </div>
 
-      <span class:list={[compact ? 'hidden 2xl:inline' : 'hidden sm:inline', 'mono text-white/60 shrink-0']}>
-        Arrasta para rodar · G para estalar
+      <span class:list={[compact ? 'hidden 2xl:inline' : 'hidden sm:inline', 'mono text-white/70 shrink-0']}>
+        {initial === 'manopla' ? 'Clica numa joia · Tecla G' : 'Modelo 3D direto do mod'}
       </span>
     </div>
   </div>
@@ -123,10 +141,24 @@ const models = [
               gauntletInstances.push(instance);
             }
 
-            root.querySelectorAll('[data-model-btn]').forEach(function (btn) {
+            var activeLabel = root.querySelector('[data-active-model-name]');
+            var modelButtons = root.querySelectorAll('[data-model-btn]');
+            modelButtons.forEach(function (btn) {
               btn.addEventListener('click', function () {
                 var key = btn.getAttribute('data-model-btn');
                 if (key) instance.selectModel(key);
+                modelButtons.forEach(function (other) {
+                  var isSelected = other === btn;
+                  other.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+                  other.classList.toggle('border-[#00F0FF]', isSelected);
+                  other.classList.toggle('bg-white/15', isSelected);
+                  other.classList.toggle('border-white/20', !isSelected);
+                  other.classList.toggle('bg-black/60', !isSelected);
+                });
+                if (activeLabel) {
+                  var title = btn.getAttribute('data-model-title') || key;
+                  activeLabel.textContent = title + ' · .geo.json';
+                }
               });
             });
 

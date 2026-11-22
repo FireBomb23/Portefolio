@@ -9,30 +9,30 @@ const foundFile = candidateFiles.find((name) => existsSync(join(process.cwd(), '
 const portraitSrc = foundFile ? `/${foundFile}` : null;
 
 const focusAreas = [
-  { title: 'Web Fullstack', desc: 'Django, Node / Express, React e Astro' },
-  { title: 'Mobile Offline', desc: 'Flutter, Dart e SQLite sincronizado' },
-  { title: 'Modelação & 3D Web', desc: 'Blender, Blockbench e Three.js' },
-  { title: 'UI/UX & Dados', desc: 'Figma, PostgreSQL e PL/pgSQL' },
+  { title: 'Sites & APIs', desc: 'React, Astro, Django e Node.js' },
+  { title: 'Apps Mobile', desc: 'Flutter e SQLite que funcionam sem rede' },
+  { title: '3D no Browser', desc: 'Blender, Blockbench e Three.js' },
+  { title: 'Design & Dados', desc: 'Protótipos em Figma e PostgreSQL' },
 ];
 
 const careerSteps = [
-  { year: '2026', title: 'Infinity Nova', note: 'Mod Java 21, Three.js & Django (700+ downloads)' },
-  { year: '2026', title: 'LabCD', note: 'App Flutter & API Django/PostgreSQL (Lab. Catarina Domingos)' },
+  { year: '2026', title: 'Infinity Nova', note: 'Mod Java 21 + site 3D em Three.js (715+ downloads)' },
+  { year: '2026', title: 'LabCD', note: 'App Flutter offline-first para laboratório de próteses' },
   { year: '2025/26', title: 'Cyrix', note: 'Portal NIS2 em React, Express e Django' },
-  { year: '2025', title: 'EcoGo', note: 'Identidade, UI Figma & Calculadora CO₂ (ESTGV)' },
+  { year: '2025', title: 'EcoGo', note: 'Identidade, UI Figma e calculadora de CO₂ (ESTGV)' },
 ];
 
 const polaroids = [
-  { src: '/infinity-nova/assets/banner.png', alt: 'Banner pixel-art Infinity Nova', label: '01 Manopla 3D', pixel: true, tilt: '-rotate-2' },
-  { src: '/projetos/cyrix/home.png', alt: 'Portal Cyrix Cybersecurity', label: '03 Cyrix Web', pixel: false, tilt: 'rotate-1' },
-  { src: '/infinity-nova/textures/manopla_3d.png', alt: 'Mapa UV Manopla 3D', label: '04 Mapa UV', pixel: true, tilt: '-rotate-1' },
+  { src: '/infinity-nova/assets/banner.png', alt: 'Banner pixel-art Infinity Nova', label: '01 Manopla', pixel: true, tilt: '-rotate-2' },
+  { src: '/projetos/cyrix/home.png', alt: 'Portal Cyrix Cybersecurity', label: '03 Cyrix', pixel: false, tilt: 'rotate-1' },
+  { src: '/infinity-nova/textures/manopla_3d.png', alt: 'Mapa UV Manopla 3D', label: '04 Mapas UV', pixel: true, tilt: '-rotate-1' },
 ];
 
 const counters = [
-  { num: '715+', label: 'Downloads no Modrinth & CurseForge' },
-  { num: '08', label: 'Modelos 3D .geo.json no browser' },
-  { num: '15', label: 'Tabelas PostgreSQL & PL/pgSQL' },
-  { num: '05', label: 'Projetos completos em scroll' },
+  { num: '715+', label: 'Downloads reais do mod no Modrinth e CurseForge' },
+  { num: '08', label: 'Modelos 3D do jogo a correr direto no browser' },
+  { num: '15', label: 'Tabelas PostgreSQL com histórico clínico no LabCD' },
+  { num: '05', label: 'Projetos desenhados e programados de ponta a ponta' },
 ];
 
 const personalTools = [
@@ -65,14 +65,14 @@ const personalTools = [
       <h1 id="hero-nome" class="display text-[clamp(2.25rem,10.5vw,11.5rem)]">
         Rodrigo<br />Albuquerque
       </h1>
-      <p class="mono text-[var(--muted)] pt-2">
-        Design, Web Fullstack, Mobile &amp; 3D
+      <p class="text-sm sm:text-base text-[var(--ink)]/80 pt-2 max-w-[58ch] leading-relaxed">
+        Faço sites, apps mobile e modelos 3D — do protótipo no Figma até à base de dados.
       </p>
     </div>
 
     <!-- Personal Spread Board -->
     <div class="border border-[var(--line)] bg-[var(--surface)]/55 p-5 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
-      <!-- Left Column: Refined Architectural Portrait Frame -->
+      <!-- Left Column: Refined Architectural Portrait Frame + Resumo & Links Diretos -->
       <div class="lg:col-span-4 flex flex-col justify-between gap-4">
         <div
           data-enter-media
@@ -118,8 +118,50 @@ const personalTools = [
             )}
 
             <div class="relative z-10 mt-auto self-start bg-[#EDEDEA] text-[#0E0E0E] px-2.5 py-1 border border-[#0E0E0E] mono text-[10px] font-medium -rotate-1">
-              FEITO POR RODRIGO · FIREBOMB23
+              RODRIGO · FIREBOMB23
             </div>
+          </div>
+        </div>
+
+        <div class="border border-[var(--line)] bg-[var(--bg)] p-4 sm:p-5 space-y-4">
+          <dl class="divide-y divide-[var(--line)] text-xs sm:text-sm">
+            <div class="pb-2.5 flex items-baseline justify-between gap-3">
+              <dt class="mono text-[var(--muted)]">Base</dt>
+              <dd class="font-medium text-[var(--ink)] text-right">Viseu, Portugal</dd>
+            </div>
+            <div class="py-2.5 flex items-baseline justify-between gap-3">
+              <dt class="mono text-[var(--muted)]">Curso</dt>
+              <dd class="font-medium text-[var(--ink)] text-right">3.º ano L-TDM · ESTGV</dd>
+            </div>
+            <div class="pt-2.5 flex items-baseline justify-between gap-3">
+              <dt class="mono text-[var(--muted)]">Objetivo</dt>
+              <dd class="font-medium text-[var(--ink)] text-right">Estágio 2026/27</dd>
+            </div>
+          </dl>
+
+          <div class="grid grid-cols-3 gap-2 pt-1">
+            <a
+              href={PROFILE.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-center px-2 py-2 border border-[var(--ink)] bg-[var(--bg)] hover:bg-[var(--ink)] hover:text-[var(--bg)] transition-colors mono text-[11px] font-medium"
+            >
+              GitHub ↗
+            </a>
+            <a
+              href={PROFILE.modrinth}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-center px-2 py-2 border border-[var(--ink)] bg-[var(--bg)] hover:bg-[var(--ink)] hover:text-[var(--bg)] transition-colors mono text-[11px] font-medium"
+            >
+              Modrinth ↗
+            </a>
+            <a
+              href={`mailto:${PROFILE.email}`}
+              class="text-center px-2 py-2 border border-[var(--ink)] bg-[var(--ink)] text-[var(--bg)] hover:bg-[var(--accent)] hover:border-[var(--accent)] transition-colors mono text-[11px] font-medium"
+            >
+              Email ↗
+            </a>
           </div>
         </div>
       </div>
@@ -137,15 +179,15 @@ const personalTools = [
           </div>
 
           <h2 class="display text-[clamp(1.75rem,3vw,2.75rem)]">
-            Olá! Sou o Rodrigo.
+            Sou o Rodrigo.
           </h2>
 
           <div class="space-y-3 text-sm sm:text-base leading-relaxed text-[var(--ink)]">
             <p>
-              Estou no 3.º ano de Tecnologias e Design de Multimédia na ESTGV, em Viseu. Gosto tanto da parte visual como do código que faz tudo funcionar — por isso desenho os ecrãs no Figma, modelo em 3D e programo a API e a base de dados por trás.
+              Estou no 3.º ano de Tecnologias e Design de Multimédia na ESTGV, em Viseu. Comecei por desmontar mods de Minecraft para perceber como funcionavam e hoje gosto tanto de desenhar um ecrã limpo como de programar o servidor que está por trás.
             </p>
             <p>
-              Fora das aulas criei o Infinity Nova, um mod de Minecraft em Java com site próprio em Three.js e Django que já passou os 700 downloads. Procuro estágio para 2026/27 em desenvolvimento web, mobile ou 3D.
+              Fora das aulas criei o Infinity Nova — um mod em Java 21 com site 3D em Three.js que já passou os 715 downloads. Procuro estágio curricular para 2026/27 onde possa trabalhar em web, mobile ou 3D.
             </p>
           </div>
         </div>

@@ -49,18 +49,18 @@ export const PROJECTS: Project[] = [
     kind: 'Mod · Web',
     year: '2026',
     context: 'Projeto pessoal · Modrinth e CurseForge',
-    role: 'Tudo: código, modelos, texturas e site',
+    role: 'Fiz tudo sozinho — código Java, modelos 3D, texturas e site',
     oneLiner:
-      'A Manopla do Infinito para Minecraft. Mod em Java, site com visualizador 3D e painel de admin.',
+      'Trouxe a Manopla do Infinito para o Minecraft 1.21.1, com um site onde dá para rodar os modelos do jogo em 3D.',
     about:
-      'O Infinity Nova põe a Manopla do Infinito no Minecraft 1.21.1. Cada joia tem os seus poderes: parar o tempo, puxar bosses com telecinese, teletransporte. Carregas em G e metade dos mobs vira pó. Está publicado no Modrinth e no CurseForge e já passou os 700 downloads.',
+      'Sempre quis ter a Manopla do Infinito no Minecraft com poderes a sério, sem parecer mais um item genérico. Cada joia muda a jogabilidade: podes abrandar o tempo, puxar bosses pelo ar ou abrir portais. Se carregares no G com as seis joias, estalas os dedos e metade do mapa vira pó. Já soma mais de 715 downloads entre o Modrinth e o CurseForge.',
     work:
-      'Fiz tudo sozinho. O mod é em Java 21 com NeoForge e GeckoLib, e os modelos e animações foram feitos no Blockbench. Para o site escrevi um visualizador em Three.js que lê os mesmos ficheiros .geo.json do jogo — o modelo lá em cima é esse. O backend é Django 5.2 com PostgreSQL, e para publicar changelogs o painel de admin pede um código 2FA.',
+      'Desenhei e animei a manopla, as seis joias e o Tesseract no Blockbench e programei a lógica em Java 21 (NeoForge e GeckoLib). Depois quis mostrar os modelos na web sem os refazer: escrevi um leitor em Three.js que abre os mesmos ficheiros .geo.json do mod — podes testar já aqui ao lado. O site tem ainda um backend em Django 5.2 com PostgreSQL onde publico updates protegido por 2FA.',
     details: [
-      '8 modelos 3D: a manopla, as 6 joias e o Tesseract',
-      'A manopla tem 19 bones e 103 cubos',
-      'Minecraft 1.21.1 · NeoForge 21.1.86+ · GeckoLib 4.7.4+',
-      '2FA (TOTP) com segredos cifrados e proteção contra reutilização de códigos',
+      '8 modelos 3D originais (a manopla sozinha leva 19 bones e 103 cubos)',
+      'Leitor Three.js feito à medida para geometria Bedrock / GeckoLib (.geo.json)',
+      'Mod para Minecraft 1.21.1 em Java 21, NeoForge 21.1.86+ e GeckoLib 4.7.4+',
+      'Painel de changelogs em Django 5.2 com código 2FA (TOTP) cifrado',
     ],
     stack: ['Java 21', 'NeoForge', 'GeckoLib', 'Blockbench', 'Three.js', 'Django 5.2', 'PostgreSQL'],
     links: [
@@ -121,17 +121,17 @@ export const PROJECTS: Project[] = [
     kind: 'Mobile · Backend',
     year: '2026',
     context: 'Projeto Integrado IV · 3.º ano',
-    role: 'App mobile, API e base de dados',
+    role: 'App Flutter, API Django REST e base de dados PostgreSQL',
     oneLiner:
-      'App para um laboratório de próteses dentárias gerir pedidos, bancadas e ficheiros 3D, mesmo sem rede.',
+      'Uma app para o Laboratório Catarina Domingos seguir próteses dentárias bancada a bancada, mesmo quando o Wi-Fi falha.',
     about:
-      'O LabCD é um sistema para o Laboratório Catarina Domingos, que faz próteses dentárias. As clínicas fazem pedidos, os técnicos seguem o trabalho por bancada e a administração vê tudo num painel.',
+      'Num laboratório de próteses há dezenas de trabalhos a passar de mão em mão todos os dias, entre clínicas e técnicos. O problema é que nem todas as bancadas têm boa rede. O LabCD resolve isso: as clínicas pedem trabalhos com um odontograma visual, os técnicos movem as peças no quadro da bancada e a gestão acompanha os prazos.',
     work:
-      'Fiz a app em Flutter, que continua a funcionar sem internet: guarda tudo em SQLite e sincroniza depois. A API é Django REST e a base de dados PostgreSQL tem 15 tabelas. Parte das regras vive na própria base de dados, com triggers que não deixam apagar histórico clínico e registam cada mudança de estado.',
+      'Construí a app em Flutter com uma base SQLite local para ninguém perder dados se a ligação cair. Assim que volta a haver rede, sincroniza sozinha com a API em Django REST. Na base de dados PostgreSQL (15 tabelas) meti a lógica crítica em PL/pgSQL: há triggers que bloqueiam qualquer tentativa de apagar histórico clínico e guardam quem mudou cada estado.',
     details: [
-      'Três perfis: administração, técnico (kanban por bancada) e clínica (odontograma)',
-      'Upload de ficheiros STL de digitalização intraoral, até 100 MB',
-      'Stored procedures, views e triggers em PL/pgSQL',
+      'Três vistas na mesma app: clínica (odontograma), técnico (quadro por bancada) e direção',
+      'Envio e validação binária de moldes 3D (.STL) de scanner intraoral até 100 MB',
+      'Histórico clínico blindado na base de dados com triggers e stored procedures em PL/pgSQL',
     ],
     stack: ['Flutter', 'Dart', 'SQLite', 'Django REST', 'PostgreSQL', 'PL/pgSQL'],
     links: [{ label: 'GitHub', url: 'https://github.com/FireBomb23' }],
@@ -147,16 +147,17 @@ export const PROJECTS: Project[] = [
     kind: 'Web',
     year: '2025/26',
     context: 'Aplicações para a Internet II e Bases de Dados · 2.º ano',
-    role: 'Frontend, API e base de dados',
-    oneLiner: 'Portal de cibersegurança e conformidade NIS2, com área de cliente e backoffice.',
+    role: 'Design no Figma, frontend React e duas versões do backend (Express e Django)',
+    oneLiner:
+      'Portal para empresas avaliarem se cumprem a diretiva europeia NIS2, com área de cliente para gerir incidentes e auditorias.',
     about:
-      'A Cyrix é um portal de cibersegurança focado na diretiva NIS2. Tem a parte pública (serviços, notícias, contactos) e, depois do login, uma área de cliente e um backoffice para gerir tudo.',
+      'Com a nova diretiva NIS2, muitas empresas não sabem por onde começar na cibersegurança. A Cyrix junta uma parte aberta — onde qualquer empresa faz um diagnóstico rápido e vê os serviços — com uma área reservada onde os clientes abrem tickets, descarregam relatórios e falam com a equipa técnica.',
     work:
-      'O frontend é React com Vite. A API é Node e Express com Sequelize, organizada em MVC, com login por JWT, 2FA e passwords com bcrypt. Para a cadeira de Bases de Dados fiz uma segunda app em Django que usa a mesma base PostgreSQL. O protótipo foi testado em Figma com utilizadores (testes de ícones e questionário UEQ).',
+      'Comecei pelo protótipo no Figma e testei-o com utilizadores reais (testes de compreensão de ícones e questionário UEQ) antes de escrever código. Fiz o frontend em React + Vite e a API principal em Node/Express com Sequelize, login JWT, bcrypt e 2FA. Como o projeto cruzava duas cadeiras, criei também uma segunda versão em Django ligada exatamente à mesma base PostgreSQL.',
     details: [
-      'Tickets de suporte, documentos, pedidos de serviço, notícias e equipa',
-      'Duas aplicações (Express e Django) sobre a mesma base de dados',
-      'Online em cyrix-mu.vercel.app',
+      'Diagnóstico NIS2 interativo, tickets de suporte, gestão de documentos e backoffice',
+      'Duas stacks (Node/Express e Django) a partilhar a mesma base de dados PostgreSQL',
+      'Validado com utilizadores em Figma e publicado em cyrix-mu.vercel.app',
     ],
     stack: ['React', 'Vite', 'Node.js', 'Express', 'Sequelize', 'Django', 'PostgreSQL', 'Figma'],
     links: [
@@ -210,16 +211,17 @@ export const PROJECTS: Project[] = [
     kind: '3D',
     year: '2026',
     context: 'Computação Gráfica · 3.º ano',
-    role: 'Modelação, texturas e rigging',
-    oneLiner: 'Modelação, texturas e rigging em Blender e Blockbench, e como levar isso para o browser.',
+    role: 'Modelação 3D, abertura de UVs, texturas e exportação para WebGL',
+    oneLiner:
+      'Peças modeladas em Blender e Blockbench — das simulações físicas aos mapas UV 64×64 que alimentam os modelos 3D deste site.',
     about:
-      'Trabalho da cadeira de Computação Gráfica e o que fui aprendendo à parte em Blender e Blockbench.',
+      'Aqui junto os exercícios mais puxados das aulas de Computação Gráfica com as horas que passei a modelar por conta própria. É o lado do trabalho onde me preocupo com topologia limpa, luz, materiais e esqueletos que não partem quando a animação roda.',
     work:
-      'Modelação a partir de blueprints, UVs, materiais PBR, iluminação, simulações de fluidos, tecido e fumo, e rigging. No Blockbench fiz os modelos animados do Infinity Nova, que depois pus a correr no browser com Three.js. As texturas abaixo são os mapas UV reais desses modelos.',
+      'No Blender trabalhei modelação a partir de plantas, materiais PBR, iluminação de estúdio, rigging e simulações de fluidos, fumo e tecido. No Blockbench criei geometria low-poly com texturas pixel-art pintadas à mão num mapa UV 64×64 e exportei tudo para correr a 60 fps em Three.js.',
     details: [
-      'Blender: modelação, UV, PBR, simulações, rigging',
-      'Blockbench: modelos e animações para GeckoLib',
-      'Exportação para glTF, STL e .geo.json',
+      'Blender: modelação por blueprints, materiais PBR, rigging e simulações físicas',
+      'Blockbench: mapas UV 64×64 pintados à mão e animações por keyframes',
+      'Exportação limpa para glTF, impressão/CAD (.STL) e WebGL (.geo.json)',
     ],
     stack: ['Blender', 'Blockbench', 'Three.js', 'WebGL'],
     links: [{ label: 'GitHub', url: 'https://github.com/FireBomb23' }],
@@ -256,17 +258,17 @@ export const PROJECTS: Project[] = [
     kind: 'UI/UX',
     year: '2025',
     context: 'Projeto Integrado II · 2.º ano · Eco-Escolas ESTGV',
-    role: 'Identidade, UI e frontend',
+    role: 'Marca, protótipo Figma e calculadora interativa em JavaScript',
     oneLiner:
-      'Identidade e protótipo de uma app sobre mobilidade sustentável no campus, com calculadora de CO₂.',
+      'Quanto CO₂ poupas nas idas para a ESTGV? Uma calculadora e protótipo de app criados para o programa Eco-Escolas.',
     about:
-      'Projeto para as Eco-Escolas da ESTGV: pôr estudantes e professores a pensar no impacto de como vêm para o campus.',
+      'Quase toda a gente vai de carro para o campus de Viseu, muitas vezes para fazer poucos quilómetros. O EcoGo nasceu para o programa Eco-Escolas da ESTGV com uma ideia simples: mostrar em números reais o peso dessa viagem diária e recompensar quem troca o carro pelo autocarro, bicicleta ou caminhada.',
     work:
-      'Criei a identidade (logótipo, cores, componentes), desenhei os ecrãs mobile e desktop no Figma e programei uma calculadora em HTML, CSS e JavaScript que converte distância e meio de transporte em CO₂ poupado. Organizámos o trabalho com Trello e um diagrama de Gantt.',
+      'Desenhei a marca de raiz — logótipo, paleta verde-floresta e biblioteca de componentes — e montei os protótipos mobile e desktop no Figma. Depois passei a calculadora para HTML, CSS e JavaScript puro: escolhes os quilómetros até ao campus e vês na hora as gramas de CO₂ por dia e os quilos poupados ao fim de um ano letivo.',
     details: [
-      'Identidade visual e sistema de componentes',
-      'Protótipos mobile e desktop no Figma',
-      'Calculadora de CO₂ em JavaScript',
+      'Identidade visual completa e sistema de componentes no Figma',
+      'Calculadora de emissões em tempo real (experimenta os botões de distância ao lado)',
+      'Planeamento em equipa com quadro Trello e mapa de Gantt',
     ],
     stack: ['Figma', 'HTML', 'CSS', 'JavaScript'],
     links: [{ label: 'GitHub', url: 'https://github.com/FireBomb23' }],
@@ -278,25 +280,25 @@ export const PROJECTS: Project[] = [
 ];
 
 export const USES =
-  'Java, Python e Django, JavaScript e TypeScript, React, Flutter, PostgreSQL, Three.js, Blender, Blockbench, Figma';
+  'Java 21, Python & Django, JavaScript & TypeScript, React, Flutter, PostgreSQL, Three.js, Blender, Blockbench e Figma';
 
 export const TIMELINE = [
   {
     period: '2026 — presente',
     title: '3.º ano · Tecnologias e Design de Multimédia',
     place: 'ESTGV, Viseu',
-    description: 'App LabCD em Flutter e Django, modelação em Blender e procura de estágio.',
+    description: 'App LabCD em Flutter e Django, peças 3D em Blender e procura de estágio.',
   },
   {
     period: '2025 — 2026',
     title: '2.º ano · Web, Bases de Dados e UX',
     place: 'ESTGV, Viseu',
-    description: 'Portal Cyrix em React e Express e protótipo EcoGo com calculadora de CO₂.',
+    description: 'Portal Cyrix em React e Express e o projeto EcoGo com calculadora de CO₂.',
   },
   {
     period: '2024 — 2025',
     title: '1.º ano · Programação e Design',
     place: 'ESTGV, Viseu',
-    description: 'Programação, design de interação, identidade visual e tipografia.',
+    description: 'Fundamentos de programação, design de interação, identidade visual e tipografia.',
   },
 ];
