@@ -1,5 +1,6 @@
 ---
 import InfinityNovaViewer3D from './InfinityNovaViewer3D.astro';
+import ToolIcon from './ToolIcon.astro';
 import type { Project } from '../data/portfolio';
 
 interface Props {
@@ -8,314 +9,488 @@ interface Props {
 
 const { project } = Astro.props;
 
-const labcdLayers = [
-  {
-    step: '01 · Clínica (Odontograma & STL)',
-    desc: 'Pedidos de prótese, seleção dentária e envio de malhas 3D intraorais .stl até 100 MB.',
-  },
-  {
-    step: '02 · Técnico (Kanban Offline-First)',
-    desc: 'Quadro por bancada em Flutter com base local SQLite e sincronização automática com Django REST.',
-  },
-  {
-    step: '03 · Base de Dados (15 Tabelas & PL/pgSQL)',
-    desc: 'Triggers BEFORE DELETE que protegem o histórico clínico e AFTER UPDATE para auditoria de estado.',
-  },
+const isMediaFirst = project.number === '02' || project.number === '04';
+
+const swatchesMap: Record<string, string[]> = {
+  'infinity-nova': ['#090A0F', '#E5B842', '#00F0FF', '#A855F7'],
+  labcd: ['#DCE3E8', '#0E0E0E', '#0047FF', '#EDEDEA'],
+  cyrix: ['#0F172A', '#EAB308', '#F8FAFC', '#16A34A'],
+  'cg-3d-lab': ['#111111', '#00F0FF', '#EA7600', '#EDEDEA'],
+  ecogo: ['#1E6B45', '#F2F0EB', '#0E0E0E', '#A7F3D0'],
+};
+
+const swatches = swatchesMap[project.slug] || [project.ground, project.ink, '#0047FF', '#EDEDEA'];
+
+const labcdKanban = [
+  { bench: 'Bancada 01 · STL', card: '#1042 Clínica S. Mateus', detail: 'Zircónia · STL 48 MB' },
+  { bench: 'Bancada 02 · CAD/CAM', card: '#1045 ViseuDental', detail: 'Prótese Acrílica · Fresa' },
+  { bench: 'Bancada 03 · Controlo', card: '#1049 Arco Superior', detail: 'Ajuste oclusal · Pronto' },
 ];
 
-const cgPipeline = [
-  { step: '01 · Blender', note: 'Modelação a partir de blueprints, UV unwrap, PBR, simulações e rigging.' },
-  { step: '02 · Blockbench', note: 'Construção por bones, pivôs exatos e animações por keyframes em .geo.json.' },
-  { step: '03 · Three.js', note: 'Conversão direta para malhas WebGL em tempo real sem duplicar geometria.' },
-];
+const ecogoDistances = [3, 8, 15, 25];
 
-const ecogoPalette = [
-  { hex: '#1E6B45', name: 'Verde Campus' },
-  { hex: '#F2F0EB', name: 'Papel' },
-  { hex: '#0E0E0E', name: 'Tinta' },
-];
+function iconBucket(tech: string): string {
+  const s = tech.toLowerCase();
+  if (s.includes('neoforge') || s.includes('geckolib') || s.includes('blockbench')) return 'blockbench';
+  if (s.includes('node') || s.includes('express') || s.includes('sequelize')) return 'node';
+  if (s.includes('postgres') || s.includes('pl/pgsql')) return 'postgres';
+  if (s.includes('three') || s.includes('webgl')) return 'threejs';
+  return s;
+}
 
-const ecogoFlow = [
-  { step: '01', label: 'Distância ao campus ESTGV' },
-  { step: '02', label: 'Meio de transporte' },
-  { step: '03', label: 'CO₂ poupado em g/km' },
-];
-
-const ecogoBars = [
-  { label: 'Automóvel', val: '~120 g/km', pct: '100%' },
-  { label: 'Autocarro', val: '~68 g/km', pct: '56%' },
-  { label: 'Bicicleta / A pé', val: '0 g/km', pct: '4%' },
-];
+const uniqueTools: string[] = [];
+const seenBuckets = new Set<string>();
+for (const tech of project.stack) {
+  const b = iconBucket(tech);
+  if (!seenBuckets.has(b)) {
+    seenBuckets.add(b);
+    uniqueTools.push(tech);
+  }
+}
 ---
 
 <article id={`projeto-${project.number}`} class="scroll-mt-14 border-t border-[var(--line)]">
-  <!-- Chapter Bar -->
-  <div class="border-b border-[var(--line)] bg-[var(--surface)]/50">
-    <div class="wrap py-3 flex flex-wrap items-center justify-between gap-4 mono text-[var(--muted)]">
-      <div class="flex items-center gap-4">
-        <span class="text-[var(--ink)] font-medium">PROJETO {project.number} / 05</span>
-        <span>{project.kind} · {project.year}</span>
-      </div>
+  <div class="wrap py-14 sm:py-20 space-y-10">
+    <!-- 12-Col Side-by-Side Hero Spread -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+      <!-- Editorial Dossier Column (5 cols) -->
+      <div
+        class:list={[
+          'lg:col-span-5 space-y-6',
+          isMediaFirst ? 'lg:order-2' : 'lg:order-1',
+        ]}
+      >
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[var(--line)] mono text-[var(--muted)]">
+          <span>
+            <strong class="text-[var(--ink)] font-medium">PROJETO {project.number} / 05</strong> · {project.kind} · {project.year}
+          </span>
+          <div class="flex flex-wrap items-center gap-4">
+            {project.links.map((l) => (
+              <a
+                href={l.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link text-[var(--ink)]"
+              >
+                {l.label} ↗
+              </a>
+            ))}
+          </div>
+        </div>
 
-      <div class="flex flex-wrap items-center gap-5">
-        {project.links.map((l) => (
-          <a
-            href={l.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="link text-[var(--ink)]"
-          >
-            {l.label} ↗
-          </a>
-        ))}
-      </div>
-    </div>
-  </div>
+        <div class="space-y-3">
+          <h2 class="display text-[clamp(2.25rem,5vw,4.75rem)]">
+            {project.title}
+          </h2>
+          <p class="text-base sm:text-lg text-[var(--muted)] leading-snug">
+            {project.oneLiner}
+          </p>
+          <div class="mono text-[11px] text-[var(--muted)]">
+            {project.context} · {project.role}
+          </div>
+        </div>
 
-  <!-- Header & Narrative Grid -->
-  <div class="wrap py-14 space-y-12">
-    <div class="reveal grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
-      <h2 class="display text-[clamp(2.25rem,7vw,6.5rem)] lg:col-span-8">
-        {project.title}
-      </h2>
-      <p class="text-base sm:text-lg text-[var(--muted)] leading-snug lg:col-span-4">
-        {project.oneLiner}
-      </p>
-    </div>
+        <div class="space-y-4 pt-2 border-t border-[var(--line)]">
+          <div class="space-y-1">
+            <h3 class="mono text-[var(--muted)]">O que é</h3>
+            <p class="text-sm sm:text-base leading-relaxed">{project.about}</p>
+          </div>
+          <div class="space-y-1">
+            <h3 class="mono text-[var(--muted)]">O que fiz</h3>
+            <p class="text-sm sm:text-base leading-relaxed">{project.work}</p>
+          </div>
+        </div>
 
-    <dl class="reveal pt-6 border-t border-[var(--line)] grid grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="space-y-1">
-        <dt class="mono text-[var(--muted)]">Ano</dt>
-        <dd class="text-sm">{project.year}</dd>
-      </div>
-      <div class="space-y-1">
-        <dt class="mono text-[var(--muted)]">Contexto</dt>
-        <dd class="text-sm">{project.context}</dd>
-      </div>
-      <div class="space-y-1">
-        <dt class="mono text-[var(--muted)]">Papel</dt>
-        <dd class="text-sm">{project.role}</dd>
-      </div>
-      <div class="space-y-1">
-        <dt class="mono text-[var(--muted)]">Tecnologias</dt>
-        <dd class="text-sm">{project.stack.join(', ')}</dd>
-      </div>
-    </dl>
-
-    <div class="reveal pt-8 border-t border-[var(--line)] grid grid-cols-1 lg:grid-cols-12 gap-8">
-      <div class="lg:col-span-4 space-y-2">
-        <h3 class="mono text-[var(--muted)]">O que é</h3>
-        <p class="text-base leading-relaxed">{project.about}</p>
-      </div>
-
-      <div class="lg:col-span-4 space-y-2">
-        <h3 class="mono text-[var(--muted)]">O que fiz</h3>
-        <p class="text-base leading-relaxed">{project.work}</p>
-      </div>
-
-      <div class="lg:col-span-4 space-y-2">
-        <h3 class="mono text-[var(--muted)]">Detalhes</h3>
         <ul class="divide-y divide-[var(--line)] border-t border-b border-[var(--line)]">
           {project.details.map((d) => (
-            <li class="py-2.5 text-sm leading-snug">{d}</li>
+            <li class="py-2 text-sm leading-snug flex items-baseline gap-2.5">
+              <span class="mono text-[var(--accent)] shrink-0">+</span>
+              <span>{d}</span>
+            </li>
           ))}
         </ul>
-      </div>
-    </div>
-  </div>
 
-  <!-- Inline Visual Showcase (Zero Clicks Required) -->
-  {project.slug === 'infinity-nova' && (
-    <div style={`background:${project.ground}; color:${project.ink};`}>
-      <InfinityNovaViewer3D initial="manopla" instanceId="nova" />
-
-      <div class="wrap py-12">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {project.gallery.map((item) => (
-            <div
-              class:list={[
-                'media reveal border border-white/10',
-                item.span === 'full' ? 'md:col-span-2' : 'aspect-[16/10]',
-                item.contain ? 'p-6 sm:p-10 flex items-center justify-center' : '',
-              ]}
-              style={`background:${project.ground};`}
-            >
-              <img
-                src={item.src}
-                alt={item.alt}
-                class:list={[
-                  item.contain
-                    ? item.span === 'full'
-                      ? 'w-full h-auto object-contain'
-                      : 'w-full h-full object-contain'
-                    : 'w-full h-full object-cover object-top',
-                  { pixel: item.pixelated },
-                ]}
-              />
+        <!-- Ferramentas usadas + Paleta de cores -->
+        <div class="flex flex-wrap items-end justify-between gap-6 pt-1">
+          <div class="space-y-2">
+            <div class="mono text-[var(--muted)]">Ferramentas usadas</div>
+            <div class="flex flex-wrap gap-2">
+              {uniqueTools.map((tech) => (
+                <ToolIcon name={tech} size={32} />
+              ))}
             </div>
-          ))}
+          </div>
+
+          <div class="space-y-2">
+            <div class="mono text-[var(--muted)]">Paleta</div>
+            <div class="flex items-center gap-1.5">
+              {swatches.map((hex) => (
+                <span
+                  title={hex}
+                  aria-label={`Cor ${hex}`}
+                  class="w-5 h-5 border border-[var(--line)] inline-block"
+                  style={`background:${hex};`}
+                ></span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  )}
 
-  {project.slug === 'labcd' && (
-    <div class="wrap pb-14">
+      <!-- Primary Visual Stage Column (7 cols) -->
       <div
-        class="reveal p-6 sm:p-10 space-y-10"
-        style={`background:${project.ground}; color:${project.ink};`}
+        class:list={[
+          'lg:col-span-7',
+          isMediaFirst ? 'lg:order-1' : 'lg:order-2',
+        ]}
       >
-        <div class="flex flex-wrap items-baseline justify-between gap-4 border-b border-[#0E0E0E]/15 pb-6">
-          <span class="display text-[clamp(2rem,5vw,4.5rem)]">LabCD · Arquitetura</span>
-          <span class="mono text-[#0E0E0E]/70">Flutter + Django REST + PostgreSQL PL/pgSQL</span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {labcdLayers.map((layer) => (
-            <div class="border border-[#0E0E0E]/20 bg-[#EDEDEA]/65 p-6 space-y-3">
-              <div class="mono text-[#0E0E0E]/75">{layer.step}</div>
-              <p class="text-base leading-relaxed">{layer.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )}
-
-  {project.slug === 'cyrix' && (
-    <div style={`background:${project.ground}; color:${project.ink};`}>
-      <div class="wrap py-12 space-y-4">
-        {project.cover.type === 'image' && (
-          <div class="media reveal border border-white/10">
-            <img
-              src={project.cover.src}
-              alt={project.cover.alt}
-              class="w-full h-auto object-cover"
-            />
+        {project.slug === 'infinity-nova' && (
+          <div class="border border-[var(--ink)] bg-[#090A0F] overflow-hidden">
+            <InfinityNovaViewer3D initial="manopla" instanceId="nova" compact={true} />
           </div>
         )}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {project.gallery.map((item) => (
-            <div
+        {project.slug === 'labcd' && (
+          <div
+            class="border border-[var(--ink)] p-5 sm:p-7 space-y-6"
+            style={`background:${project.ground}; color:${project.ink};`}
+          >
+            <!-- App Window Header -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[#0E0E0E]/15">
+              <span class="mono font-medium text-[#0E0E0E]">
+                LabCD · Produção Protética · Modo Offline Ativo — SQLite Local
+              </span>
+              <span class="inline-flex items-center gap-1.5" aria-hidden="true">
+                <span class="w-2.5 h-2.5 border border-[#0E0E0E]"></span>
+                <span class="w-2.5 h-2.5 border border-[#0E0E0E]"></span>
+                <span class="w-2.5 h-2.5 bg-[#0E0E0E]"></span>
+              </span>
+            </div>
+
+            <!-- 3-Column Prosthetic Kanban -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {labcdKanban.map((col) => (
+                <div class="border border-[#0E0E0E]/20 bg-[#EDEDEA] p-4 space-y-2">
+                  <div class="mono text-[11px] text-[#0047FF] font-medium">{col.bench}</div>
+                  <div class="text-sm font-semibold text-[#0E0E0E]">{col.card}</div>
+                  <div class="mono text-[11px] text-[#62625D]">{col.detail}</div>
+                </div>
+              ))}
+            </div>
+
+            <!-- Architectural Odontograma SVG -->
+            <div class="border border-[#0E0E0E]/20 bg-[#EDEDEA]/75 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <div class="mono text-[11px] text-[#0E0E0E]/75">Odontograma &amp; Ficheiro .STL</div>
+                <div class="text-sm font-medium">Dentes 11–28 / 31–48 · Validação binária até 100 MB</div>
+              </div>
+              <svg viewBox="0 0 220 56" width="220" height="56" aria-hidden="true" class="shrink-0">
+                {Array.from({ length: 12 }).map((_, idx) => {
+                  const x = 8 + idx * 17;
+                  const active = idx === 3 || idx === 4 || idx === 8;
+                  return (
+                    <rect
+                      x={x}
+                      y={6}
+                      width="13"
+                      height="18"
+                      rx="2"
+                      fill={active ? '#0047FF' : 'none'}
+                      stroke="#0E0E0E"
+                      stroke-width="1.2"
+                    />
+                  );
+                })}
+                {Array.from({ length: 12 }).map((_, idx) => {
+                  const x = 8 + idx * 17;
+                  const active = idx === 7;
+                  return (
+                    <rect
+                      x={x}
+                      y={30}
+                      width="13"
+                      height="18"
+                      rx="2"
+                      fill={active ? '#0E0E0E' : 'none'}
+                      stroke="#0E0E0E"
+                      stroke-width="1.2"
+                    />
+                  );
+                })}
+              </svg>
+            </div>
+
+            <!-- Pulsing Data-Lane Architecture Diagram -->
+            <div class="pt-2 space-y-2">
+              <div class="mono text-[11px] text-[#0E0E0E]/70">Sincronização offline-first</div>
+              <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 items-center">
+                <div class="border border-[#0E0E0E] bg-[#EDEDEA] px-3 py-2.5 text-center mono text-[11px]">
+                  Flutter + SQLite
+                </div>
+                <div class="pulse-lane hidden sm:block"><div class="pulse-dot"></div></div>
+                <div class="border border-[#0E0E0E] bg-[#EDEDEA] px-3 py-2.5 text-center mono text-[11px]">
+                  Django REST API
+                </div>
+                <div class="pulse-lane hidden sm:block"><div class="pulse-dot" style="animation-delay: 0.9s;"></div></div>
+                <div class="border border-[#0E0E0E] bg-[#0E0E0E] text-[#EDEDEA] px-3 py-2.5 text-center mono text-[11px]">
+                  PostgreSQL · 15 Tabelas
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {project.slug === 'cyrix' && (
+          <div class="border border-[var(--ink)] bg-[#0F172A] p-4 sm:p-6 pb-8 relative overflow-hidden">
+            <!-- Browser Window Chrome -->
+            <div class="border border-white/15 bg-[#020617] overflow-hidden">
+              <div class="px-3 py-2 border-b border-white/10 flex items-center justify-between mono text-[11px] text-white/70">
+                <span>cyrix-mu.vercel.app</span>
+                <span>React + Express + PostgreSQL</span>
+              </div>
+              {project.cover.type === 'image' && (
+                <div class="media">
+                  <img
+                    src={project.cover.src}
+                    alt={project.cover.alt}
+                    class="w-full h-auto object-cover"
+                  />
+                </div>
+              )}
+            </div>
+
+            <!-- Layered Mobile Frame -->
+            <div class="mt-4 sm:mt-0 sm:absolute sm:bottom-4 sm:right-4 sm:w-[26%] w-44 mx-auto border-2 border-white/25 bg-[#0F172A] shadow-2xl overflow-hidden">
+              <img
+                src="/projetos/cyrix/home-mobile.png"
+                alt="Versão mobile do portal Cyrix"
+                class="w-full h-auto block"
+              />
+            </div>
+          </div>
+        )}
+
+        {project.slug === 'cg-3d-lab' && (
+          <div class="border border-[var(--ink)] bg-[#111111] overflow-hidden">
+            <InfinityNovaViewer3D initial="tesseract" instanceId="cg" compact={true} />
+          </div>
+        )}
+
+        {project.slug === 'ecogo' && (
+          <div
+            data-ecogo-calc
+            class="border border-[var(--ink)] p-5 sm:p-8 space-y-6"
+            style={`background:${project.ground}; color:${project.ink};`}
+          >
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-white/20">
+              <div class="space-y-0.5">
+                <div class="mono text-[11px] text-[#F2F0EB]/75">EcoGo · Eco-Escolas ESTGV</div>
+                <div class="text-xl font-bold">Calculadora de CO₂ no Campus</div>
+              </div>
+
+              <div role="group" aria-label="Escolher distância ao campus" class="flex flex-wrap gap-1.5">
+                {ecogoDistances.map((km) => (
+                  <button
+                    type="button"
+                    data-km-btn={km}
+                    aria-pressed={km === 8 ? 'true' : 'false'}
+                    class:list={[
+                      'px-3 py-1.5 mono border transition-colors cursor-pointer',
+                      km === 8
+                        ? 'bg-[#F2F0EB] text-[#0E0E0E] border-[#F2F0EB] font-semibold'
+                        : 'border-white/30 text-[#F2F0EB] hover:border-white',
+                    ]}
+                  >
+                    {km} km
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <!-- Live Trip Metrics -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="border border-white/25 bg-black/15 p-4 space-y-1">
+                <div class="mono text-[11px] text-[#F2F0EB]/75">Trajeto selecionado</div>
+                <div data-ecogo-km class="display text-3xl sm:text-4xl">8 km</div>
+              </div>
+              <div class="border border-white/25 bg-black/15 p-4 space-y-1">
+                <div class="mono text-[11px] text-[#F2F0EB]/75">Emissão automóvel / dia</div>
+                <div data-ecogo-car-val class="display text-3xl sm:text-4xl">960 g</div>
+              </div>
+              <div class="border border-white/25 bg-[#F2F0EB] text-[#0E0E0E] p-4 space-y-1">
+                <div class="mono text-[11px] text-[#0E0E0E]/70">Poupança anual a pé/bici</div>
+                <div data-ecogo-saved class="display text-3xl sm:text-4xl">172 kg</div>
+              </div>
+            </div>
+
+            <!-- Live Comparative Bars -->
+            <div class="space-y-3 pt-2">
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between mono text-xs">
+                  <span>Automóvel (~120 g/km)</span>
+                  <span data-ecogo-bar-car-label>960 g CO₂</span>
+                </div>
+                <div class="h-3 bg-black/25 border border-white/20">
+                  <div data-ecogo-bar-car class="h-full bg-[#F2F0EB] transition-all duration-300" style="width: 100%;"></div>
+                </div>
+              </div>
+
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between mono text-xs">
+                  <span>Autocarro (~68 g/km)</span>
+                  <span data-ecogo-bar-bus-label>544 g CO₂</span>
+                </div>
+                <div class="h-3 bg-black/25 border border-white/20">
+                  <div data-ecogo-bar-bus class="h-full bg-[#A7F3D0] transition-all duration-300" style="width: 56%;"></div>
+                </div>
+              </div>
+
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between mono text-xs">
+                  <span>Bicicleta / A pé</span>
+                  <span>0 g CO₂</span>
+                </div>
+                <div class="h-3 bg-black/25 border border-white/20">
+                  <div class="h-full bg-[#A7F3D0]" style="width: 3%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <!-- Full-Width Bento Gallery Below Hero Spread -->
+    {project.slug === 'infinity-nova' && (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        {project.gallery.map((item) => (
+          <div
+            class:list={[
+              'media reveal border border-[var(--line)]',
+              item.span === 'full' ? 'md:col-span-2' : 'aspect-[16/10]',
+              item.contain ? 'p-6 sm:p-10 flex items-center justify-center' : '',
+            ]}
+            style={`background:${project.ground};`}
+          >
+            <img
+              src={item.src}
+              alt={item.alt}
               class:list={[
-                'media reveal border border-white/10',
-                item.span === 'full' ? 'md:col-span-2' : 'aspect-[16/10]',
-                item.contain ? 'p-4 sm:p-8 flex items-center justify-center' : '',
+                item.contain
+                  ? item.span === 'full'
+                    ? 'w-full h-auto object-contain'
+                    : 'w-full h-full object-contain'
+                  : 'w-full h-full object-cover object-top',
+                { pixel: item.pixelated },
               ]}
-              style={`background:${project.ground};`}
-            >
-              <img
-                src={item.src}
-                alt={item.alt}
-                class:list={[
-                  item.contain
-                    ? item.span === 'full'
-                      ? 'w-full h-auto object-contain'
-                      : 'w-full h-full object-contain'
-                    : 'w-full h-full object-cover object-top',
-                ]}
-              />
-            </div>
-          ))}
-        </div>
+            />
+          </div>
+        ))}
       </div>
-    </div>
-  )}
+    )}
 
-  {project.slug === 'cg-3d-lab' && (
-    <div style={`background:${project.ground}; color:${project.ink};`}>
-      <InfinityNovaViewer3D initial="tesseract" instanceId="cg" />
-
-      <div class="wrap py-12 space-y-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {project.gallery.map((item) => (
+    {project.slug === 'cyrix' && (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        {project.gallery
+          .filter((item) => item.src !== '/projetos/cyrix/home-mobile.png')
+          .map((item) => (
             <div
-              class="media reveal border border-white/10 aspect-[16/10] p-6 sm:p-10 flex items-center justify-center"
+              class="media reveal border border-[var(--line)] aspect-[16/10]"
               style={`background:${project.ground};`}
             >
               <img
                 src={item.src}
                 alt={item.alt}
-                class="w-full h-full object-contain pixel"
+                class="w-full h-full object-cover object-top"
               />
             </div>
           ))}
-        </div>
+      </div>
+    )}
 
-        <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-white/10 pt-6">
-          {cgPipeline.map((stage) => (
-            <div class="border border-white/15 p-5 space-y-2">
-              <div class="mono text-[#EDEDEA]">{stage.step}</div>
-              <p class="text-sm text-[#EDEDEA]/75 leading-relaxed">{stage.note}</p>
+    {project.slug === 'cg-3d-lab' && (
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-2">
+        {project.gallery.map((item) => (
+          <div
+            class="lg:col-span-3 media reveal border border-[var(--line)] aspect-square p-6 flex items-center justify-center"
+            style={`background:${project.ground};`}
+          >
+            <img
+              src={item.src}
+              alt={item.alt}
+              class="w-full h-full object-contain pixel"
+            />
+          </div>
+        ))}
+
+        <div
+          class="lg:col-span-6 reveal border border-[var(--line)] p-6 sm:p-8 flex flex-col justify-between gap-6"
+          style={`background:${project.ground}; color:${project.ink};`}
+        >
+          <div class="mono text-[#EDEDEA]/65">Pipeline 3D</div>
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 items-center">
+            <div class="border border-white/25 p-3 text-center space-y-1">
+              <div class="mono text-xs text-[#EA7600]">01 · Blender</div>
+              <div class="text-xs text-[#EDEDEA]/75">UV · PBR · Rigging</div>
             </div>
-          ))}
+            <div class="pulse-lane-dark hidden sm:block"><div class="pulse-dot"></div></div>
+            <div class="border border-white/25 p-3 text-center space-y-1">
+              <div class="mono text-xs text-[#33A8FF]">02 · Blockbench</div>
+              <div class="text-xs text-[#EDEDEA]/75">.geo.json</div>
+            </div>
+            <div class="pulse-lane-dark hidden sm:block"><div class="pulse-dot" style="animation-delay: 0.9s;"></div></div>
+            <div class="border border-white/25 p-3 text-center space-y-1">
+              <div class="mono text-xs text-[#00F0FF]">03 · Three.js</div>
+              <div class="text-xs text-[#EDEDEA]/75">WebGL no browser</div>
+            </div>
+          </div>
+          <p class="text-sm text-[#EDEDEA]/75 leading-relaxed">
+            Os mapas ao lado são as texturas 64×64 originais aplicadas em cima da geometria Bedrock/GeckoLib diretamente no browser.
+          </p>
         </div>
       </div>
-    </div>
-  )}
-
-  {project.slug === 'ecogo' && (
-    <div class="wrap pb-14">
-      <div
-        class="reveal p-6 sm:p-10 space-y-10"
-        style={`background:${project.ground}; color:${project.ink};`}
-      >
-        <div class="flex flex-wrap items-baseline justify-between gap-4 border-b border-white/20 pb-6">
-          <span class="display text-[clamp(2rem,5vw,4.5rem)]">EcoGo · ESTGV</span>
-          <span class="mono text-[#F2F0EB]/80">Identidade Visual &amp; Calculadora de CO₂</span>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <!-- Palette Swatches -->
-          <div class="lg:col-span-4 space-y-3">
-            <div class="mono text-[#F2F0EB]/80">Paleta da marca</div>
-            <div class="grid grid-cols-3 gap-3">
-              {ecogoPalette.map((sw) => (
-                <div class="space-y-1.5">
-                  <div
-                    class="h-16 border border-white/30"
-                    style={`background:${sw.hex};`}
-                  ></div>
-                  <div class="mono text-[11px]">{sw.hex}</div>
-                  <div class="text-xs text-[#F2F0EB]/80">{sw.name}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <!-- Mobility Calculator Flow -->
-          <div class="lg:col-span-4 space-y-3">
-            <div class="mono text-[#F2F0EB]/80">Fluxo da calculadora</div>
-            <div class="space-y-2.5">
-              {ecogoFlow.map((item) => (
-                <div class="border border-white/25 px-4 py-3 flex items-center gap-3">
-                  <span class="mono text-[#F2F0EB]/75">{item.step}</span>
-                  <span class="text-sm font-medium">{item.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <!-- Comparative Emissions -->
-          <div class="lg:col-span-4 space-y-3">
-            <div class="mono text-[#F2F0EB]/80">Comparativo por deslocação</div>
-            <div class="space-y-4 pt-1">
-              {ecogoBars.map((b) => (
-                <div class="space-y-1.5">
-                  <div class="flex items-center justify-between text-xs mono">
-                    <span>{b.label}</span>
-                    <span>{b.val}</span>
-                  </div>
-                  <div class="h-3 bg-black/25 border border-white/20">
-                    <div class="h-full bg-[#F2F0EB]" style={`width:${b.pct};`}></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )}
+    )}
+  </div>
 </article>
+
+{project.slug === 'ecogo' && (
+  <script is:inline>
+    (function () {
+      var box = document.querySelector('[data-ecogo-calc]');
+      if (!box) return;
+      var kmEl = box.querySelector('[data-ecogo-km]');
+      var carEl = box.querySelector('[data-ecogo-car-val]');
+      var savedEl = box.querySelector('[data-ecogo-saved]');
+      var barCarLabel = box.querySelector('[data-ecogo-bar-car-label]');
+      var barBusLabel = box.querySelector('[data-ecogo-bar-bus-label]');
+      var barCar = box.querySelector('[data-ecogo-bar-car]');
+      var barBus = box.querySelector('[data-ecogo-bar-bus]');
+      var btns = box.querySelectorAll('[data-km-btn]');
+
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var km = parseInt(btn.getAttribute('data-km-btn') || '8', 10);
+          var carG = km * 120;
+          var busG = km * 68;
+          var savedKg = Math.floor((carG * 180) / 1000);
+
+          if (kmEl) kmEl.textContent = km + ' km';
+          if (carEl) carEl.textContent = carG + ' g';
+          if (savedEl) savedEl.textContent = savedKg + ' kg';
+          if (barCarLabel) barCarLabel.textContent = carG + ' g CO₂';
+          if (barBusLabel) barBusLabel.textContent = busG + ' g CO₂';
+          if (barCar) barCar.style.width = '100%';
+          if (barBus) barBus.style.width = '56%';
+
+          btns.forEach(function (b) {
+            var active = b === btn;
+            b.setAttribute('aria-pressed', active ? 'true' : 'false');
+            b.className = active
+              ? 'px-3 py-1.5 mono border transition-colors cursor-pointer bg-[#F2F0EB] text-[#0E0E0E] border-[#F2F0EB] font-semibold'
+              : 'px-3 py-1.5 mono border transition-colors cursor-pointer border-white/30 text-[#F2F0EB] hover:border-white';
+          });
+        });
+      });
+    })();
+  </script>
+)}

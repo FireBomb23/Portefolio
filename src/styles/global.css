@@ -16,6 +16,20 @@
     font-family: 'Archivo', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
     font-weight: 400;
     scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #0E0E0E #EDEDEA;
+  }
+
+  html::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  html::-webkit-scrollbar-track {
+    background: #EDEDEA;
+  }
+
+  html::-webkit-scrollbar-thumb {
+    background: #0E0E0E;
   }
 
   body {
@@ -77,6 +91,7 @@
 .link {
   position: relative;
   text-decoration: none;
+  text-underline-offset: 4px;
   transition: color 0.2s ease;
 }
 
@@ -116,26 +131,6 @@
 
 .pixel {
   image-rendering: pixelated;
-}
-
-.tool-tile {
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--line);
-  background: var(--bg);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, color 0.2s ease;
-}
-
-.tool-tile:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent);
-  color: var(--accent);
 }
 
 .folder-tab {
@@ -196,6 +191,58 @@ html.js-ready .reveal.is-visible {
   animation: marquee 28s linear infinite;
 }
 
+@keyframes dataPulse {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.pulse-lane {
+  position: relative;
+  overflow: hidden;
+  height: 2px;
+  background: rgba(14, 14, 14, 0.16);
+}
+
+.pulse-dot {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 28%;
+  height: 8px;
+  animation: dataPulse 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.pulse-dot::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: #0047FF;
+}
+
+.pulse-lane-dark {
+  position: relative;
+  overflow: hidden;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.pulse-lane-dark .pulse-dot::after {
+  background: #00F0FF;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -204,9 +251,9 @@ html.js-ready .reveal.is-visible {
   .link,
   .link::after,
   .media img,
-  .tool-tile,
   .folder-tab,
   .marquee-track,
+  .pulse-dot,
   html.js-ready .reveal,
   * {
     animation: none !important;
@@ -217,8 +264,7 @@ html.js-ready .reveal.is-visible {
     transform: none !important;
   }
   .media:hover img,
-  .group:hover .media img,
-  .tool-tile:hover {
+  .group:hover .media img {
     transform: none !important;
   }
 }

@@ -1,6 +1,7 @@
 ---
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import ToolIcon from './ToolIcon.astro';
 import { PROFILE } from '../data/portfolio';
 
 const candidateFiles = ['rodrigo.jpg', 'rodrigo.jpeg', 'rodrigo.png', 'rodrigo.webp'];
@@ -21,15 +22,23 @@ const careerSteps = [
   { year: '2025', title: 'EcoGo', note: 'Identidade, UI Figma & Calculadora CO₂ (ESTGV)' },
 ];
 
-const tools = [
-  { code: 'Jv', label: 'Java 21' },
-  { code: 'Py', label: 'Python & Django' },
-  { code: 'Ts', label: 'JS / TypeScript' },
-  { code: 'Re', label: 'React' },
-  { code: 'Fl', label: 'Flutter' },
-  { code: 'Pg', label: 'PostgreSQL' },
-  { code: '3D', label: 'Three.js & Blender' },
-  { code: 'Fg', label: 'Figma' },
+const polaroids = [
+  { src: '/infinity-nova/assets/banner.png', alt: 'Banner pixel-art Infinity Nova', label: '01 Manopla 3D', pixel: true, tilt: '-rotate-2' },
+  { src: '/projetos/cyrix/home.png', alt: 'Portal Cyrix Cybersecurity', label: '03 Cyrix Web', pixel: false, tilt: 'rotate-1' },
+  { src: '/infinity-nova/textures/manopla_3d.png', alt: 'Mapa UV Manopla 3D', label: '04 Mapa UV', pixel: true, tilt: '-rotate-1' },
+];
+
+const personalTools = [
+  'Java 21',
+  'Python',
+  'Django',
+  'TypeScript',
+  'React',
+  'Flutter',
+  'PostgreSQL',
+  'Three.js',
+  'Blender',
+  'Figma',
 ];
 ---
 
@@ -54,58 +63,59 @@ const tools = [
       </p>
     </div>
 
-    <!-- Personal Spread Board (12-col editorial layout) -->
-    <div class="border border-[var(--line)] bg-[var(--surface)]/55 p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
-      <!-- Left Column: Portrait Frame (ready for public/rodrigo.jpg) -->
+    <!-- Personal Spread Board -->
+    <div class="border border-[var(--line)] bg-[var(--surface)]/55 p-5 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+      <!-- Left Column: Refined Architectural Portrait Frame -->
       <div class="lg:col-span-4 flex flex-col justify-between gap-4">
-        <div
-          data-photo-slot="public/rodrigo.jpg"
-          class="aspect-[4/5] w-full border border-[var(--ink)] bg-[#111113] text-[#EDEDEA] dark-grid relative overflow-hidden flex flex-col justify-between p-5"
-          style="box-shadow: 6px 6px 0 #0E0E0E;"
-        >
-          {portraitSrc ? (
-            <img
-              src={portraitSrc}
-              alt="Fotografia de Rodrigo Albuquerque"
-              class="absolute inset-0 w-full h-full object-cover"
-            />
-          ) : (
-            <>
-              <!-- Architectural Crosshair Frame Placeholder -->
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 100 125"
-                class="absolute inset-0 w-full h-full pointer-events-none opacity-25"
-                fill="none"
-                stroke="#EDEDEA"
-                stroke-width="0.4"
-              >
-                <line x1="50" y1="0" x2="50" y2="125" stroke-dasharray="2 2" />
-                <line x1="0" y1="62.5" x2="100" y2="62.5" stroke-dasharray="2 2" />
-                <circle cx="50" cy="46" r="16" />
-                <path d="M 24 125 C 24 88, 76 88, 76 125" />
-              </svg>
+        <div class="p-2 border border-[var(--ink)] bg-[var(--bg)] shadow-[0_18px_40px_-15px_rgba(14,14,14,0.22)]">
+          <div
+            data-photo-slot="public/rodrigo.jpg"
+            class="aspect-[4/5] w-full bg-[#111113] text-[#EDEDEA] dark-grid relative overflow-hidden flex flex-col justify-between p-5"
+          >
+            {portraitSrc ? (
+              <img
+                src={portraitSrc}
+                alt="Fotografia de Rodrigo Albuquerque"
+                class="absolute inset-0 w-full h-full object-cover"
+              />
+            ) : (
+              <>
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 100 125"
+                  class="absolute inset-0 w-full h-full pointer-events-none opacity-30"
+                  fill="none"
+                  stroke="#EDEDEA"
+                  stroke-width="0.4"
+                >
+                  <line x1="50" y1="0" x2="50" y2="125" stroke-dasharray="2 2" />
+                  <line x1="0" y1="62.5" x2="100" y2="62.5" stroke-dasharray="2 2" />
+                  <circle cx="50" cy="54" r="24" stroke="#0047FF" stroke-width="0.5" />
+                  <circle cx="50" cy="54" r="16" />
+                  <path d="M 22 125 C 22 92, 78 92, 78 125" />
+                </svg>
 
-              <div class="relative z-10 flex items-center justify-between mono text-[10px] text-[#EDEDEA]/70">
-                <span>40.6566° N, 7.9125° W</span>
-                <span>VISEU</span>
-              </div>
+                <div class="relative z-10 flex items-center justify-between mono text-[10px] text-[#EDEDEA]/70">
+                  <span>40.6566° N, 7.9125° W</span>
+                  <span>VISEU, PT</span>
+                </div>
 
-              <div class="relative z-10 my-auto text-center select-none">
-                <span class="display text-[clamp(3.5rem,7vw,5.5rem)] text-[#EDEDEA]/90">RA</span>
-              </div>
-            </>
-          )}
+                <div class="relative z-10 my-auto text-center select-none">
+                  <span class="display text-[clamp(3.25rem,6.5vw,5rem)] text-[#EDEDEA]/95">RA</span>
+                </div>
+              </>
+            )}
 
-          <div class="relative z-10 mt-auto self-start bg-[#EDEDEA] text-[#0E0E0E] px-2.5 py-1 border border-[#0E0E0E] mono text-[10px] font-medium -rotate-1">
-            FEITO POR RODRIGO · FIREBOMB23
+            <div class="relative z-10 mt-auto self-start bg-[#EDEDEA] text-[#0E0E0E] px-2.5 py-1 border border-[#0E0E0E] mono text-[10px] font-medium -rotate-1">
+              FEITO POR RODRIGO · FIREBOMB23
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Center Column: Bio & Foco -->
-      <div class="lg:col-span-4 flex flex-col justify-between gap-8">
-        <div class="space-y-5">
+      <!-- Center Column: Bio, Foco & 3 Tilted Polaroid Snapshots -->
+      <div class="lg:col-span-4 flex flex-col justify-between gap-7">
+        <div class="space-y-4">
           <div class="flex flex-wrap items-center gap-2">
             <span class="mono text-[10px] px-2 py-0.5 border border-[var(--ink)] bg-[var(--bg)] -rotate-1">
               VISEU · PORTUGAL
@@ -119,7 +129,7 @@ const tools = [
             Olá! Sou o Rodrigo.
           </h2>
 
-          <div class="space-y-4 text-sm sm:text-base leading-relaxed text-[var(--ink)]">
+          <div class="space-y-3 text-sm sm:text-base leading-relaxed text-[var(--ink)]">
             <p>
               Estou no 3.º ano de Tecnologias e Design de Multimédia na ESTGV, em Viseu. Gosto tanto da parte visual como do código que faz tudo funcionar — por isso desenho os ecrãs no Figma, modelo em 3D e programo a API e a base de dados por trás.
             </p>
@@ -129,9 +139,9 @@ const tools = [
           </div>
         </div>
 
-        <div class="pt-5 border-t border-[var(--line)] space-y-3">
+        <div class="pt-4 border-t border-[var(--line)] space-y-2.5">
           <div class="mono text-[var(--muted)]">Foco</div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="grid grid-cols-2 gap-3">
             {focusAreas.map((item) => (
               <div class="space-y-0.5">
                 <div class="text-sm font-semibold text-[var(--ink)]">{item.title}</div>
@@ -140,11 +150,35 @@ const tools = [
             ))}
           </div>
         </div>
+
+        <!-- 3 Tilted Polaroid Work Snapshots -->
+        <div class="pt-2 px-1 grid grid-cols-3 gap-2.5 sm:gap-3 overflow-hidden sm:overflow-visible">
+          {polaroids.map((shot) => (
+            <a
+              href={shot.label.startsWith('01') ? '#projeto-01' : shot.label.startsWith('03') ? '#projeto-03' : '#projeto-04'}
+              class:list={[
+                'group block bg-[#F7F6F2] p-1.5 sm:p-2 pb-3 sm:pb-4 border border-[var(--line)] shadow-[0_10px_24px_-10px_rgba(14,14,14,0.18)] transition-transform duration-300 hover:rotate-0 hover:-translate-y-1',
+                shot.tilt,
+              ]}
+            >
+              <div class="aspect-square bg-[#111113] overflow-hidden">
+                <img
+                  src={shot.src}
+                  alt={shot.alt}
+                  class:list={['w-full h-full object-cover transition-transform duration-500 group-hover:scale-105', { pixel: shot.pixel }]}
+                />
+              </div>
+              <div class="mono text-[9px] sm:text-[10px] text-[#0E0E0E] pt-1.5 truncate">
+                {shot.label}
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
 
-      <!-- Right Column: Percurso, Estudos & Ferramentas -->
-      <div class="lg:col-span-4 flex flex-col justify-between gap-8 lg:border-l lg:border-[var(--line)] lg:pl-8">
-        <div class="space-y-6">
+      <!-- Right Column: Percurso, Estudos & Full-Color Tools Grid -->
+      <div class="lg:col-span-4 flex flex-col justify-between gap-7 lg:border-l lg:border-[var(--line)] lg:pl-8">
+        <div class="space-y-5">
           <div class="space-y-3">
             <div class="mono text-[var(--muted)]">Percurso &amp; Projetos</div>
             <ul class="space-y-2.5">
@@ -159,7 +193,7 @@ const tools = [
             </ul>
           </div>
 
-          <div class="pt-5 border-t border-[var(--line)] space-y-2">
+          <div class="pt-4 border-t border-[var(--line)] space-y-2">
             <div class="flex items-center justify-between mono text-[var(--muted)]">
               <span>Estudos</span>
               <span>PT · EN</span>
@@ -171,14 +205,11 @@ const tools = [
           </div>
         </div>
 
-        <div class="pt-5 border-t border-[var(--line)] space-y-3">
+        <div class="pt-4 border-t border-[var(--line)] space-y-3">
           <div class="mono text-[var(--muted)]">Ferramentas que uso</div>
-          <div class="grid grid-cols-4 gap-2.5">
-            {tools.map((t) => (
-              <div class="flex flex-col items-start gap-1" title={t.label}>
-                <span class="tool-tile" aria-hidden="true">{t.code}</span>
-                <span class="text-[10px] leading-tight text-[var(--muted)] truncate w-full">{t.label}</span>
-              </div>
+          <div class="grid grid-cols-5 gap-2 sm:gap-2.5">
+            {personalTools.map((tool) => (
+              <ToolIcon name={tool} size={36} showLabel={true} />
             ))}
           </div>
         </div>

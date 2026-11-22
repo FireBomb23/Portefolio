@@ -2,9 +2,10 @@
 interface Props {
   initial?: 'manopla' | 'tesseract';
   instanceId?: string;
+  compact?: boolean;
 }
 
-const { initial = 'manopla', instanceId = 'main' } = Astro.props;
+const { initial = 'manopla', instanceId = 'main', compact = false } = Astro.props;
 
 const models = [
   { key: 'manopla', label: 'Manopla', icon: '/infinity-nova/textures/manopla.png' },
@@ -21,12 +22,15 @@ const models = [
 <div
   data-viewer-root={instanceId}
   data-initial={initial}
-  class="relative w-full h-[min(78vh,760px)] min-h-[420px] select-none"
+  class:list={[
+    'relative w-full select-none',
+    compact ? 'h-[460px] sm:h-[580px]' : 'h-[min(78vh,760px)] min-h-[420px]',
+  ]}
 >
   <div data-viewer-stage class="absolute inset-0 cursor-grab active:cursor-grabbing"></div>
 
-  <div class="pointer-events-none absolute inset-x-0 bottom-5 z-10">
-    <div class="wrap flex items-end justify-between gap-4">
+  <div class="pointer-events-none absolute inset-x-0 bottom-4 z-10">
+    <div class:list={[compact ? 'px-4 sm:px-6' : 'wrap', 'flex items-end justify-between gap-3']}>
       <div
         role="group"
         aria-label="Escolher modelo"
@@ -39,7 +43,7 @@ const models = [
             aria-label={m.label}
             title={m.label}
             aria-pressed={m.key === initial ? 'true' : 'false'}
-            class="w-11 h-11 rounded-none border border-white/15 bg-black/40 hover:border-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047FF] focus-visible:outline-offset-2 flex items-center justify-center transition-colors cursor-pointer"
+            class="w-11 h-11 rounded-none border border-white/15 bg-black/50 hover:border-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047FF] focus-visible:outline-offset-2 flex items-center justify-center transition-colors cursor-pointer"
           >
             <img
               src={m.icon}
@@ -56,14 +60,14 @@ const models = [
             type="button"
             data-snap-btn
             aria-label="Estalar dedos (tecla G)"
-            class="h-11 rounded-none border border-white/15 bg-black/40 hover:border-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047FF] focus-visible:outline-offset-2 mono text-white/80 px-3 transition-colors cursor-pointer"
+            class="h-11 rounded-none border border-white/15 bg-black/50 hover:border-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0047FF] focus-visible:outline-offset-2 mono text-white/85 px-3 transition-colors cursor-pointer"
           >
             G · Estalar
           </button>
         )}
       </div>
 
-      <span class="hidden sm:inline mono text-white/60">
+      <span class:list={[compact ? 'hidden 2xl:inline' : 'hidden sm:inline', 'mono text-white/60 shrink-0']}>
         Arrasta para rodar · G para estalar
       </span>
     </div>
