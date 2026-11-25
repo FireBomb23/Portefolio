@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import InfinityNovaViewer3D from '../../components/InfinityNovaViewer3D.astro';
 import { PROFILE, PROJECTS } from '../../data/portfolio';
 import type { Project } from '../../data/portfolio';
+import { withBase } from '../../utils/paths';
 
 export function getStaticPaths() {
   return PROJECTS.map((project, index) => ({
@@ -33,7 +34,7 @@ const { project, nextProject } = Astro.props;
   <main id="conteudo-principal">
     <!-- Cabeçalho do projeto -->
     <section class="wrap pt-10 pb-12">
-      <a href="/#projetos" class="link mono text-[var(--ink)] inline-block">
+      <a href={withBase('/#projetos')} class="link mono text-[var(--ink)] inline-block">
         ← Projetos
       </a>
 
@@ -74,7 +75,7 @@ const { project, nextProject } = Astro.props;
         <div class="wrap py-12">
           <div class="media">
             <img
-              src={project.cover.src}
+              src={withBase(project.cover.src)}
               alt={project.cover.alt}
               class:list={['w-full h-auto', { pixel: project.cover.pixelated }]}
             />
@@ -149,7 +150,7 @@ const { project, nextProject } = Astro.props;
               style={`background:${project.ground};`}
             >
               <img
-                src={item.src}
+                src={withBase(item.src)}
                 alt={item.alt}
                 loading="lazy"
                 class:list={[
@@ -168,7 +169,7 @@ const { project, nextProject } = Astro.props;
     )}
 
     <!-- Seguinte -->
-    <a href={`/projetos/${nextProject.slug}`} class="group block border-t border-[var(--line)]">
+    <a href={withBase(`/projetos/${nextProject.slug}`)} class="group block border-t border-[var(--line)]">
       <div class="wrap py-16 space-y-4">
         <div class="mono text-[var(--muted)]">Seguinte</div>
         <div class="display text-[clamp(2.5rem,7vw,7rem)] transition-transform duration-300 group-hover:translate-x-2">

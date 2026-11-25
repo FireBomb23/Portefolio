@@ -1,5 +1,6 @@
 ---
 import { PROFILE } from '../data/portfolio';
+import { withBase } from '../utils/paths';
 ---
 
 <footer class="bg-[var(--bg)] border-t border-[var(--line)]">
@@ -7,7 +8,9 @@ import { PROFILE } from '../data/portfolio';
     <span>© 2026 {PROFILE.displayName}</span>
     <div class="flex flex-wrap items-center gap-6">
       <a href={`mailto:${PROFILE.email}`} class="link text-[var(--ink)]">{PROFILE.email}</a>
+      <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" class="link text-[var(--ink)]">LinkedIn ↗</a>
       <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" class="link text-[var(--ink)]">GitHub ↗</a>
+      <a href={withBase(PROFILE.curriculo)} class="link text-[var(--ink)]">Currículo ↗</a>
       <a href={PROFILE.modrinth} target="_blank" rel="noopener noreferrer" class="link text-[var(--ink)]">Modrinth ↗</a>
       <a href={PROFILE.curseforge} target="_blank" rel="noopener noreferrer" class="link text-[var(--ink)]">CurseForge ↗</a>
     </div>

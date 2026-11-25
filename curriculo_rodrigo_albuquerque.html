@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currículo — Rodrigo Albuquerque</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-sidebar: #0f172a;
+      --text-sidebar: #e2e8f0;
+      --muted-sidebar: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dark: #0284c7;
+      --text-main: #1e293b;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --bg-page: #f1f5f9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.48;
+      padding: 20px 24px 28px;
+    }
+
+    .web-bar {
+      width: 210mm;
+      max-width: 100%;
+      margin: 0 auto 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .web-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .web-btn--ghost {
+      background: #ffffff;
+      color: var(--bg-sidebar);
+      border: 1px solid #cbd5e1;
+    }
+
+    .web-btn--ghost:hover {
+      border-color: var(--accent-dark);
+      color: var(--accent-dark);
+    }
+
+    .web-btn--primary {
+      background: var(--bg-sidebar);
+      color: #ffffff;
+      border: 1px solid var(--bg-sidebar);
+    }
+
+    .web-btn--primary:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: #ffffff;
+      display: grid;
+      grid-template-columns: 72mm 1fr;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      background: var(--bg-sidebar);
+      color: var(--text-sidebar);
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .photo-box {
+      width: 132px;
+      height: 132px;
+      margin: 0 auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--accent);
+      background: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted-sidebar);
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 18%;
+      display: block;
+    }
+
+    .side-section h2 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: var(--accent);
+      border-bottom: 1px solid #334155;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 12px;
+    }
+
+    .contact-list li {
+      word-break: break-word;
+    }
+
+    .contact-list a {
+      color: var(--text-sidebar);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .contact-list a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .contact-label {
+      display: block;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      color: var(--muted-sidebar);
+      letter-spacing: 0.6px;
+    }
+
+    .tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .tag {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: var(--text-sidebar);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .side-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 12px;
+    }
+
+    .side-list li::before {
+      content: "• ";
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    /* MAIN */
+    .main {
+      padding: 26px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .header h1 {
+      font-size: 27px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--bg-sidebar);
+      line-height: 1.15;
+    }
+
+    .header .subtitle {
+      margin-top: 4px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--accent-dark);
+    }
+
+    .section h2 {
+      font-size: 12.5px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--bg-sidebar);
+      border-left: 3px solid var(--accent-dark);
+      padding-left: 10px;
+      margin-bottom: 9px;
+    }
+
+    .profile-text {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .item {
+      margin-bottom: 11px;
+    }
+
+    .item:last-child {
+      margin-bottom: 0;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .item-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--bg-sidebar);
+    }
+
+    .item-date {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--accent-dark);
+      white-space: nowrap;
+    }
+
+    .item-org {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .bullets {
+      padding-left: 17px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 12px;
+    }
+
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      background: #f8fafc;
+    }
+
+    .project-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .project-card-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--bg-sidebar);
+    }
+
+    .project-card-year {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-dark);
+      white-space: nowrap;
+    }
+
+    .project-card-desc {
+      font-size: 11.5px;
+      line-height: 1.38;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 780px) {
+      body {
+        padding: 12px;
+      }
+      .page {
+        width: 100%;
+        min-height: auto;
+        grid-template-columns: 1fr;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+      .web-bar {
+        display: none;
+      }
+      .page {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+        min-height: auto;
+      }
+      .contact-list a {
+        border-bottom: none;
+      }
+      @page {
+        size: A4;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="web-bar">
+    <a class="web-btn web-btn--ghost" href="https://firebomb23.github.io/Portefolio/">← Portfólio</a>
+    <button type="button" class="web-btn web-btn--primary" onclick="window.print()">Guardar PDF / Imprimir</button>
+  </div>
+
+  <div class="page">
+    <!-- BARRA LATERAL -->
+    <aside class="sidebar">
+      <div class="photo-box">
+        <img src="foto.jpg" alt="Foto de Rodrigo Albuquerque" onerror="this.style.display='none'; this.parentElement.innerText='Colocar foto.jpg na pasta';">
+      </div>
+
+      <section class="side-section">
+        <h2>Contactos</h2>
+        <ul class="contact-list">
+          <li>
+            <span class="contact-label">Telemóvel</span>
+            <a href="tel:+351915081063">915 081 063</a>
+          </li>
+          <li>
+            <span class="contact-label">Email</span>
+            <a href="mailto:rodrigoalbuquerque2006@gmail.com">rodrigoalbuquerque2006@gmail.com</a>
+          </li>
+          <li>
+            <span class="contact-label">Localização</span>
+            Viseu, Portugal
+          </li>
+          <li>
+            <span class="contact-label">Portfólio</span>
+            <a href="https://firebomb23.github.io/Portefolio/" target="_blank" rel="noopener noreferrer">firebomb23.github.io/Portefolio</a>
+          </li>
+          <li>
+            <span class="contact-label">GitHub</span>
+            <a href="https://github.com/FireBomb23" target="_blank" rel="noopener noreferrer">github.com/FireBomb23</a>
+          </li>
+          <li>
+            <span class="contact-label">LinkedIn</span>
+            <a href="https://www.linkedin.com/in/rodrigo-albuquerque-a7311644b" target="_blank" rel="noopener noreferrer">linkedin.com/in/rodrigo-albuquerque-a7311644b</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="side-section">
+        <h2>Competências Técnicas</h2>
+        <div class="tag-group">
+          <span class="tag">HTML5 &amp; CSS3</span>
+          <span class="tag">JavaScript / TypeScript</span>
+          <span class="tag">React &amp; Astro</span>
+          <span class="tag">Python / Django</span>
+          <span class="tag">Flutter</span>
+          <span class="tag">Java 21</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">UI/UX &amp; Figma</span>
+          <span class="tag">Blender / 3D</span>
+          <span class="tag">Design Gráfico</span>
+        </div>
+      </section>
+
+      <section class="side-section">
+        <h2>Competências Pessoais</h2>
+        <ul class="side-list">
+          <li>Trabalho em equipa e empatia</li>
+          <li>Comunicação clara</li>
+          <li>Resiliência e organização</li>
+          <li>Aprendizagem rápida</li>
+          <li>Cumprimento de prazos e horários</li>
+        </ul>
+      </section>
+
+      <section class="side-section">
+        <h2>Idiomas &amp; Outros</h2>
+        <ul class="side-list">
+          <li>Português — Nativo</li>
+          <li>Inglês — Boa compreensão (B1/B2)</li>
+          <li>Carta de condução (Cat. B)</li>
+        </ul>
+      </section>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main">
+      <header class="header">
+        <h1>RODRIGO ALBUQUERQUE</h1>
+        <p class="subtitle">Estudante de Tecnologias e Design de Multimédia · Candidato a Estágio</p>
+      </header>
+
+      <section class="section">
+        <h2>Perfil</h2>
+        <p class="profile-text">
+          Estudante da Licenciatura em Tecnologias e Design de Multimédia na ESTGV, com forte interesse em desenvolvimento web, design digital e criação de conteúdos multimédia. Procuro uma oportunidade de estágio onde possa aplicar os conhecimentos académicos em projetos reais, contribuir com criatividade e rigor técnico, e evoluir em ambiente profissional.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Formação Académica</h2>
+
+        <div class="item">
+          <div class="item-header">
+            <span class="item-title">Licenciatura em Tecnologias e Design de Multimédia</span>
+            <span class="item-date">2024 – Presente</span>
+          </div>
+          <div class="item-org">ESTGV — Escola Superior de Tecnologia e Gestão de Viseu</div>
+          <ul class="bullets">
+            <li>Áreas de foco: Desenvolvimento Web, Design de Interfaces (UI/UX), Produção Multimédia e Programação.</li>
+            <li>Desenvolvimento de projetos práticos individuais e em equipa utilizando ferramentas digitais atuais.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <div class="item-header">
+            <span class="item-title">Ensino Secundário — Curso de Ciências e Tecnologias</span>
+            <span class="item-date">2021 – 2024</span>
+          </div>
+          <div class="item-org">Escola Secundária Alves Martins, Viseu</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Experiência</h2>
+
+        <div class="item">
+          <div class="item-header">
+            <span class="item-title">Reforço de Verão — Atendimento e Loja</span>
+            <span class="item-date">2026</span>
+          </div>
+          <div class="item-org">JD Sports</div>
+          <ul class="bullets">
+            <li>Atendimento direto ao cliente, aconselhamento de produto e apoio na resolução de dúvidas.</li>
+            <li>Reposição de stock, organização de loja e trabalho em equipa em ambiente de ritmo rápido.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <div class="item-header">
+            <span class="item-title">Vogal do Núcleo de Estudantes (TDM)</span>
+            <span class="item-date">2025 – 2026</span>
+          </div>
+          <div class="item-org">Licenciatura em Tecnologias e Design de Multimédia — ESTGV</div>
+          <ul class="bullets">
+            <li>Apoio na organização de atividades académicas, eventos e integração de novos alunos.</li>
+            <li>Comunicação entre estudantes e representação do curso junto da comunidade académica.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Projetos Destacados</h2>
+        <div class="projects-grid">
+          <article class="project-card">
+            <div class="project-card-head">
+              <span class="project-card-title">Infinity Nova</span>
+              <span class="project-card-year">2026</span>
+            </div>
+            <p class="project-card-desc">
+              Mod Minecraft em Java 21 (NeoForge/GeckoLib), modelos 3D Blockbench, viewer WebGL em Three.js e painel Django. 715+ downloads no Modrinth e CurseForge.
+            </p>
+          </article>
+
+          <article class="project-card">
+            <div class="project-card-head">
+              <span class="project-card-title">LabCD</span>
+              <span class="project-card-year">2026</span>
+            </div>
+            <p class="project-card-desc">
+              App mobile Flutter offline-first (SQLite) para laboratório dentário, sincronizada com API Django REST e PostgreSQL (15 tabelas, triggers PL/pgSQL).
+            </p>
+          </article>
+
+          <article class="project-card">
+            <div class="project-card-head">
+              <span class="project-card-title">Cyrix</span>
+              <span class="project-card-year">2025/26</span>
+            </div>
+            <p class="project-card-desc">
+              Portal de diagnóstico europeu NIS2 com protótipo validado em Figma, frontend React/Vite e backend duplo em Node/Express e Django sobre PostgreSQL.
+            </p>
+          </article>
+
+          <article class="project-card">
+            <div class="project-card-head">
+              <span class="project-card-title">EcoGo</span>
+              <span class="project-card-year">2025</span>
+            </div>
+            <p class="project-card-desc">
+              Identidade visual, protótipo Figma e calculadora interativa de emissões de CO₂ em HTML, CSS e JavaScript para o programa Eco-Escolas da ESTGV.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

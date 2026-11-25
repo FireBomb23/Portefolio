@@ -2,6 +2,7 @@
 import InfinityNovaViewer3D from './InfinityNovaViewer3D.astro';
 import ToolIcon from './ToolIcon.astro';
 import type { Project } from '../data/portfolio';
+import { withBase } from '../utils/paths';
 
 interface Props {
   project: Project;
@@ -219,21 +220,21 @@ const ecogoTimelineDiagram = JSON.stringify({
             <div class="relative z-[2] p-5 grid grid-cols-2 gap-3 items-center h-full">
               <div class="col-span-2 media rounded-xl overflow-hidden bg-[#05060A] border border-white/10">
                 <img
-                  src="/infinity-nova/assets/banner_description.png"
+                  src={withBase('/infinity-nova/assets/banner_description.png')}
                   alt="Banner oficial de apresentação do Infinity Nova"
                   class="w-full h-auto object-contain pixel"
                 />
               </div>
               <div class="media aspect-square rounded-xl overflow-hidden bg-[#05060A] border border-white/10 p-3 flex items-center justify-center">
                 <img
-                  src="/infinity-nova/textures/manopla_3d.png"
+                  src={withBase('/infinity-nova/textures/manopla_3d.png')}
                   alt="Textura UV 64x64 da Manopla do Infinito"
                   class="w-full h-full object-contain pixel"
                 />
               </div>
               <div class="media aspect-square rounded-xl overflow-hidden bg-[#05060A] border border-white/10 p-3 flex items-center justify-center">
                 <img
-                  src="/infinity-nova/textures/tesseract_3d.png"
+                  src={withBase('/infinity-nova/textures/tesseract_3d.png')}
                   alt="Textura UV 64x64 do Tesseract"
                   class="w-full h-full object-contain pixel"
                 />
@@ -473,28 +474,28 @@ const ecogoTimelineDiagram = JSON.stringify({
               <h3>01 · Entrada Pública &amp; Enquadramento</h3>
               <p>Página principal responsiva onde as empresas percebem serviços, equipa e contactos sem fricção.</p>
               <figure class="mo-pc__visual">
-                <img src="/projetos/cyrix/home.png" alt="Página inicial da Cyrix Cybersecurity" />
+                <img src={withBase('/projetos/cyrix/home.png')} alt="Página inicial da Cyrix Cybersecurity" />
               </figure>
             </li>
             <li class="mo-pc__step">
               <h3>02 · Diagnóstico Interativo NIS2</h3>
               <p>Questionário por secções que avalia rapidamente o cumprimento da diretiva europeia NIS2.</p>
               <figure class="mo-pc__visual">
-                <img src="/projetos/cyrix/nis2.png" alt="Página da diretiva NIS2 com autoavaliação na Cyrix" />
+                <img src={withBase('/projetos/cyrix/nis2.png')} alt="Página da diretiva NIS2 com autoavaliação na Cyrix" />
               </figure>
             </li>
             <li class="mo-pc__step">
               <h3>03 · Catálogo de Serviços &amp; Testagem UX</h3>
               <p>Arquitetura validada previamente no Figma com testes reais de compreensão de ícones e questionário UEQ.</p>
               <figure class="mo-pc__visual">
-                <img src="/projetos/cyrix/servicos.png" alt="Página de Serviços da Cyrix" />
+                <img src={withBase('/projetos/cyrix/servicos.png')} alt="Página de Serviços da Cyrix" />
               </figure>
             </li>
             <li class="mo-pc__step">
               <h3>04 · Área Restrita JWT + 2FA</h3>
               <p>Acesso autenticado a tickets de suporte, documentos e backoffice sobre a base PostgreSQL.</p>
               <figure class="mo-pc__visual">
-                <img src="/projetos/cyrix/login.png" alt="Ecrã de acesso à Área Restrita da Cyrix" />
+                <img src={withBase('/projetos/cyrix/login.png')} alt="Ecrã de acesso à Área Restrita da Cyrix" />
               </figure>
             </li>
           </ol>
@@ -633,7 +634,7 @@ const ecogoTimelineDiagram = JSON.stringify({
               {project.gallery.map((item) => (
                 <div class="media aspect-square rounded-xl overflow-hidden bg-[#0B0B0D] border border-white/15 p-4 flex items-center justify-center">
                   <img
-                    src={item.src}
+                    src={withBase(item.src)}
                     alt={item.alt}
                     class="w-full h-full object-contain pixel"
                   />

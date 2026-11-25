@@ -35,8 +35,10 @@ export interface Project {
 export const PROFILE = {
   handle: 'FireBomb23',
   displayName: 'Rodrigo Albuquerque',
-  email: 'firebomb0623@gmail.com',
+  email: 'rodrigoalbuquerque2006@gmail.com',
   github: 'https://github.com/FireBomb23',
+  linkedin: 'https://www.linkedin.com/in/rodrigo-albuquerque-a7311644b',
+  curriculo: '/curriculo/',
   modrinth: 'https://modrinth.com/mod/infinitynova',
   curseforge: 'https://www.curseforge.com/minecraft/mc-mods/infinity-nova',
 };

@@ -4,10 +4,11 @@ import { join } from 'node:path';
 import ToolIcon from './ToolIcon.astro';
 import SceneTransition from './SceneTransition.astro';
 import { PROFILE } from '../data/portfolio';
+import { withBase } from '../utils/paths';
 
 const candidateFiles = ['rodrigo.jpg', 'rodrigo.jpeg', 'rodrigo.png', 'rodrigo.webp'];
 const foundFile = candidateFiles.find((name) => existsSync(join(process.cwd(), 'public', name)));
-const portraitSrc = foundFile ? `/${foundFile}` : null;
+const portraitSrc = foundFile ? withBase(`/${foundFile}`) : null;
 
 const careerSteps = [
   { year: '2026', title: 'Infinity Nova', note: 'Mod Java 21 + site 3D em Three.js (715+ downloads)' },
@@ -34,7 +35,7 @@ const projectPreviews = [
     href: '#projeto-01',
     num: '01',
     title: 'Infinity Nova',
-    src: '/infinity-nova/assets/banner.png',
+    src: withBase('/infinity-nova/assets/banner.png'),
     alt: 'Banner Infinity Nova em pixel art',
     pixel: true,
   },
@@ -42,7 +43,7 @@ const projectPreviews = [
     href: '#projeto-03',
     num: '03',
     title: 'Cyrix NIS2',
-    src: '/projetos/cyrix/home.png',
+    src: withBase('/projetos/cyrix/home.png'),
     alt: 'Página inicial da Cyrix Cybersecurity',
     pixel: false,
   },
@@ -50,7 +51,7 @@ const projectPreviews = [
     href: '#projeto-04',
     num: '04',
     title: 'Mapas UV 64×64',
-    src: '/infinity-nova/textures/manopla_3d.png',
+    src: withBase('/infinity-nova/textures/manopla_3d.png'),
     alt: 'Mapa UV da Manopla 3D',
     pixel: true,
   },
@@ -114,11 +115,22 @@ const hubDiagramSpec = JSON.stringify({
     <div class="wrap relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
       <!-- Left 6 Columns: Headline, Clear Offer & Primary Actions -->
       <div class="lg:col-span-6 space-y-7">
-        <div class="inline-flex flex-wrap items-center gap-2.5 mono text-[11px] text-[#E2E2DC]">
-          <span class="px-2.5 py-1 border border-white/15 bg-black/50 text-[#FF6B2C] font-medium">
-            ESTÁGIO CURRICULAR 2026/27
-          </span>
-          <span class="text-[#A8AAB3]">3.º ANO L-TDM · ESTGV VISEU</span>
+        <div class="flex flex-wrap items-center gap-3">
+          {portraitSrc && (
+            <img
+              src={portraitSrc}
+              alt="Rodrigo Albuquerque"
+              width="48"
+              height="48"
+              class="w-12 h-12 rounded-full object-cover object-[50%_20%] border border-white/25 shrink-0"
+            />
+          )}
+          <div class="inline-flex flex-wrap items-center gap-2.5 mono text-[11px] text-[#E2E2DC]">
+            <span class="px-2.5 py-1 border border-white/15 bg-black/50 text-[#FF6B2C] font-medium">
+              ESTÁGIO CURRICULAR 2026/27
+            </span>
+            <span class="text-[#A8AAB3]">3.º ANO L-TDM · ESTGV VISEU</span>
+          </div>
         </div>
 
         <h1 id="hero-nome" class="display text-[clamp(2.75rem,6.4vw,5.75rem)] text-[#F2F2EF]">
@@ -136,6 +148,20 @@ const hubDiagramSpec = JSON.stringify({
           >
             <span>Explorar os 5 projetos</span>
             <span aria-hidden="true">↓</span>
+          </a>
+          <a
+            href={PROFILE.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-4 py-3 border border-white/20 bg-black/40 text-[#F2F2EF] hover:border-white/50 transition-colors mono text-xs"
+          >
+            LinkedIn ↗
+          </a>
+          <a
+            href={withBase(PROFILE.curriculo)}
+            class="px-4 py-3 border border-white/20 bg-black/40 text-[#F2F2EF] hover:border-white/50 transition-colors mono text-xs"
+          >
+            Currículo ↗
           </a>
           <a
             href={PROFILE.github}
@@ -231,7 +257,7 @@ const hubDiagramSpec = JSON.stringify({
               <img
                 src={portraitSrc}
                 alt="Fotografia de Rodrigo Albuquerque"
-                class="w-full h-full object-cover object-top"
+                class="w-full h-full object-cover object-[50%_22%]"
               />
             </div>
           ) : (
@@ -318,7 +344,7 @@ const hubDiagramSpec = JSON.stringify({
             <dl class="fho__specs">
               <div><dt class="mono text-xs">Disponibilidade</dt><dd>Estágio Curricular 2026/27</dd></div>
               <div><dt class="mono text-xs">Modalidade</dt><dd>Viseu · Híbrido · Remoto</dd></div>
-              <div><dt class="mono text-xs">Contacto</dt><dd>{PROFILE.email}</dd></div>
+              <div><dt class="mono text-xs">Contacto</dt><dd><a href={`mailto:${PROFILE.email}`} class="link">{PROFILE.email}</a></dd></div>
             </dl>
           </div>
         </article>
@@ -500,6 +526,18 @@ const hubDiagramSpec = JSON.stringify({
   .rds__pills {
     display: grid;
     gap: 6px;
+  }
+
+  @media (min-width: 768px) {
+    .rds__pills {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .rds__pill {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      padding: 6px 8px;
+    }
   }
 
   .rds__pill {

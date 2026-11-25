@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../utils/paths';
+
 const quickProjects = ['01', '02', '03', '04', '05'];
 ---
 
@@ -6,18 +8,18 @@ const quickProjects = ['01', '02', '03', '04', '05'];
   <div id="scroll-progress" class="h-[2px] w-0 bg-[var(--accent)]"></div>
 
   <div class="wrap h-[calc(100%-2px)] flex items-center justify-between gap-4">
-    <a href="/" class="font-semibold tracking-tight text-sm sm:text-base text-[var(--ink)] hover:text-[var(--accent)] transition-colors">
+    <a href={withBase('/')} class="font-semibold tracking-tight text-sm sm:text-base text-[var(--ink)] hover:text-[var(--accent)] transition-colors">
       Rodrigo Albuquerque
     </a>
 
     <nav aria-label="Navegação principal" class="flex items-center gap-5 sm:gap-6 text-sm">
-      <a href="/#sobre-mim" class="link hidden sm:inline text-[var(--ink)]">Sobre Mim</a>
-      <a href="/#projetos" class="link text-[var(--ink)]">Projetos</a>
+      <a href={withBase('/#sobre-mim')} class="link hidden sm:inline text-[var(--ink)]">Sobre Mim</a>
+      <a href={withBase('/#projetos')} class="link text-[var(--ink)]">Projetos</a>
 
       <div class="hidden md:flex items-center gap-3 pl-3 border-l border-[var(--line)] mono text-[var(--muted)]">
         {quickProjects.map((num) => (
           <a
-            href={`/#projeto-${num}`}
+            href={withBase(`/#projeto-${num}`)}
             data-nav-project={num}
             class="link text-[var(--muted)]"
           >
@@ -26,7 +28,8 @@ const quickProjects = ['01', '02', '03', '04', '05'];
         ))}
       </div>
 
-      <a href="/#contacto" class="link text-[var(--ink)]">Contacto</a>
+      <a href={withBase('/curriculo/')} class="link text-[var(--ink)]">Currículo</a>
+      <a href={withBase('/#contacto')} class="link text-[var(--ink)]">Contacto</a>
     </nav>
   </div>
 </header>

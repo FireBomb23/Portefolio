@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../utils/paths';
+
 interface Props {
   initial?: 'manopla' | 'tesseract';
   instanceId?: string;
@@ -8,14 +10,14 @@ interface Props {
 const { initial = 'manopla', instanceId = 'main', compact = false } = Astro.props;
 
 const models = [
-  { key: 'manopla', label: 'Manopla', icon: '/infinity-nova/textures/manopla.png' },
-  { key: 'power_stone', label: 'Power Stone', icon: '/infinity-nova/textures/power_stone.png' },
-  { key: 'space_stone', label: 'Space Stone', icon: '/infinity-nova/textures/space_stone.png' },
-  { key: 'reality_stone', label: 'Reality Stone', icon: '/infinity-nova/textures/reality_stone.png' },
-  { key: 'soul_stone', label: 'Soul Stone', icon: '/infinity-nova/textures/soul_stone.png' },
-  { key: 'time_stone', label: 'Time Stone', icon: '/infinity-nova/textures/time_stone.png' },
-  { key: 'mind_stone', label: 'Mind Stone', icon: '/infinity-nova/textures/mind_stone.png' },
-  { key: 'tesseract', label: 'Tesseract', icon: '/infinity-nova/textures/tesseract.png' },
+  { key: 'manopla', label: 'Manopla', icon: withBase('/infinity-nova/textures/manopla.png') },
+  { key: 'power_stone', label: 'Power Stone', icon: withBase('/infinity-nova/textures/power_stone.png') },
+  { key: 'space_stone', label: 'Space Stone', icon: withBase('/infinity-nova/textures/space_stone.png') },
+  { key: 'reality_stone', label: 'Reality Stone', icon: withBase('/infinity-nova/textures/reality_stone.png') },
+  { key: 'soul_stone', label: 'Soul Stone', icon: withBase('/infinity-nova/textures/soul_stone.png') },
+  { key: 'time_stone', label: 'Time Stone', icon: withBase('/infinity-nova/textures/time_stone.png') },
+  { key: 'mind_stone', label: 'Mind Stone', icon: withBase('/infinity-nova/textures/mind_stone.png') },
+  { key: 'tesseract', label: 'Tesseract', icon: withBase('/infinity-nova/textures/tesseract.png') },
 ];
 ---
 
@@ -114,15 +116,16 @@ const models = [
     }
 
     function bootAllViewers() {
+      var base = document.documentElement.dataset.base || '';
       loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js')
         .then(function () {
           return loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js');
         })
         .then(function () {
-          return loadScript('/infinity-nova/js/geo_model.js');
+          return loadScript(base + '/infinity-nova/js/geo_model.js');
         })
         .then(function () {
-          return loadScript('/infinity-nova/js/viewer3d.js');
+          return loadScript(base + '/infinity-nova/js/viewer3d.js');
         })
         .then(function () {
           if (typeof window.create3DViewer !== 'function') return;
